@@ -1,0 +1,33 @@
+<section id="dashboard-restaurant" class="page">
+  <div class="container">
+    <h2>Bem-vindo(a), <span id="restaurantName">Restaurante Bom Sabor</span></h2>
+
+    <!-- Perfil -->
+    <div class="card">
+      <h3>Perfil do Restaurante</h3>
+      <p><strong>Email:</strong> contato@bomsabor.com</p>
+      <p><strong>Telefone:</strong> (99) 98888-7777</p>
+      <p><strong>Descrição:</strong> Marmitas caseiras e pães artesanais</p>
+    </div>
+
+    <!-- Ofertas publicadas -->
+    <div class="card">
+      <h3>Ofertas Publicadas</h3>
+      <div id="restaurantDonations"></div>
+    </div>
+
+    <!-- Chat -->
+    <div class="card">
+      <h3>Chat com Beneficiários</h3>
+      <div class="chat-ui">
+        <div class="chat-box" id="chatBoxRestaurant"></div>
+        <div class="chat-row">
+          <input id="chatNameRestaurant" placeholder="Seu nome">
+          <input id="chatTextRestaurant" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter'){sendMsgRestaurant()}">
+          <button class="btn-primary" onclick="sendMsgRestaurant()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

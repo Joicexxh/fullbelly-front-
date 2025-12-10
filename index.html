@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Belly — Conectando Solidariedade</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="imagens/logo.png" type="image/png">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="brand" onclick="go('home')">
+    <img src="imagens/logo.png" alt="Full Belly Logo" class="logo-img">
+    <div>
+      <h1>Full Belly</h1>
+      <p>Conectando tecnologia e solidariedade</p>
+    </div>
+  </div>
+  <nav class="topnav">
+    <a onclick="go('home')" href="#home">Início</a>
+    <a onclick="go('cadastro')" href="#cadastro">Cadastro</a>
+    <a onclick="go('doacoes')" href="#doacoes">Doações</a>
+    <a onclick="go('chat')" href="#chat">Chat</a>
+    <a onclick="go('perfil')" href="#perfil">Perfil</a>
+    <button class="cta" onclick="go('cadastro')"><i class="fas fa-hand-holding-heart"></i> Participar</button>
+  </nav>
+</header>
+
+<div class="container">
+
+  <!-- HOME -->
+  <section id="home" class="page active">
+    <div class="hero">
+      <div class="hero-left">
+        <div class="eyebrow">Full Belly • Iniciativa Solidária</div>
+        <h2>Combater o desperdício alimentando quem precisa</h2>
+        <p>Conectamos restaurantes, ONGs, voluntários e pessoas em vulnerabilidade para reduzir o desperdício e garantir que alimentos cheguem a quem precisa.</p>
+        <div class="hero-cta">
+          <button class="big-btn doar" onclick="go('cadastro')"><i class="fas fa-circle-plus"></i> Quero doar</button>
+          <button class="big-btn receber" onclick="go('cadastro')"><i class="fas fa-hands-holding-child"></i> Quero receber</button>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="metric card">
+          <strong id="m-refeicoes">0</strong>
+          <small>Refeições distribuídas</small>
+        </div>
+        <div class="metric card">
+          <strong id="m-doadores">0</strong>
+          <small>Doadores ativos</small>
+        </div>
+        <div class="metric card">
+          <strong id="m-voluntarios">0</strong>
+          <small>Voluntários</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-donations card">
+      <h3>Doações Disponíveis</h3>
+      <div id="homeDoacoes" class="donations-list"></div>
+    </div>
+  </section>
+
+  <!-- CADASTRO -->
+  <section id="cadastro" class="page">
+    <div class="card">
+      <h2>Cadastro — Crie seu perfil</h2>
+      <form id="formCadastro">
+        <div class="form-grid">
+          <div>
+            <label>Tipo de usuário</label>
+            <select id="tipoUsuario" required>
+              <option value="">Selecione...</option>
+              <option value="pessoa">Pessoa Física</option>
+              <option value="empresa">Restaurante / Empresa</option>
+            </select>
+          </div>
+          <div>
+            <label>Telefone</label>
+            <input id="telefone" placeholder="(99) 99999-9999" />
+          </div>
+          <div class="full">
+            <label>Nome completo / Razão social</label>
+            <input id="nome" required />
+          </div>
+          <div>
+            <label>Email</label>
+            <input id="email" type="email" required />
+          </div>
+          <div>
+            <label>Senha</label>
+            <input id="senha" type="password" minlength="6" required />
+          </div>
+          <div>
+            <label>Confirmar senha</label>
+            <input id="senha2" type="password" minlength="6" required />
+          </div>
+          <div class="full" id="docField"></div>
+          <div class="full">
+            <label>Endereço</label>
+            <input id="endereco" placeholder="Rua, número, bairro, cidade" />
+          </div>
+          <div class="full">
+            <label>Descrição</label>
+            <textarea id="descricao" rows="3" placeholder="Ex: Marmitas, pães, frutas, kits..."></textarea>
+          </div>
+          <div class="full">
+            <label>Foto de Perfil</label>
+            <input type="file" id="fotoPerfil" accept="image/*">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary">Cadastrar</button>
+          <div id="cadMsg" class="msg-success"></div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- DOAÇÕES -->
+  <section id="doacoes" class="page">
+    <div class="card">
+      <h2>Registrar Doação</h2>
+      <form id="formDoacao">
+        <div class="form-grid">
+          <div>
+            <label>Tipo de alimento</label>
+            <input id="alimento" required />
+          </div>
+          <div>
+            <label>Quantidade</label>
+            <input id="qtd" required />
+          </div>
+          <div>
+            <label>Validade</label>
+            <input id="validade" type="date" required />
+          </div>
+          <div>
+            <label>Local de retirada</label>
+            <input id="localRetirada" />
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Publicar Doação</button>
+      </form>
+
+      <h3>Ofertas Disponíveis</h3>
+      <div class="filter">
+        <input id="filtroAlimento" placeholder="Filtrar por alimento" />
+        <button onclick="renderDoacoes()">Aplicar filtro</button>
+      </div>
+      <div id="listaDoacoes" class="donations"></div>
+    </div>
+  </section>
+
+  <!-- CHAT -->
+  <section id="chat" class="page">
+    <div class="card">
+      <h2>Chat Solidário</h2>
+      <div class="chat-ui">
+        <div class="chat-box" id="chatBox"></div>
+        <div class="chat-row">
+          <input id="chatName" placeholder="Seu nome" />
+          <input id="chatText" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter'){sendMsg()}">
+          <button onclick="sendMsg()" class="btn-primary">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFIL -->
+  <section id="perfil" class="page">
+    <div class="card">
+      <h2>Perfis</h2>
+      <div class="profile-selector">
+        <select id="selectPerfil" onchange="loadProfile(this.value)">
+          <option value="">Selecione um usuário ou restaurante</option>
+        </select>
+      </div>
+      <div id="perfilContent" class="profile-content">
+        <div class="profile-header">
+          <img id="profile-foto" src="imagens/vangogh.jpg" alt="Foto de Perfil" class="profile-photo">
+          <div class="profile-title">
+            <h3 id="profile-name">Nome do usuário</h3>
+            <span id="profile-type" class="badge">Tipo</span>
+          </div>
+        </div>
+        <div class="profile-info">
+          <p><strong>Email:</strong> <span id="profile-email"></span></p>
+          <p><strong>Telefone:</strong> <span id="profile-telefone"></span></p>
+          <p><strong>Endereço:</strong> <span id="profile-endereco"></span></p>
+          <p><strong>Descrição:</strong> <span id="profile-descricao"></span></p>
+        </div>
+        <div class="profile-stats">
+          <h4>Atividades</h4>
+          <ul id="profile-atividades"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>&copy; 2025 Full Belly — Tecnologia e Solidariedade</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

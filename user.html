@@ -1,0 +1,33 @@
+<section id="dashboard-user" class="page">
+  <div class="container">
+    <h2>Bem-vindo(a), <span id="userName">Maria</span></h2>
+
+    <!-- Perfil -->
+    <div class="card">
+      <h3>Seu Perfil</h3>
+      <p><strong>Email:</strong> maria@email.com</p>
+      <p><strong>Telefone:</strong> (99) 99999-9999</p>
+      <p><strong>Descrição:</strong> Preciso de marmitas e frutas</p>
+    </div>
+
+    <!-- Doações recebidas -->
+    <div class="card">
+      <h3>Doações Recebidas</h3>
+      <div id="userDonations"></div>
+    </div>
+
+    <!-- Chat -->
+    <div class="card">
+      <h3>Chat com Restaurantes e Voluntários</h3>
+      <div class="chat-ui">
+        <div class="chat-box" id="chatBoxUser"></div>
+        <div class="chat-row">
+          <input id="chatNameUser" placeholder="Seu nome">
+          <input id="chatTextUser" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter'){sendMsgUser()}">
+          <button class="btn-primary" onclick="sendMsgUser()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
