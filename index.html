@@ -1,148 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Full Belly</title>
-
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  < title>Full Belly</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ===============================
-       NAVBAR
-  =============================== -->
-  <nav class="nav-islamic">
-    <div class="brand">Full Belly</div>
-    <div class="nav-links">
-      <button onclick="go('home')">Início</button>
-      <button onclick="go('cadastro')">Cadastro</button>
-      <button onclick="go('doacoes')">Doações</button>
-      <button onclick="go('chat')">Chat</button>
-      <button onclick="go('admin')">Admin</button>
-    </div>
-  </nav>
+<nav class="navbar">
+  <h1>Full Belly</h1>
+  <div>
+    <button onclick="go('home')">Início</button>
+    <button onclick="go('cadastro')">Cadastro</button>
+    <button onclick="go('usuarios')">Usuários</button>
+    <button onclick="go('doacoes')">Doações</button>
+    <button onclick="go('chat')">Chat</button>
+    <button onclick="go('admin')">Admin</button>
+  </div>
+</nav>
 
-  <!-- ===============================
-       HOME
-  =============================== -->
-  <section id="home" class="page active">
-    <h1>﷽</h1>
-    <p class="ayah">
-      “E quem salva uma vida, é como se tivesse salvado toda a humanidade.”
-      <br><small>Al-Ma'idah 5:32</small>
-    </p>
+<section id="home" class="page active">
+  <h2>Solidariedade que alimenta</h2>
+  <p class="subtitle">
+    Conectando pessoas, restaurantes e comunidades por meio da doação consciente.
+  </p>
 
-    <h2>Doações Recentes</h2>
-    <div id="homeDoacoes"></div>
-  </section>
+  <h3>Doações Recentes</h3>
+  <div id="homeDoacoes" class="grid"></div>
+</section>
 
-  <!-- ===============================
-       CADASTRO
-  =============================== -->
-  <section id="cadastro" class="page">
-    <h1>Cadastro</h1>
+<section id="usuarios" class="page">
+  <h2>Comunidade</h2>
+  <div id="listaUsuarios" class="grid"></div>
+</section>
 
-    <form id="formCadastro">
-      <label>Tipo de usuário</label>
-      <select id="tipoUsuario" required>
-        <option value="">Selecione</option>
-        <option value="pessoa">Pessoa</option>
-        <option value="empresa">Restaurante / Empresa</option>
-      </select>
+<section id="doacoes" class="page">
+  <div class="profile-card">
+    <img id="profileFoto">
+    <h2 id="profileNome"></h2>
+    <p id="profileTipo"></p>
+    <p id="profileDescricao"></p>
 
-      <div id="docField"></div>
-
-      <input id="nome" placeholder="Nome completo" required />
-      <input id="email" type="email" placeholder="Email" required />
-      <input id="telefone" placeholder="Telefone" />
-      <input id="endereco" placeholder="Endereço" />
-      <textarea id="descricao" placeholder="Descrição"></textarea>
-
-      <label>Foto de perfil</label>
-      <input type="file" id="fotoPerfil" />
-
-      <button type="submit">Cadastrar</button>
-    </form>
-  </section>
-
-  <!-- ===============================
-       DOAÇÕES / PERFIL DO USUÁRIO
-  =============================== -->
-  <section id="doacoes" class="page">
-    <h1>Meu Perfil & Doações</h1>
-
-    <!-- PERFIL (usuário comum só vê o próprio) -->
-    <div id="profile" class="card">
-      <img id="profile-foto" />
-      <h2 id="profile-name"></h2>
-      <p id="profile-type"></p>
-      <p><strong>Email:</strong> <span id="profile-email"></span></p>
-      <p><strong>Telefone:</strong> <span id="profile-telefone"></span></p>
-      <p><strong>Endereço:</strong> <span id="profile-endereco"></span></p>
-      <p id="profile-descricao"></p>
-    </div>
-
-    <!-- FORM DOAÇÃO -->
-    <form id="formDoacao">
-      <h2>Registrar Doação</h2>
-      <input id="alimento" placeholder="Alimento" required />
-      <input id="qtd" placeholder="Quantidade" required />
-      <input id="validade" type="date" required />
-      <input id="localRetirada" placeholder="Local de retirada" />
-      <button type="submit">Doar</button>
-    </form>
-
-    <h2>Minhas Doações</h2>
-    <div id="listaDoacoes"></div>
-  </section>
-
-  <!-- ===============================
-       CHAT SOLIDÁRIO
-  =============================== -->
-  <section id="chat" class="page">
-    <h1>Chat Solidário</h1>
-
-    <div class="chat-container">
-      <div id="chatBox" class="chat-box"></div>
-
-      <div class="chat-input">
-        <input id="chatText" placeholder="Escreva com respeito..." />
-        <button onclick="sendMsg()">Enviar</button>
+    <div class="profile-stats">
+      <div>
+        <strong id="totalDoacoes">0</strong>
+        <span>Doações</span>
+      </div>
+      <div>
+        <strong id="totalItens">0</strong>
+        <span>Itens</span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- ===============================
-       PAINEL ADMIN (BACK-END VISUAL)
-  =============================== -->
-  <section id="admin" class="page">
-    <h1>Painel Administrativo</h1>
+  <h3>Histórico</h3>
+  <div id="listaDoacoes" class="list"></div>
+</section>
 
-    <p class="admin-warning">
-      Acesso restrito. Apenas administradores.
-    </p>
+<section id="chat" class="page">
+  <h2>Chat da Comunidade</h2>
+  <div class="chat">
+    <div id="chatMensagens"></div>
+    <input id="chatInput" placeholder="Digite com respeito">
+  </div>
+</section>
 
-    <h2>Perfis Cadastrados</h2>
+<section id="admin" class="page">
+  <h2>Painel Administrativo</h2>
+  <select id="adminSelectUser"></select>
+  <div id="adminProfile"></div>
+</section>
 
-    <select id="selectPerfilAdmin" onchange="loadProfile(this.value)">
-      <option value="">Selecionar usuário</option>
-    </select>
-
-    <div id="profileAdmin" class="card">
-      <h2 id="profile-name"></h2>
-      <p id="profile-type"></p>
-      <p id="profile-email"></p>
-      <p id="profile-telefone"></p>
-      <p id="profile-endereco"></p>
-      <p id="profile-descricao"></p>
-    </div>
-  </section>
-
-  <!-- ===============================
-       JS
-  =============================== -->
-  <script src="app.js"></script>
-
+<script src="app.js"></script>
 </body>
 </html>
