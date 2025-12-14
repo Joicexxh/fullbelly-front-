@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULLBELLY - Meu Perfil</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .perfil-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        
+        .perfil-avatar {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--primary-color);
+            border: 5px solid white;
+            box-shadow: var(--shadow);
+        }
+        
+        .perfil-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .perfil-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .perfil-stat {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .perfil-stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .perfil-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .perfil-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+        
+        .info-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .acoes-perfil {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .historico-vazio {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .historico-vazio i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>FULLBELLY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
+                    <li><a href="perfil.html" class="active"><i class="fas fa-user"></i> Perfil</a></li>
+                    <li><a href="admin.html"><i class="fas fa-cog"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="perfil-header">
+            <div class="perfil-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            
+            <h2 id="perfil-nome">Maria Silva</h2>
+            <p id="perfil-tipo">Beneficiária</p>
+            <p id="perfil-descricao">Membro desde Novembro 2023</p>
+            
+            <div class="perfil-badge" id="perfil-badge">
+                <i class="fas fa-star"></i> Membro Ativo
+            </div>
+        </section>
+        
+        <div class="perfil-stats">
+            <div class="perfil-stat">
+                <div class="perfil-stat-number" id="doacoes-recebidas">8</div>
+                <div class="perfil-stat-label">Doações recebidas</div>
+            </div>
+            <div class="perfil-stat">
+                <div class="perfil-stat-number" id="dias-ativo">34</div>
+                <div class="perfil-stat-label">Dias na plataforma</div>
+            </div>
+            <div class="perfil-stat">
+                <div class="perfil-stat-number" id="avaliacao">4.8</div>
+                <div class="perfil-stat-label">Avaliação média</div>
+            </div>
+            <div class="perfil-stat">
+                <div class="perfil-stat-number" id="mensagens">42</div>
+                <div class="perfil-stat-label">Mensagens no chat</div>
+            </div>
+        </div>
+        
+        <div class="perfil-content">
+            <div class="perfil-sidebar">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> Informações Pessoais</h3>
+                    <div class="info-item">
+                        <span class="info-label">E-mail:</span>
+                        <span id="info-email">maria.silva@email.com</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Telefone:</span>
+                        <span id="info-telefone">(11) 98888-7777</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Endereço:</span>
+                        <span id="info-endereco">Av. Principal, 456 - Zona Leste</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">CPF:</span>
+                        <span id="info-cpf">123.456.789-00</span>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-cog"></i> Configurações</h3>
+                    <div class="acoes-perfil">
+                        <button class="btn btn-primary" id="btn-editar-perfil">
+                            <i class="fas fa-edit"></i> Editar Perfil
+                        </button>
+                        <button class="btn btn-secondary" id="btn-alterar-senha">
+                            <i class="fas fa-key"></i> Alterar Senha
+                        </button>
+                        <button class="btn btn-secondary" id="btn-sair">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="perfil-principal">
+                <div class="info-card">
+                    <h3><i class="fas fa-history"></i> Histórico de Doações</h3>
+                    
+                    <div id="historico-doacoes">
+                        <!-- Histórico carregado via JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-comment"></i> Últimas Interações</h3>
+                    <div id="ultimas-interacoes">
+                        <!-- Interações carregadas via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i>
+                <h3>FULLBELLY</h3>
+                <p>Conectando comida a quem precisa</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="doacoes.html">Doações</a></li>
+                    <li><a href="chat.html">Chat</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p><i class="fas fa-envelope"></i> contato@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Lógica específica para página de perfil
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dados do perfil (simulados)
+            const perfilUsuario = {
+                nome: "Maria Silva",
+                tipo: "beneficiario",
+                descricao: "Membro desde Novembro 2023",
+                email: "maria.silva@email.com",
+                telefone: "(11) 98888-7777",
+                endereco: "Av. Principal, 456 - Zona Leste",
+                cpf: "123.456.789-00",
+                doacoesRecebidas: 8,
+                diasAtivo: 34,
+                avaliacao: 4.8,
+                mensagens: 42
+            };
+            
+            // Preenche informações do perfil
+            document.getElementById('perfil-nome').textContent = perfilUsuario.nome;
+            document.getElementById('perfil-tipo').textContent = perfilUsuario.tipo === 'beneficiario' ? 'Beneficiária' : 'Restaurante';
+            document.getElementById('perfil-descricao').textContent = perfilUsuario.descricao;
+            
+            document.getElementById('info-email').textContent = perfilUsuario.email;
+            document.getElementById('info-telefone').textContent = perfilUsuario.telefone;
+            document.getElementById('info-endereco').textContent = perfilUsuario.endereco;
+            document.getElementById('info-cpf').textContent = perfilUsuario.cpf;
+            
+            document.getElementById('doacoes-recebidas').textContent = perfilUsuario.doacoesRecebidas;
+            document.getElementById('dias-ativo').textContent = perfilUsuario.diasAtivo;
+            document.getElementById('avaliacao').textContent = perfilUsuario.avaliacao;
+            document.getElementById('mensagens').textContent = perfilUsuario.mensagens;
+            
+            // Configura badge baseado no tipo
+            const badge = document.getElementById('perfil-badge');
+            if (perfilUsuario.tipo === 'restaurante') {
+                badge.innerHTML = '<i class="fas fa-store"></i> Restaurante Parceiro';
+            }
+            
+            // Carrega histórico de doações
+            carregarHistoricoDoacoes();
+            
+            // Carrega últimas interações
+            carregarUltimasInteracoes();
+            
+            // Botões de ação
+            document.getElementById('btn-editar-perfil').addEventListener('click', function() {
+                mostrarNotificacao('Funcionalidade de edição em desenvolvimento', 'info');
+            });
+            
+            document.getElementById('btn-alterar-senha').addEventListener('click', function() {
+                mostrarNotificacao('Funcionalidade de alteração de senha em desenvolvimento', 'info');
+            });
+            
+            document.getElementById('btn-sair').addEventListener('click', function() {
+                if (confirm('Tem certeza que deseja sair?')) {
+                    window.location.href = 'index.html';
+                }
+            });
+            
+            function carregarHistoricoDoacoes() {
+                const container = document.getElementById('historico-doacoes');
+                if (!container) return;
+                
+                const historicoExemplo = [
+                    {
+                        data: "2023-12-08",
+                        item: "Marmitas completas",
+                        quantidade: "2 porções",
+                        status: "Recebido"
+                    },
+                    {
+                        data: "2023-12-05",
+                        item: "Pães diversos",
+                        quantidade: "10 unidades",
+                        status: "Recebido"
+                    },
+                    {
+                        data: "2023-12-01",
+                        item: "Legumes frescos",
+                        quantidade: "3 kg",
+                        status: "Recebido"
+                    }
+                ];
+                
+                if (historicoExemplo.length === 0) {
+                    container.innerHTML = `
+                        <div class="historico-vazio">
+                            <i class="fas fa-inbox"></i>
+                            <h4>Nenhuma doação registrada</h4>
+                            <p>Quando você receber doações, elas aparecerão aqui.</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = historicoExemplo.map(item => `
+                        <div class="info-item">
+                            <div>
+                                <strong>${item.item}</strong><br>
+                                <small>${item.quantidade} • ${formatarData(item.data)}</small>
+                            </div>
+                            <span class="badge ${item.status === 'Recebido' ? 'badge-restaurante' : 'badge-beneficiario'}">
+                                ${item.status}
+                            </span>
+                        </div>
+                    `).join('');
+                }
+            }
+            
+            function carregarUltimasInteracoes() {
+                const container = document.getElementById('ultimas-interacoes');
+                if (!container) return;
+                
+                const interacoesExemplo = [
+                    {
+                        tipo: "chat",
+                        texto: "Combinou retirada de legumes com Restaurante Sabor Mineiro",
+                        data: "Hoje, 10:30"
+                    },
+                    {
+                        tipo: "doacao",
+                        texto: "Solicitou marmitas disponíveis no chat comunitário",
+                        data: "Ontem, 15:45"
+                    },
+                    {
+                        tipo: "avaliacao",
+                        texto: "Deixou avaliação positiva para Padaria Doce Pão",
+                        data: "05/12, 09:20"
+                    }
+                ];
+                
+                container.innerHTML = interacoesExemplo.map(item => `
+                    <div class="info-item">
+                        <div>
+                            <i class="fas fa-${item.tipo === 'chat' ? 'comment' : item.tipo === 'doacao' ? 'gift' : 'star'}"></i>
+                            <span>${item.texto}</span>
+                        </div>
+                        <small>${item.data}</small>
+                    </div>
+                `).join('');
+            }
+            
+            function formatarData(dataString) {
+                const data = new Date(dataString);
+                return data.toLocaleDateString('pt-BR');
+            }
+        });
+    </script>
+</body>
+</html>
