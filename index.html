@@ -3,304 +3,191 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Full Belly — Plataforma de Doações</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f6f6f6; color:#222; }
-    header { background:#8b0000; color:#fff; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
-    header h1 { margin:0; font-size:28px; }
-    nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:500; }
-    section { padding:60px 40px; max-width:1200px; margin:auto; }
-    section h2 { font-size:32px; margin-bottom:20px; }
-    section p { margin-bottom:16px; }
-    .card { background:#fff; padding:30px; border-radius:8px; box-shadow:0 8px 20px rgba(0,0,0,0.08); margin-bottom:30px; }
-    input, select, textarea { width:100%; padding:10px; margin-bottom:12px; border:1px solid #ccc; border-radius:4px; }
-    button { padding:12px 20px; background:#8b0000; color:#fff; border:none; border-radius:4px; cursor:pointer; }
-    .donation-item, .chat-message { border:1px solid #ccc; padding:8px; margin-bottom:8px; border-radius:4px; background:#fdfdfd; }
-    .profile-header { display:flex; align-items:center; margin-bottom:12px; }
-    .profile-header img { width:80px; height:80px; border-radius:50%; margin-right:16px; }
-    footer { background:#222; color:#fff; padding:30px 40px; text-align:center; }
-  </style>
+  <title>Full Belly — Conectando Solidariedade</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header>
   <h1>Full Belly</h1>
   <nav>
-    <a href="#inicio">Início</a>
-    <a href="#cadastro">Cadastro</a>
-    <a href="#doacoes">Doações</a>
-    <a href="#chat">Chat</a>
-    <a href="#admin">Admin</a>
+    <button onclick="showPage('home')">Início</button>
+    <button onclick="showPage('cadastro')">Cadastro</button>
+    <button onclick="showPage('doacoes')">Doações</button>
+    <button onclick="showPage('chat')">Chat</button>
+    <button onclick="showPage('perfil')">Perfil</button>
+    <button onclick="showPage('admin')">Admin</button>
   </nav>
 </header>
 
-<!-- INÍCIO -->
-<section id="inicio">
-  <h2>Bem-vindo à Full Belly</h2>
-  <p>Plataforma de doações de alimentos conectando restaurantes e beneficiários de forma segura e eficiente.</p>
-  <div id="stats" class="card">
-    <p>Refeições distribuídas: <strong id="m-refeicoes">0</strong></p>
-    <p>Doadores ativos: <strong id="m-doadores">0</strong></p>
-    <p>Beneficiários: <strong id="m-beneficiarios">0</strong></p>
-  </div>
-  <h3>Doações Recentes</h3>
-  <div id="homeDoacoes"></div>
-</section>
+<main>
 
-<!-- CADASTRO -->
-<section id="cadastro">
-  <h2>Cadastro de Usuário</h2>
-  <div class="card">
-    <form id="formCadastro">
-      <label>Tipo de usuário</label>
-      <select id="tipoUsuario" required>
-        <option value="">Selecione...</option>
-        <option value="pessoa">Pessoa Física</option>
-        <option value="empresa">Restaurante / Empresa</option>
-      </select>
-      <div id="docField"></div>
-      <label>Nome / Razão social</label>
-      <input id="nome" required />
-      <label>Email</label>
-      <input id="email" type="email" required />
-      <label>Telefone</label>
-      <input id="telefone" />
-      <label>Endereço</label>
-      <input id="endereco" />
-      <label>Descrição</label>
-      <textarea id="descricao"></textarea>
-      <label>Foto de Perfil</label>
-      <input type="file" id="fotoPerfil" accept="image/*" />
-      <button type="submit">Cadastrar</button>
-    </form>
-  </div>
-</section>
+  <!-- ================== Home ================== -->
+  <div id="home" class="page active">
 
-<!-- DOAÇÕES -->
-<section id="doacoes">
-  <h2>Registrar Doação</h2>
-  <div class="card">
-    <label>Selecione seu perfil</label>
-    <select id="selectPerfil" onchange="loadProfile(this.value)"></select>
-    <div id="profileContent" class="card"></div>
+    <section class="hero card">
+      <h1>Doe alimentos, salve vidas!</h1>
+      <p>Conectamos restaurantes, ONGs, voluntários e pessoas em vulnerabilidade para reduzir o desperdício e garantir que alimentos cheguem a quem precisa.</p>
+      <div class="hero-buttons">
+        <button onclick="showPage('cadastro')">Quero doar</button>
+        <button onclick="showPage('cadastro')">Quero receber</button>
+      </div>
+    </section>
 
-    <form id="formDoacao">
-      <label>Alimento</label>
-      <input id="alimento" required />
-      <label>Quantidade</label>
-      <input id="qtd" required />
-      <label>Validade</label>
-      <input id="validade" type="date" required />
-      <label>Local de Retirada</label>
-      <input id="localRetirada" />
-      <button type="submit">Registrar Doação</button>
-    </form>
-
-    <h3>Lista de Doações</h3>
-    <div id="listaDoacoes"></div>
-  </div>
-</section>
-
-<!-- CHAT -->
-<section id="chat">
-  <h2>Chat</h2>
-  <div class="card">
-    <div id="chatBox" style="height:200px; overflow-y:scroll; border:1px solid #ccc; padding:8px; margin-bottom:12px;"></div>
-    <input id="chatName" placeholder="Seu nome" />
-    <input id="chatText" placeholder="Mensagem..." onkeydown="if(event.key==='Enter'){sendMsg()}"/>
-    <button onclick="sendMsg()">Enviar</button>
-  </div>
-</section>
-
-<!-- ADMIN -->
-<section id="admin">
-  <h2>Área Administrativa</h2>
-  <div class="card">
-    <p>Visualize todos os usuários, doações e mensagens.</p>
-    <div id="adminUsers"></div>
-    <div id="adminDoacoes"></div>
-    <div id="adminChat"></div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2025 Full Belly — Todos os direitos reservados.</p>
-</footer>
-
-<script>
-const API_URL = "https://fullbelly-cs9f.onrender.com/api/";
-
-// Navegação de páginas simples
-function goPage(id){ location.hash = id; window.scrollTo({top:0}); }
-
-// =====================
-// Campos CPF / CNPJ
-// =====================
-const tipoUsuario = document.getElementById('tipoUsuario');
-const docField = document.getElementById('docField');
-tipoUsuario.addEventListener('change', ()=>{
-  if(tipoUsuario.value==='empresa'){
-    docField.innerHTML='<label>CNPJ</label><input id="cnpj" required />';
-  } else if(tipoUsuario.value==='pessoa'){
-    docField.innerHTML='<label>CPF</label><input id="cpf" required />';
-  } else { docField.innerHTML=''; }
-});
-
-let currentUserId=null;
-
-// =====================
-// Cadastro
-// =====================
-document.getElementById('formCadastro').addEventListener('submit', e=>{
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append('tipo', tipoUsuario.value);
-  formData.append('nome', document.getElementById('nome').value);
-  formData.append('email', document.getElementById('email').value);
-  formData.append('telefone', document.getElementById('telefone').value);
-  formData.append('endereco', document.getElementById('endereco').value);
-  formData.append('descricao', document.getElementById('descricao').value);
-  const foto=document.getElementById('fotoPerfil').files[0];
-  if(foto) formData.append('foto', foto);
-  fetch(`${API_URL}usuarios/`,{method:'POST', body:formData})
-  .then(res=>res.json())
-  .then(data=>{ alert('Cadastro realizado com sucesso!'); e.target.reset(); carregarPerfis(); })
-  .catch(err=>console.error(err));
-});
-
-// =====================
-// Carregar perfis
-// =====================
-function carregarPerfis(){
-  fetch(`${API_URL}usuarios/`)
-  .then(res=>res.json())
-  .then(data=>{
-    const select=document.getElementById('selectPerfil');
-    select.innerHTML='<option value="">Selecione um usuário</option>';
-    data.forEach(u=>select.innerHTML+=`<option value="${u.id}">${u.nome} (${u.tipo})</option>`);
-  })
-  .catch(err=>console.error(err));
-}
-
-// =====================
-// Visualizar perfil
-// =====================
-function loadProfile(userId){
-  currentUserId=userId;
-  if(!userId) return;
-  fetch(`${API_URL}usuarios/${userId}/`)
-  .then(res=>res.json())
-  .then(user=>{
-    const container=document.getElementById('profileContent');
-    container.innerHTML=`
-      <div class="profile-header">
-        <img src="${user.foto||'https://via.placeholder.com/80'}" />
-        <div>
-          <h3>${user.nome}</h3>
-          <p>Tipo: ${user.tipo}</p>
-          <p>Email: ${user.email}</p>
-          <p>Telefone: ${user.telefone||'Não informado'}</p>
-          <p>Endereço: ${user.endereco||'Não informado'}</p>
-          <p>Descrição: ${user.descricao||'Sem descrição'}</p>
+    <section class="stats card">
+      <h2>Estatísticas da Full Belly</h2>
+      <div class="metrics">
+        <div class="metric">
+          <strong id="m-refeicoes">0</strong>
+          <span>Refeições distribuídas</span>
+        </div>
+        <div class="metric">
+          <strong id="m-doadores">0</strong>
+          <span>Restaurantes ativos</span>
+        </div>
+        <div class="metric">
+          <strong id="m-voluntarios">0</strong>
+          <span>Beneficiários cadastrados</span>
         </div>
       </div>
-    `;
-  })
-  .catch(err=>console.error(err));
-}
+    </section>
 
-// =====================
-// Registrar doação
-// =====================
-document.getElementById('formDoacao').addEventListener('submit', e=>{
-  e.preventDefault();
-  if(!currentUserId) return alert('Selecione um perfil!');
-  const doacao={
-    item: document.getElementById('alimento').value,
-    qtd: document.getElementById('qtd').value,
-    validade: document.getElementById('validade').value,
-    local: document.getElementById('localRetirada').value,
-    usuarioId: currentUserId
-  };
-  fetch(`${API_URL}doacoes/`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body: JSON.stringify(doacao)
-  })
-  .then(res=>res.json())
-  .then(data=>{
-    alert('Doação registrada!');
-    renderDoacoes();
-    renderHomeDoacoes();
-    e.target.reset();
-  })
-  .catch(err=>console.error(err));
-});
+    <section class="about card">
+      <h2>Sobre nós</h2>
+      <p>A Full Belly é uma iniciativa solidária que conecta quem tem alimentos para doar com quem precisa. Nossa missão é combater o desperdício de comida e alimentar pessoas em vulnerabilidade.</p>
+      <ul>
+        <li>Transparência total nas doações</li>
+        <li>Plataforma segura e confiável</li>
+        <li>Fácil de usar para restaurantes e beneficiários</li>
+      </ul>
+    </section>
 
-// =====================
-// Renderizar doações
-// =====================
-function renderDoacoes(){
-  fetch(`${API_URL}doacoes/`)
-  .then(res=>res.json())
-  .then(data=>{
-    const container=document.getElementById('listaDoacoes');
-    container.innerHTML='';
-    data.forEach(d=>{
-      container.innerHTML+=`<div class="donation-item"><strong>${d.item}</strong> - ${d.qtd} - Validade: ${d.validade} - Retirada: ${d.local} <br><small>Doado por: ${d.usuario_nome}</small></div>`;
-    });
-  })
-  .catch(err=>console.error(err));
-}
+    <section class="how-it-works card">
+      <h2>Como funciona</h2>
+      <ol>
+        <li><strong>Restaurantes:</strong> Cadastram doações de alimentos disponíveis.</li>
+        <li><strong>Beneficiários:</strong> Visualizam e recebem alimentos.</li>
+        <li><strong>Voluntários:</strong> Podem ajudar na logística e entrega.</li>
+      </ol>
+    </section>
 
-function renderHomeDoacoes(){
-  fetch(`${API_URL}doacoes/`)
-  .then(res=>res.json())
-  .then(data=>{
-    const container=document.getElementById('homeDoacoes');
-    container.innerHTML='';
-    data.forEach(d=>{
-      container.innerHTML+=`<div class="donation-item"><strong>${d.item}</strong> - ${d.qtd} - Validade: ${d.validade} - Retirada: ${d.local} <br><small>Doado por: ${d.usuario_nome}</small></div>`;
-    });
-  })
-  .catch(err=>console.error(err));
-}
+    <section class="donations card">
+      <h2>Doações Recentes</h2>
+      <input type="text" id="filtroAlimento" placeholder="Filtrar por alimento" />
+      <div id="homeDoacoes" class="donations-list"></div>
+    </section>
 
-// =====================
-// Chat
-// =====================
-function sendMsg(){
-  const name=document.getElementById('chatName').value;
-  const text=document.getElementById('chatText').value;
-  if(!name || !text) return alert('Preencha nome e mensagem!');
-  const msg={usuario:name,text:text};
-  fetch(`${API_URL}chat/`,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(msg)
-  }).then(()=>{ document.getElementById('chatText').value=''; loadChat(); })
-  .catch(err=>console.error(err));
-}
+    <section class="cta card">
+      <h2>Junte-se a nós!</h2>
+      <p>Seja um doador, beneficiário ou voluntário e faça parte dessa corrente do bem.</p>
+      <button onclick="showPage('cadastro')">Cadastrar agora</button>
+    </section>
 
-function loadChat(){
-  fetch(`${API_URL}chat/`)
-  .then(res=>res.json())
-  .then(data=>{
-    const box=document.getElementById('chatBox');
-    box.innerHTML='';
-    data.forEach(m=>box.innerHTML+=`<div class="chat-message"><strong>${m.usuario}:</strong> ${m.text}</div>`);
-    box.scrollTop=box.scrollHeight;
-  })
-  .catch(err=>console.error(err));
-}
+  </div>
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  carregarPerfis();
-  renderDoacoes();
-  renderHomeDoacoes();
-  loadChat();
-});
-</script>
+  <!-- ================== Cadastro / Login ================== -->
+  <div id="cadastro" class="page">
+    <section class="card">
+      <h2>Cadastro de Usuário</h2>
+      <form id="formCadastro">
+        <label>Tipo de usuário</label>
+        <select id="tipoUsuario" required>
+          <option value="">Selecione...</option>
+          <option value="pessoa">Beneficiário</option>
+          <option value="empresa">Restaurante</option>
+        </select>
+        <div id="docField"></div>
 
+        <label>Nome</label>
+        <input id="nome" required />
+        <label>Email</label>
+        <input id="email" type="email" required />
+        <label>Telefone</label>
+        <input id="telefone" />
+        <label>Endereço</label>
+        <input id="endereco" />
+        <label>Descrição</label>
+        <textarea id="descricao"></textarea>
+        <label>Foto de Perfil</label>
+        <input type="file" id="fotoPerfil" accept="image/*" />
+
+        <button type="submit">Cadastrar</button>
+      </form>
+    </section>
+  </div>
+
+  <!-- ================== Doações ================== -->
+  <div id="doacoes" class="page">
+    <section class="card">
+      <h2>Registrar Doação</h2>
+      <select id="selectPerfil" onchange="loadProfile(this.value)">
+        <option value="">Selecione um perfil</option>
+      </select>
+      <form id="formDoacao">
+        <label>Alimento</label>
+        <input id="alimento" required />
+        <label>Quantidade</label>
+        <input id="qtd" required />
+        <label>Validade</label>
+        <input id="validade" type="date" required />
+        <label>Local de Retirada</label>
+        <input id="localRetirada" />
+        <button type="submit">Registrar Doação</button>
+      </form>
+      <h3>Doações Recentes</h3>
+      <div id="listaDoacoes"></div>
+    </section>
+  </div>
+
+  <!-- ================== Chat ================== -->
+  <div id="chat" class="page">
+    <section class="card">
+      <h2>Chat Solidário</h2>
+      <div class="chat-box" id="chatBox"></div>
+      <div class="chat-input">
+        <input id="chatName" placeholder="Seu nome" />
+        <input id="chatText" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter'){sendMsg()}"/>
+        <button onclick="sendMsg()">Enviar</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================== Perfil ================== -->
+  <div id="perfil" class="page">
+    <section class="card">
+      <h2>Perfil do Usuário</h2>
+      <div class="profile-header">
+        <img id="profile-foto" src="default-avatar.png" alt="Foto de Perfil">
+        <div>
+          <h3 id="profile-name">Nome</h3>
+          <span id="profile-type"></span>
+        </div>
+      </div>
+      <p><strong>Email:</strong> <span id="profile-email"></span></p>
+      <p><strong>Telefone:</strong> <span id="profile-telefone"></span></p>
+      <p><strong>Endereço:</strong> <span id="profile-endereco"></span></p>
+      <p><strong>Descrição:</strong> <span id="profile-descricao"></span></p>
+      <h4>Histórico de Doações</h4>
+      <ul id="profile-atividades"></ul>
+    </section>
+  </div>
+
+  <!-- ================== Admin ================== -->
+  <div id="admin" class="page">
+    <section class="card">
+      <h2>Administração</h2>
+      <div id="adminUsers" class="card"></div>
+      <div id="adminDoacoes" class="card"></div>
+      <div id="adminChat" class="card"></div>
+    </section>
+  </div>
+
+</main>
+
+<footer>
+  <p>&copy; 2025 Full Belly — Tecnologia e Solidariedade</p>
+</footer>
+
+<script src="app.js"></script>
 </body>
 </html>
