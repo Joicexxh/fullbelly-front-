@@ -977,3 +977,42 @@ function mostrarPoliticaPrivacidade() {
         }
     });
 }
+
+// Funções para voluntários
+function verificarVoluntario() {
+    const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+    return usuario.tipo === 'voluntario';
+}
+
+function obterMissoesVoluntario() {
+    const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+    return usuario.missoes || [];
+}
+
+function adicionarMissaoVoluntario(missao) {
+    const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+    
+    if (!usuario.missoes) {
+        usuario.missoes = [];
+    }
+    
+    usuario.missoes.push({
+        ...missao,
+        dataAceitacao: new Date().toISOString(),
+        status: 'em-andamento'
+    });
+    
+    // Atualiza dados do voluntário
+    if (usuario.voluntario) {
+        usuario.voluntario.missaoAtual = missao.id;
+        usuario.voluntario.status = 'em-missao';
+    }
+    
+    localStorage.setItem('fullbelly-usuario', JSON.stringify(usuario));
+    
+    return usuario.missoes;
+}
+
+function completarMissaoVoluntario(missaoId) {
+    const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+    
