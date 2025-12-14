@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULLBELLY - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-container {
+            max-width: 450px;
+            margin: 3rem auto;
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-header i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .login-header h2 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-options {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .login-option.selected {
+            border-color: var(--primary-color);
+            background-color: var(--light-color);
+        }
+        
+        .login-option i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-separator {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+        }
+        
+        .form-separator::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+        
+        .form-separator span {
+            background-color: white;
+            padding: 0 1rem;
+            color: #666;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .social-btn.google:hover {
+            background-color: #f8f9fa;
+            border-color: #dadce0;
+        }
+        
+        .social-btn.facebook {
+            background-color: #1877f2;
+            color: white;
+            border-color: #1877f2;
+        }
+        
+        .social-btn.facebook:hover {
+            background-color: #166fe5;
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .forgot-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .login-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+        }
+        
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>FULLBELLY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="login.html" class="active"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Perfil</a></li>
+                    <li><a href="admin.html"><i class="fas fa-cog"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <div class="login-header">
+                <i class="fas fa-user-circle"></i>
+                <h2>Bem-vindo de volta!</h2>
+                <p>Entre na sua conta FULLBELLY</p>
+            </div>
+            
+            <div id="error-message" class="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="error-text"></span>
+            </div>
+            
+            <div id="success-message" class="success-message">
+                <i class="fas fa-check-circle"></i>
+                <span id="success-text"></span>
+            </div>
+            
+            <div class="login-options">
+                <div class="login-option selected" data-tipo="beneficiario">
+                    <i class="fas fa-hands-helping"></i>
+                    <div>Beneficiário</div>
+                </div>
+                <div class="login-option" data-tipo="restaurante">
+                    <i class="fas fa-store"></i>
+                    <div>Restaurante</div>
+                </div>
+                <div class="login-option" data-tipo="admin">
+                    <i class="fas fa-cog"></i>
+                    <div>Administrador</div>
+                </div>
+            </div>
+            
+            <form id="login-form">
+                <input type="hidden" id="tipo-login" name="tipo" value="beneficiario">
+                
+                <div class="form-group">
+                    <label for="login-email"><i class="fas fa-envelope"></i> E-mail *</label>
+                    <input type="email" id="login-email" name="email" required placeholder="seu@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="login-password"><i class="fas fa-lock"></i> Senha *</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password" name="password" required placeholder="Sua senha">
+                        <button type="button" class="password-toggle" id="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="remember-forgot">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="remember-me" name="remember">
+                        <label for="remember-me">Lembrar-me</label>
+                    </div>
+                    <a href="#" class="forgot-link" id="forgot-password">Esqueci minha senha</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+                
+                <div class="form-separator">
+                    <span>ou entre com</span>
+                </div>
+                
+                <div class="social-login">
+                    <button type="button" class="social-btn google" id="google-login">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="social-btn facebook" id="facebook-login">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </button>
+                </div>
+                
+                <div class="login-footer">
+                    <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se agora</a></p>
+                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                        Ao entrar, você concorda com os <a href="#termos">Termos de Uso</a> e <a href="#politica">Política de Privacidade</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Modal de recuperação de senha -->
+        <div id="modal-recuperacao" class="modal" style="display: none;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2><i class="fas fa-key"></i> Recuperar Senha</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Digite seu e-mail cadastrado para receber um link de recuperação de senha.</p>
+                    
+                    <form id="form-recuperacao">
+                        <div class="form-group">
+                            <label for="recovery-email"><i class="fas fa-envelope"></i> E-mail *</label>
+                            <input type="email" id="recovery-email" name="email" required placeholder="seu@email.com">
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Enviar Link
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i>
+                <h3>FULLBELLY</h3>
+                <p>Conectando comida a quem precisa</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="doacoes.html">Doações</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p><i class="fas fa-envelope"></i> contato@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Lógica específica para página de login
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleção do tipo de login
+            const loginOptions = document.querySelectorAll('.login-option');
+            const tipoInput = document.getElementById('tipo-login');
+            
+            loginOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    loginOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    tipoInput.value = this.dataset.tipo;
+                });
+            });
+            
+            // Toggle password visibility
+            const togglePassword = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('login-password');
+            
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+                });
+            }
+            
+            // Login form
+            const loginForm = document.getElementById('login-form');
+            const errorMessage = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const successMessage = document.getElementById('success-message');
+            const successText = document.getElementById('success-text');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    const tipo = document.getElementById('tipo-login').value;
+                    
+                    // Validação básica
+                    if (!email || !password) {
+                        mostrarErro('Por favor, preencha todos os campos.');
+                        return;
+                    }
+                    
+                    // Simulação de login (em produção, isso seria uma requisição ao backend)
+                    const usuariosCadastrados = [
+                        { email: 'admin@fullbelly.org', password: 'admin123', tipo: 'admin', nome: 'Administrador' },
+                        { email: 'restaurante@email.com', password: 'rest123', tipo: 'restaurante', nome: 'Restaurante Sabor' },
+                        { email: 'beneficiario@email.com', password: 'ben123', tipo: 'beneficiario', nome: 'Maria Silva' }
+                    ];
+                    
+                    const usuario = usuariosCadastrados.find(u => 
+                        u.email === email && u.password === password && u.tipo === tipo
+                    );
+                    
+                    if (usuario) {
+                        // Login bem-sucedido
+                        mostrarSucesso(`Bem-vindo(a), ${usuario.nome}!`);
+                        
+                        // Salva no localStorage (simulação)
+                        localStorage.setItem('fullbelly-usuario', JSON.stringify(usuario));
+                        localStorage.setItem('fullbelly-logado', 'true');
+                        
+                        // Redireciona após 1 segundo
+                        setTimeout(() => {
+                            if (tipo === 'admin') {
+                                window.location.href = 'admin.html';
+                            } else {
+                                window.location.href = 'perfil.html';
+                            }
+                        }, 1000);
+                    } else {
+                        mostrarErro('E-mail, senha ou tipo de conta incorretos.');
+                    }
+                });
+            }
+            
+            // Recuperação de senha
+            const forgotLink = document.getElementById('forgot-password');
+            const modalRecuperacao = document.getElementById('modal-recuperacao');
+            const formRecuperacao = document.getElementById('form-recuperacao');
+            
+            if (forgotLink) {
+                forgotLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    modalRecuperacao.style.display = 'block';
+                });
+            }
+            
+            // Fechar modal de recuperação
+            const closeModalButtons = document.querySelectorAll('.close-modal, .modal-close');
+            closeModalButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    modalRecuperacao.style.display = 'none';
+                });
+            });
+            
+            // Formulário de recuperação
+            if (formRecuperacao) {
+                formRecuperacao.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = document.getElementById('recovery-email').value;
+                    
+                    if (!email) {
+                        alert('Por favor, digite seu e-mail.');
+                        return;
+                    }
+                    
+                    // Simulação de envio de e-mail
+                    mostrarSucesso(`Um link de recuperação foi enviado para ${email}`);
+                    modalRecuperacao.style.display = 'none';
+                    formRecuperacao.reset();
+                });
+            }
+            
+            // Login com Google
+            const googleLogin = document.getElementById('google-login');
+            if (googleLogin) {
+                googleLogin.addEventListener('click', function() {
+                    mostrarErro('Login com Google em desenvolvimento.');
+                });
+            }
+            
+            // Login com Facebook
+            const facebookLogin = document.getElementById('facebook-login');
+            if (facebookLogin) {
+                facebookLogin.addEventListener('click', function() {
+                    mostrarErro('Login com Facebook em desenvolvimento.');
+                });
+            }
+            
+            // Links de termos
+            const termosLinks = document.querySelectorAll('a[href="#termos"], a[href="#politica"]');
+            termosLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if (this.getAttribute('href') === '#termos') {
+                        mostrarTermosUso();
+                    } else {
+                        mostrarPoliticaPrivacidade();
+                    }
+                });
+            });
+            
+            // Funções auxiliares
+            function mostrarErro(mensagem) {
+                errorText.textContent = mensagem;
+                errorMessage.style.display = 'block';
+                successMessage.style.display = 'none';
+                
+                // Esconde após 5 segundos
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            function mostrarSucesso(mensagem) {
+                successText.textContent = mensagem;
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+                
+                // Esconde após 5 segundos
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Verifica se já está logado
+            verificarLogin();
+        });
+        
+        function verificarLogin() {
+            const logado = localStorage.getItem('fullbelly-logado');
+            if (logado === 'true') {
+                // Se já está logado, redireciona para o perfil
+                window.location.href = 'perfil.html';
+            }
+        }
+    </script>
+</body>
+</html>
