@@ -6,195 +6,6 @@
     <title>FULLBELLY - Login</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .login-container {
-            max-width: 450px;
-            margin: 3rem auto;
-            background: white;
-            padding: 2.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .login-header i {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .login-header h2 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .login-options {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .login-option {
-            flex: 1;
-            text-align: center;
-            padding: 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .login-option.selected {
-            border-color: var(--primary-color);
-            background-color: var(--light-color);
-        }
-        
-        .login-option i {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .form-separator {
-            text-align: center;
-            margin: 1.5rem 0;
-            position: relative;
-        }
-        
-        .form-separator::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background-color: var(--border-color);
-        }
-        
-        .form-separator span {
-            background-color: white;
-            padding: 0 1rem;
-            color: #666;
-        }
-        
-        .social-login {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .social-btn {
-            flex: 1;
-            padding: 0.8rem;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius);
-            background: white;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        
-        .social-btn.google:hover {
-            background-color: #f8f9fa;
-            border-color: #dadce0;
-        }
-        
-        .social-btn.facebook {
-            background-color: #1877f2;
-            color: white;
-            border-color: #1877f2;
-        }
-        
-        .social-btn.facebook:hover {
-            background-color: #166fe5;
-        }
-        
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .checkbox-group input {
-            width: auto;
-        }
-        
-        .forgot-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        
-        .forgot-link:hover {
-            text-decoration: underline;
-        }
-        
-        .login-footer {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-color);
-        }
-        
-        .login-footer a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        
-        .login-footer a:hover {
-            text-decoration: underline;
-        }
-        
-        .password-toggle {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-        }
-        
-        .password-wrapper {
-            position: relative;
-        }
-        
-        .error-message {
-            color: #dc3545;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 0.75rem;
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-            display: none;
-        }
-        
-        .success-message {
-            color: #155724;
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            padding: 0.75rem;
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-            display: none;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -209,9 +20,9 @@
                     <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
                     <li><a href="login.html" class="active"><i class="fas fa-sign-in-alt"></i> Login</a></li>
                     <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="voluntarios.html"><i class="fas fa-hands-helping"></i> Voluntários</a></li>
                     <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
                     <li><a href="perfil.html"><i class="fas fa-user"></i> Perfil</a></li>
-                    <li><a href="admin.html"><i class="fas fa-cog"></i> Admin</a></li>
                 </ul>
             </nav>
         </div>
@@ -244,9 +55,13 @@
                     <i class="fas fa-store"></i>
                     <div>Restaurante</div>
                 </div>
+                <div class="login-option" data-tipo="voluntario">
+                    <i class="fas fa-heart"></i>
+                    <div>Voluntário</div>
+                </div>
                 <div class="login-option" data-tipo="admin">
                     <i class="fas fa-cog"></i>
-                    <div>Administrador</div>
+                    <div>Admin</div>
                 </div>
             </div>
             
@@ -261,8 +76,8 @@
                 <div class="form-group">
                     <label for="login-password"><i class="fas fa-lock"></i> Senha *</label>
                     <div class="password-wrapper">
-                        <input type="password" id="login-password" name="password" required placeholder="Sua senha">
-                        <button type="button" class="password-toggle" id="toggle-password">
+                        <input type="password" id="login-password" name="password" required placeholder="Digite sua senha">
+                        <button type="button" class="password-toggle" id="toggle-password" aria-label="Mostrar/ocultar senha">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
@@ -296,14 +111,14 @@
                 <div class="login-footer">
                     <p>Não tem uma conta? <a href="cadastro.html">Cadastre-se agora</a></p>
                     <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                        Ao entrar, você concorda com os <a href="#termos">Termos de Uso</a> e <a href="#politica">Política de Privacidade</a>
+                        Ao entrar, você concorda com os <a href="#" id="link-termos">Termos de Uso</a> e <a href="#" id="link-politica">Política de Privacidade</a>
                     </p>
                 </div>
             </form>
         </div>
         
         <!-- Modal de recuperação de senha -->
-        <div id="modal-recuperacao" class="modal" style="display: none;">
+        <div id="modal-recuperacao" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2><i class="fas fa-key"></i> Recuperar Senha</h2>
@@ -319,7 +134,7 @@
                         </div>
                         
                         <div class="form-actions">
-                            <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" id="cancel-recovery">Cancelar</button>
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-paper-plane"></i> Enviar Link
                             </button>
@@ -357,7 +172,6 @@
         </div>
     </footer>
 
-    <script src="app.js"></script>
     <script>
         // Lógica específica para página de login
         document.addEventListener('DOMContentLoaded', function() {
@@ -381,7 +195,11 @@
                 togglePassword.addEventListener('click', function() {
                     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                     passwordInput.setAttribute('type', type);
-                    this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+                    this.innerHTML = type === 'password' ? 
+                        '<i class="fas fa-eye"></i>' : 
+                        '<i class="fas fa-eye-slash"></i>';
+                    this.setAttribute('aria-label', 
+                        type === 'password' ? 'Mostrar senha' : 'Ocultar senha');
                 });
             }
             
@@ -396,7 +214,7 @@
                 loginForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    const email = document.getElementById('login-email').value;
+                    const email = document.getElementById('login-email').value.trim();
                     const password = document.getElementById('login-password').value;
                     const tipo = document.getElementById('tipo-login').value;
                     
@@ -406,11 +224,42 @@
                         return;
                     }
                     
-                    // Simulação de login (em produção, isso seria uma requisição ao backend)
+                    // Validação de email
+                    if (!validarEmail(email)) {
+                        mostrarErro('Por favor, digite um e-mail válido.');
+                        return;
+                    }
+                    
+                    // Simulação de login
                     const usuariosCadastrados = [
-                        { email: 'admin@fullbelly.org', password: 'admin123', tipo: 'admin', nome: 'Administrador' },
-                        { email: 'restaurante@email.com', password: 'rest123', tipo: 'restaurante', nome: 'Restaurante Sabor' },
-                        { email: 'beneficiario@email.com', password: 'ben123', tipo: 'beneficiario', nome: 'Maria Silva' }
+                        { 
+                            email: 'admin@fullbelly.org', 
+                            password: 'admin123', 
+                            tipo: 'admin', 
+                            nome: 'Administrador',
+                            id: 1
+                        },
+                        { 
+                            email: 'restaurante@email.com', 
+                            password: 'rest123', 
+                            tipo: 'restaurante', 
+                            nome: 'Restaurante Sabor',
+                            id: 2
+                        },
+                        { 
+                            email: 'beneficiario@email.com', 
+                            password: 'ben123', 
+                            tipo: 'beneficiario', 
+                            nome: 'Maria Silva',
+                            id: 3
+                        },
+                        { 
+                            email: 'voluntario@email.com', 
+                            password: 'vol123', 
+                            tipo: 'voluntario', 
+                            nome: 'João Santos',
+                            id: 4
+                        }
                     ];
                     
                     const usuario = usuariosCadastrados.find(u => 
@@ -419,20 +268,27 @@
                     
                     if (usuario) {
                         // Login bem-sucedido
-                        mostrarSucesso(`Bem-vindo(a), ${usuario.nome}!`);
+                        mostrarSucesso(`Bem-vindo(a), ${usuario.nome}! Redirecionando...`);
                         
-                        // Salva no localStorage (simulação)
+                        // Salva no localStorage
                         localStorage.setItem('fullbelly-usuario', JSON.stringify(usuario));
                         localStorage.setItem('fullbelly-logado', 'true');
                         
-                        // Redireciona após 1 segundo
+                        // Salva lembrar-me
+                        const rememberMe = document.getElementById('remember-me').checked;
+                        if (rememberMe) {
+                            localStorage.setItem('fullbelly-remember', 'true');
+                            localStorage.setItem('fullbelly-email', email);
+                        }
+                        
+                        // Redireciona
                         setTimeout(() => {
                             if (tipo === 'admin') {
                                 window.location.href = 'admin.html';
                             } else {
                                 window.location.href = 'perfil.html';
                             }
-                        }, 1000);
+                        }, 1500);
                     } else {
                         mostrarErro('E-mail, senha ou tipo de conta incorretos.');
                     }
@@ -442,7 +298,9 @@
             // Recuperação de senha
             const forgotLink = document.getElementById('forgot-password');
             const modalRecuperacao = document.getElementById('modal-recuperacao');
+            const cancelRecovery = document.getElementById('cancel-recovery');
             const formRecuperacao = document.getElementById('form-recuperacao');
+            const modalClose = document.querySelector('.modal-close');
             
             if (forgotLink) {
                 forgotLink.addEventListener('click', function(e) {
@@ -452,11 +310,23 @@
             }
             
             // Fechar modal de recuperação
-            const closeModalButtons = document.querySelectorAll('.close-modal, .modal-close');
-            closeModalButtons.forEach(button => {
-                button.addEventListener('click', function() {
+            if (cancelRecovery) {
+                cancelRecovery.addEventListener('click', function() {
                     modalRecuperacao.style.display = 'none';
                 });
+            }
+            
+            if (modalClose) {
+                modalClose.addEventListener('click', function() {
+                    modalRecuperacao.style.display = 'none';
+                });
+            }
+            
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', function(e) {
+                if (e.target === modalRecuperacao) {
+                    modalRecuperacao.style.display = 'none';
+                }
             });
             
             // Formulário de recuperação
@@ -464,10 +334,15 @@
                 formRecuperacao.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    const email = document.getElementById('recovery-email').value;
+                    const email = document.getElementById('recovery-email').value.trim();
                     
                     if (!email) {
                         alert('Por favor, digite seu e-mail.');
+                        return;
+                    }
+                    
+                    if (!validarEmail(email)) {
+                        alert('Por favor, digite um e-mail válido.');
                         return;
                     }
                     
@@ -475,6 +350,11 @@
                     mostrarSucesso(`Um link de recuperação foi enviado para ${email}`);
                     modalRecuperacao.style.display = 'none';
                     formRecuperacao.reset();
+                    
+                    // Esconde a mensagem após 5 segundos
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 5000);
                 });
             }
             
@@ -495,23 +375,30 @@
             }
             
             // Links de termos
-            const termosLinks = document.querySelectorAll('a[href="#termos"], a[href="#politica"]');
-            termosLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
+            const linkTermos = document.getElementById('link-termos');
+            const linkPolitica = document.getElementById('link-politica');
+            
+            if (linkTermos) {
+                linkTermos.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
-                    if (this.getAttribute('href') === '#termos') {
-                        mostrarTermosUso();
-                    } else {
-                        mostrarPoliticaPrivacidade();
-                    }
+                    mostrarTermosUso();
                 });
-            });
+            }
+            
+            if (linkPolitica) {
+                linkPolitica.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    mostrarPoliticaPrivacidade();
+                });
+            }
+            
+            // Preencher email se lembrar-me estiver ativo
+            carregarEmailSalvo();
             
             // Funções auxiliares
             function mostrarErro(mensagem) {
                 errorText.textContent = mensagem;
-                errorMessage.style.display = 'block';
+                errorMessage.style.display = 'flex';
                 successMessage.style.display = 'none';
                 
                 // Esconde após 5 segundos
@@ -522,13 +409,23 @@
             
             function mostrarSucesso(mensagem) {
                 successText.textContent = mensagem;
-                successMessage.style.display = 'block';
+                successMessage.style.display = 'flex';
                 errorMessage.style.display = 'none';
+            }
+            
+            function validarEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            function carregarEmailSalvo() {
+                const remember = localStorage.getItem('fullbelly-remember');
+                const savedEmail = localStorage.getItem('fullbelly-email');
                 
-                // Esconde após 5 segundos
-                setTimeout(() => {
-                    successMessage.style.display = 'none';
-                }, 5000);
+                if (remember === 'true' && savedEmail) {
+                    document.getElementById('login-email').value = savedEmail;
+                    document.getElementById('remember-me').checked = true;
+                }
             }
             
             // Verifica se já está logado
@@ -541,6 +438,17 @@
                 // Se já está logado, redireciona para o perfil
                 window.location.href = 'perfil.html';
             }
+        }
+        
+        // Funções para mostrar termos (definidas em app.js)
+        function mostrarTermosUso() {
+            alert('Para ver os Termos de Uso completos, visite a página de cadastro ou entre em contato com o suporte.');
+            // Em uma implementação completa, isso abriria um modal
+        }
+        
+        function mostrarPoliticaPrivacidade() {
+            alert('Para ver a Política de Privacidade completa, visite a página de cadastro ou entre em contato com o suporte.');
+            // Em uma implementação completa, isso abriria um modal
         }
     </script>
 </body>
