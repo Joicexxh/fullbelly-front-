@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULLBELLY - Voluntários</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>FULLBELLY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                    <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="voluntarios.html" class="active"><i class="fas fa-hands-helping"></i> Voluntários</a></li>
+                    <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Perfil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="banner" style="background: linear-gradient(rgba(21, 101, 192, 0.9), rgba(13, 71, 161, 0.9)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');">
+            <div class="banner-content">
+                <h2>Seja um Voluntário FULLBELLY</h2>
+                <p>Ajude a entregar alimentos para quem precisa. Sua ajuda faz a diferença!</p>
+                <div class="banner-buttons">
+                    <button class="btn btn-primary" id="btn-tornar-voluntario">
+                        <i class="fas fa-hands-helping"></i> Tornar-se Voluntário
+                    </button>
+                    <a href="#missoes" class="btn btn-secondary">
+                        <i class="fas fa-list"></i> Ver Missões Disponíveis
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <h2>Impacto dos Voluntários</h2>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3 id="total-voluntarios">156</h3>
+                    <p>Voluntários ativos</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-truck"></i>
+                    <h3 id="entregas-realizadas">2,845</h3>
+                    <p>Entregas realizadas</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-road"></i>
+                    <h3 id="km-percorridos">12,450</h3>
+                    <p>Km percorridos</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-smile"></i>
+                    <h3 id="familias-atendidas">1,850</h3>
+                    <p>Famílias atendidas</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="como-funciona">
+            <h2>Como Funciona para Voluntários</h2>
+            <div class="passos-container">
+                <div class="passo">
+                    <div class="passo-numero">1</div>
+                    <i class="fas fa-clipboard-check"></i>
+                    <h3>Cadastre-se</h3>
+                    <p>Preencha seu cadastro como voluntário e informe sua disponibilidade</p>
+                </div>
+                <div class="passo">
+                    <div class="passo-numero">2</div>
+                    <i class="fas fa-bell"></i>
+                    <h3>Receba Missões</h3>
+                    <p>Receba notificações de entregas disponíveis na sua região</p>
+                </div>
+                <div class="passo">
+                    <div class="passo-numero">3</div>
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Aceite a Missão</h3>
+                    <p>Escolha as missões que deseja realizar e confirme</p>
+                </div>
+                <div class="passo">
+                    <div class="passo-numero">4</div>
+                    <i class="fas fa-truck-loading"></i>
+                    <h3>Realize a Entrega</h3>
+                    <p>Retire os alimentos e entregue no endereço do beneficiário</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="missoes" class="doacoes-recentes">
+            <div class="section-header">
+                <h2>Missões Disponíveis</h2>
+                <div class="filtros-rapidos">
+                    <button class="btn btn-sm btn-primary filtro-ativo" data-filtro="todas">Todas</button>
+                    <button class="btn btn-sm btn-secondary" data-filtro="proximas">Próximas de Mim</button>
+                    <button class="btn btn-sm btn-secondary" data-filtro="urgentes">Urgentes</button>
+                </div>
+            </div>
+            
+            <div class="doacoes-container" id="missoes-container">
+                <!-- Missões carregadas via JavaScript -->
+            </div>
+        </section>
+
+        <section class="ranking-section">
+            <h2>Ranking de Voluntários</h2>
+            <div class="info-card">
+                <div class="ranking-item">
+                    <div class="ranking-posicao">1°</div>
+                    <div class="ranking-info">
+                        <strong>João Silva</strong>
+                        <p>45 missões concluídas</p>
+                    </div>
+                    <div class="ranking-pontos">450 pts</div>
+                </div>
+                <div class="ranking-item">
+                    <div class="ranking-posicao">2°</div>
+                    <div class="ranking-info">
+                        <strong>Maria Santos</strong>
+                        <p>38 missões concluídas</p>
+                    </div>
+                    <div class="ranking-pontos">380 pts</div>
+                </div>
+                <div class="ranking-item">
+                    <div class="ranking-posicao">3°</div>
+                    <div class="ranking-info">
+                        <strong>Pedro Oliveira</strong>
+                        <p>32 missões concluídas</p>
+                    </div>
+                    <div class="ranking-pontos">320 pts</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal para se tornar voluntário -->
+    <div id="modal-voluntario" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-hands-helping"></i> Tornar-se Voluntário</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-voluntario">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Como voluntário, você ajudará a entregar alimentos para famílias que não podem retirar.
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="voluntario-veiculo"><i class="fas fa-car"></i> Tipo de Veículo</label>
+                        <select id="voluntario-veiculo" name="veiculo" required>
+                            <option value="">Selecione...</option>
+                            <option value="carro">Carro</option>
+                            <option value="moto">Moto</option>
+                            <option value="bicicleta">Bicicleta</option>
+                            <option value="pe">A pé</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="voluntario-disponibilidade"><i class="fas fa-calendar-alt"></i> Disponibilidade</label>
+                        <div class="disponibilidade-dias">
+                            <label><input type="checkbox" name="dias[]" value="seg"> Segunda</label>
+                            <label><input type="checkbox" name="dias[]" value="ter"> Terça</label>
+                            <label><input type="checkbox" name="dias[]" value="qua"> Quarta</label>
+                            <label><input type="checkbox" name="dias[]" value="qui"> Quinta</label>
+                            <label><input type="checkbox" name="dias[]" value="sex"> Sexta</label>
+                            <label><input type="checkbox" name="dias[]" value="sab"> Sábado</label>
+                            <label><input type="checkbox" name="dias[]" value="dom"> Domingo</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="voluntario-horario"><i class="fas fa-clock"></i> Melhor Horário</label>
+                        <select id="voluntario-horario" name="horario">
+                            <option value="">Qualquer horário</option>
+                            <option value="manha">Manhã (8h-12h)</option>
+                            <option value="tarde">Tarde (13h-18h)</option>
+                            <option value="noite">Noite (18h-22h)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-tools"></i> Habilidades Especiais</label>
+                        <div class="voluntario-skills">
+                            <label class="skill-tag">
+                                <input type="checkbox" name="skills[]" value="direcao"> Direção
+                            </label>
+                            <label class="skill-tag">
+                                <input type="checkbox" name="skills[]" value="embalagem"> Embalagem
+                            </label>
+                            <label class="skill-tag">
+                                <input type="checkbox" name="skills[]" value="atendimento"> Atendimento
+                            </label>
+                            <label class="skill-tag">
+                                <input type="checkbox" name="skills[]" value="primeiros-socorros"> Primeiros Socorros
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="voluntario-observacoes"><i class="fas fa-sticky-note"></i> Observações</label>
+                        <textarea id="voluntario-observacoes" name="observacoes" rows="3" placeholder="Alguma observação importante?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-group">
+                            <input type="checkbox" id="termos-voluntario" required>
+                            <span>Concordo em me responsabilizar pelas entregas e seguir as diretrizes da plataforma</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check-circle"></i> Confirmar Voluntariado
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para aceitar missão -->
+    <div id="modal-aceitar-missao" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-check-circle"></i> Aceitar Missão</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="missao-detalhes">
+                    <!-- Detalhes da missão serão carregados aqui -->
+                </div>
+                
+                <div class="mapa-simplificado">
+                    <div class="ponto-mapa ponto-origem"></div>
+                    <div class="ponto-mapa ponto-destino"></div>
+                    <div class="linha-rota" id="linha-rota"></div>
+                    <div style="text-align: center; color: #666;">
+                        <i class="fas fa-map-marker-alt"></i> Rota aproximada da entrega
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btn-confirmar-missao">
+                        <i class="fas fa-check"></i> Aceitar Missão
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i>
+                <h3>FULLBELLY</h3>
+                <p>Conectando comida a quem precisa</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="voluntarios.html">Voluntários</a></li>
+                    <li><a href="doacoes.html">Doações</a></li>
+                    <li><a href="chat.html">Chat</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p><i class="fas fa-envelope"></i> voluntarios@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 98888-7777</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Lógica específica para página de voluntários
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verifica se está logado
+            const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+            const logado = localStorage.getItem('fullbelly-logado') === 'true';
+            
+            // Carrega missões disponíveis
+            carregarMissoesDisponiveis();
+            
+            // Configura botões
+            configurarBotoesVoluntarios(logado, usuario);
+            
+            // Configura filtros
+            configurarFiltrosMissoes();
+            
+            // Atualiza estatísticas dinamicamente
+            atualizarEstatisticasVoluntarios();
+        });
+        
+        function carregarMissoesDisponiveis() {
+            const container = document.getElementById('missoes-container');
+            if (!container) return;
+            
+            // Dados de exemplo de missões
+            const missoes = [
+                {
+                    id: 1,
+                    titulo: "Entrega para Dona Maria - Zona Leste",
+                    descricao: "Marmitas para família de 4 pessoas",
+                    origem: "Restaurante Sabor Mineiro - Centro",
+                    destino: "Rua das Flores, 123 - Zona Leste",
+                    distancia: "3.5 km",
+                    tempo: "15-20 min",
+                    urgente: true,
+                    status: "disponivel",
+                    alimentos: "5 marmitas, 2 pães",
+                    prazo: "Hoje até 18h"
+                },
+                {
+                    id: 2,
+                    titulo: "Entrega para Sr. João - Zona Sul",
+                    descricao: "Cesta básica e legumes",
+                    origem: "Supermercado Central - Centro",
+                    destino: "Av. Paulista, 456 - Zona Sul",
+                    distancia: "5.2 km",
+                    tempo: "25-30 min",
+                    urgente: false,
+                    status: "disponivel",
+                    alimentos: "Cesta básica, legumes frescos",
+                    prazo: "Amanhã até 14h"
+                },
+                {
+                    id: 3,
+                    titulo: "Entrega para Comunidade Vila Nova",
+                    descricao: "Alimentos para 10 famílias",
+                    origem: "Armazém Central - Zona Norte",
+                    destino: "Comunidade Vila Nova - Zona Norte",
+                    distancia: "8.7 km",
+                    tempo: "40-45 min",
+                    urgente: true,
+                    status: "disponivel",
+                    alimentos: "Vários itens para distribuição",
+                    prazo: "Hoje até 16h"
+                }
+            ];
+            
+            container.innerHTML = missoes.map(missao => `
+                <div class="missao-card ${missao.urgente ? 'voluntario-card' : ''}">
+                    <div class="missao-header">
+                        <h3>${missao.titulo}</h3>
+                        <span class="status-badge ${missao.status === 'disponivel' ? 'status-disponivel' : 
+                                                  missao.status === 'em-andamento' ? 'status-em-missao' : 
+                                                  'status-indisponivel'}">
+                            ${missao.urgente ? 'URGENTE' : 'DISPONÍVEL'}
+                        </span>
+                    </div>
+                    
+                    <p>${missao.descricao}</p>
+                    
+                    <div class="missao-info">
+                        <div class="missao-detalhe">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <small>Origem:</small>
+                                <div>${missao.origem}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="missao-detalhe">
+                            <i class="fas fa-flag-checkered"></i>
+                            <div>
+                                <small>Destino:</small>
+                                <div>${missao.destino}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="missao-detalhe">
+                            <i class="fas fa-route"></i>
+                            <div>
+                                <small>Distância:</small>
+                                <div>${missao.distancia}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="missao-detalhe">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <small>Prazo:</small>
+                                <div>${missao.prazo}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="missao-acoes">
+                        <button class="btn btn-primary btn-sm aceitar-missao" data-id="${missao.id}">
+                            <i class="fas fa-check"></i> Aceitar Missão
+                        </button>
+                        <button class="btn btn-secondary btn-sm ver-detalhes" data-id="${missao.id}">
+                            <i class="fas fa-info-circle"></i> Detalhes
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Configura eventos dos botões
+            configurarEventosMissoes(missoes);
+        }
+        
+        function configurarEventosMissoes(missoes) {
+            // Botões de aceitar missão
+            document.querySelectorAll('.aceitar-missao').forEach(button => {
+                button.addEventListener('click', function() {
+                    const missaoId = parseInt(this.dataset.id);
+                    const missao = missoes.find(m => m.id === missaoId);
+                    
+                    if (missao) {
+                        abrirModalAceitarMissao(missao);
+                    }
+                });
+            });
+            
+            // Botões de ver detalhes
+            document.querySelectorAll('.ver-detalhes').forEach(button => {
+                button.addEventListener('click', function() {
+                    const missaoId = parseInt(this.dataset.id);
+                    const missao = missoes.find(m => m.id === missaoId);
+                    
+                    if (missao) {
+                        alert(`Detalhes da Missão:\n\n` +
+                              `Título: ${missao.titulo}\n` +
+                              `Descrição: ${missao.descricao}\n` +
+                              `Alimentos: ${missao.alimentos}\n` +
+                              `Origem: ${missao.origem}\n` +
+                              `Destino: ${missao.destino}\n` +
+                              `Distância: ${missao.distancia}\n` +
+                              `Tempo estimado: ${missao.tempo}\n` +
+                              `Prazo: ${missao.prazo}`);
+                    }
+                });
+            });
+        }
+        
+        function configurarBotoesVoluntarios(logado, usuario) {
+            // Botão para se tornar voluntário
+            const btnTornarVoluntario = document.getElementById('btn-tornar-voluntario');
+            if (btnTornarVoluntario) {
+                btnTornarVoluntario.addEventListener('click', function() {
+                    if (!logado) {
+                        alert('Por favor, faça login para se tornar um voluntário.');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    
+                    // Verifica se já é voluntário
+                    if (usuario.tipo === 'voluntario') {
+                        alert('Você já é um voluntário! Veja suas missões no seu perfil.');
+                        return;
+                    }
+                    
+                    abrirModalVoluntario();
+                });
+            }
+            
+            // Modal de voluntário
+            const modalVoluntario = document.getElementById('modal-voluntario');
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            if (modalVoluntario) {
+                // Abrir modal
+                document.addEventListener('click', function(e) {
+                    if (e.target.id === 'btn-tornar-voluntario' || 
+                        e.target.closest('#btn-tornar-voluntario')) {
+                        modalVoluntario.style.display = 'block';
+                    }
+                });
+                
+                // Fechar modal
+                closeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        modalVoluntario.style.display = 'none';
+                    });
+                });
+                
+                // Fechar ao clicar fora
+                window.addEventListener('click', function(e) {
+                    if (e.target === modalVoluntario) {
+                        modalVoluntario.style.display = 'none';
+                    }
+                });
+                
+                // Formulário de voluntário
+                const formVoluntario = document.getElementById('form-voluntario');
+                if (formVoluntario) {
+                    formVoluntario.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        // Coleta dados do formulário
+                        const formData = new FormData(this);
+                        const veiculo = formData.get('veiculo');
+                        const dias = formData.getAll('dias[]');
+                        const horario = formData.get('horario');
+                        const skills = formData.getAll('skills[]');
+                        const observacoes = formData.get('observacoes');
+                        
+                        // Atualiza dados do usuário
+                        const usuarioAtual = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+                        usuarioAtual.tipo = 'voluntario';
+                        usuarioAtual.voluntario = {
+                            veiculo,
+                            diasDisponiveis: dias,
+                            horarioPreferido: horario,
+                            habilidades: skills,
+                            observacoes,
+                            dataCadastro: new Date().toISOString(),
+                            missoesCompletadas: 0,
+                            pontos: 0,
+                            status: 'disponivel'
+                        };
+                        
+                        // Salva no localStorage
+                        localStorage.setItem('fullbelly-usuario', JSON.stringify(usuarioAtual));
+                        
+                        // Mostra mensagem de sucesso
+                        alert('Parabéns! Você agora é um voluntário FULLBELLY!');
+                        
+                        // Fecha o modal
+                        modalVoluntario.style.display = 'none';
+                        
+                        // Atualiza a página
+                        window.location.reload();
+                    });
+                }
+            }
+        }
+        
+        function configurarFiltrosMissoes() {
+            const filtros = document.querySelectorAll('.filtros-rapidos button');
+            
+            filtros.forEach(filtro => {
+                filtro.addEventListener('click', function() {
+                    // Remove classe ativa de todos
+                    filtros.forEach(f => f.classList.remove('filtro-ativo'));
+                    
+                    // Adiciona classe ativa ao clicado
+                    this.classList.add('filtro-ativo');
+                    
+                    // Aplica filtro
+                    const tipo = this.dataset.filtro;
+                    aplicarFiltroMissoes(tipo);
+                });
+            });
+        }
+        
+        function aplicarFiltroMissoes(tipo) {
+            const missoesCards = document.querySelectorAll('.missao-card');
+            
+            missoesCards.forEach(card => {
+                switch(tipo) {
+                    case 'proximas':
+                        // Simulação: mostra apenas missões próximas
+                        const distancia = card.querySelector('.missao-detalhe:nth-child(3) div:nth-child(2)').textContent;
+                        card.style.display = parseFloat(distancia) <= 5 ? 'block' : 'none';
+                        break;
+                        
+                    case 'urgentes':
+                        // Mostra apenas missões urgentes
+                        const urgente = card.classList.contains('voluntario-card');
+                        card.style.display = urgente ? 'block' : 'none';
+                        break;
+                        
+                    default:
+                        card.style.display = 'block';
+                }
+            });
+        }
+        
+        function abrirModalVoluntario() {
+            const modal = document.getElementById('modal-voluntario');
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        }
+        
+        function abrirModalAceitarMissao(missao) {
+            const modal = document.getElementById('modal-aceitar-missao');
+            const detalhes = document.getElementById('missao-detalhes');
+            
+            if (!modal || !detalhes) return;
+            
+            // Preenche detalhes da missão
+            detalhes.innerHTML = `
+                <h3>${missao.titulo}</h3>
+                <p><strong>Descrição:</strong> ${missao.descricao}</p>
+                <p><strong>Alimentos:</strong> ${missao.alimentos}</p>
+                <p><strong>Origem:</strong> ${missao.origem}</p>
+                <p><strong>Destino:</strong> ${missao.destino}</p>
+                <p><strong>Distância:</strong> ${missao.distancia}</p>
+                <p><strong>Tempo estimado:</strong> ${missao.tempo}</p>
+                <p><strong>Prazo:</strong> ${missao.prazo}</p>
+            `;
+            
+            // Mostra modal
+            modal.style.display = 'block';
+            
+            // Configura botão de confirmar
+            const btnConfirmar = document.getElementById('btn-confirmar-missao');
+            if (btnConfirmar) {
+                btnConfirmar.onclick = function() {
+                    aceitarMissao(missao.id);
+                };
+            }
+            
+            // Configura botões de fechar
+            const closeButtons = modal.querySelectorAll('.close-modal');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+            });
+            
+            // Fecha ao clicar fora
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+        
+        function aceitarMissao(missaoId) {
+            // Verifica se está logado
+            const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+            
+            if (!usuario.tipo || usuario.tipo !== 'voluntario') {
+                alert('Você precisa ser um voluntário para aceitar missões.');
+                return;
+            }
+            
+            // Atualiza status do voluntário
+            if (usuario.voluntario) {
+                usuario.voluntario.status = 'em-missao';
+                usuario.voluntario.missaoAtual = missaoId;
+                localStorage.setItem('fullbelly-usuario', JSON.stringify(usuario));
+            }
+            
+            // Mostra mensagem de sucesso
+            alert('Missão aceita com sucesso! Verifique os detalhes no seu perfil.');
+            
+            // Fecha o modal
+            document.getElementById('modal-aceitar-missao').style.display = 'none';
+            
+            // Atualiza a página
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+        
+        function atualizarEstatisticasVoluntarios() {
+            // Simula atualização de estatísticas
+            setInterval(() => {
+                const voluntarios = document.getElementById('total-voluntarios');
+                const entregas = document.getElementById('entregas-realizadas');
+                const km = document.getElementById('km-percorridos');
+                const familias = document.getElementById('familias-atendidas');
+                
+                if (voluntarios) {
+                    const atual = parseInt(voluntarios.textContent);
+                    voluntarios.textContent = (atual + Math.floor(Math.random() * 3)).toLocaleString();
+                }
+                
+                if (entregas) {
+                    const atual = parseInt(entregas.textContent.replace('.', ''));
+                    entregas.textContent = (atual + Math.floor(Math.random() * 5)).toLocaleString();
+                }
+            }, 10000);
+        }
+    </script>
+</body>
+</html>
