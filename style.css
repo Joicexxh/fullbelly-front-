@@ -982,3 +982,190 @@ footer {
     position: relative;
     cursor: pointer;
     transition: var
+
+/* Estilos para voluntários */
+.voluntario-badge {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    border: 2px solid #bbdefb;
+}
+
+.voluntario-card {
+    border-left: 4px solid #1565c0;
+}
+
+.btn-voluntario {
+    background-color: #1565c0;
+    color: white;
+}
+
+.btn-voluntario:hover {
+    background-color: #0d47a1;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-disponivel {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-em-missao {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-indisponivel {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Cards de missões */
+.missao-card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+}
+
+.missao-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+
+.missao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.missao-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.missao-detalhe {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.missao-acoes {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Mapa simplificado */
+.mapa-simplificado {
+    height: 200px;
+    background-color: #f5f5f5;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.ponto-mapa {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ponto-origem {
+    background-color: var(--primary-color);
+    top: 40%;
+    left: 30%;
+}
+
+.ponto-destino {
+    background-color: #4caf50;
+    top: 60%;
+    left: 70%;
+}
+
+.linha-rota {
+    position: absolute;
+    height: 2px;
+    background-color: #1565c0;
+    transform-origin: left center;
+}
+
+/* Modal de voluntariado */
+.voluntario-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.skill-tag {
+    background-color: var(--light-color);
+    color: var(--primary-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.skill-tag input {
+    margin-right: 0.25rem;
+}
+
+/* Ranking de voluntários */
+.ranking-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ranking-posicao {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    min-width: 40px;
+}
+
+.ranking-info {
+    flex: 1;
+}
+
+.ranking-pontos {
+    font-weight: bold;
+    color: #4caf50;
+}
+
+/* Responsividade para voluntários */
+@media (max-width: 768px) {
+    .missao-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .missao-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .missao-acoes {
+        flex-direction: column;
+    }
+}
