@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULLBELLY - Chat</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos adicionais para o chat */
+        .chat-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .chat-info i {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .chat-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .chat-stat {
+            text-align: center;
+        }
+        
+        .chat-stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .chat-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        .refresh-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .refresh-button:hover {
+            background: var(--secondary-color);
+            transform: rotate(90deg);
+        }
+        
+        .user-online {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #28a745;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>FULLBELLY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="chat.html" class="active"><i class="fas fa-comments"></i> Chat</a></li>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Perfil</a></li>
+                    <li><a href="admin.html"><i class="fas fa-cog"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="chat-info">
+            <i class="fas fa-comments"></i>
+            <h2>Chat da Comunidade</h2>
+            <p>Compartilhe informações, organize retiradas e converse com outros membros da comunidade FULLBELLY.</p>
+            
+            <div class="chat-stats">
+                <div class="chat-stat">
+                    <div class="chat-stat-number" id="online-count">42</div>
+                    <div class="chat-stat-label">Online agora</div>
+                </div>
+                <div class="chat-stat">
+                    <div class="chat-stat-number" id="mensagens-hoje">156</div>
+                    <div class="chat-stat-label">Mensagens hoje</div>
+                </div>
+                <div class="chat-stat">
+                    <div class="chat-stat-number" id="usuarios-total">568</div>
+                    <div class="chat-stat-label">Usuários ativos</div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="chat-container">
+            <button class="refresh-button" id="refresh-chat">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            
+            <div class="chat-messages" id="chat-messages">
+                <!-- Mensagens carregadas via JavaScript -->
+            </div>
+            
+            <div class="message-input">
+                <form id="chat-form">
+                    <div class="input-row">
+                        <input type="text" id="message-name" placeholder="Seu nome" value="Usuário FULLBELLY" required>
+                        <input type="text" id="message-text" placeholder="Digite sua mensagem..." required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Enviar
+                        </button>
+                    </div>
+                    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                        <i class="fas fa-info-circle"></i> Mantenha o respeito e compartilhe apenas informações relevantes
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <section class="chat-guia">
+            <h3><i class="fas fa-lightbulb"></i> Melhores práticas para o chat</h3>
+            <div class="dicas-container">
+                <div class="dica">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>Seja claro</h4>
+                    <p>Informe tipo, quantidade e localização precisa dos alimentos</p>
+                </div>
+                <div class="dica">
+                    <i class="fas fa-clock"></i>
+                    <h4>Mencione horários</h4>
+                    <p>Sempre informe horários disponíveis para retirada</p>
+                </div>
+                <div class="dica">
+                    <i class="fas fa-handshake"></i>
+                    <h4>Combine antecipadamente</h4>
+                    <p>Combine detalhes por mensagem privada quando necessário</p>
+                </div>
+                <div class="dica">
+                    <i class="fas fa-heart"></i>
+                    <h4>Seja respeitoso</h4>
+                    <p>Mantenha um ambiente acolhedor para todos</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i>
+                <h3>FULLBELLY</h3>
+                <p>Conectando comida a quem precisa</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="doacoes.html">Doações</a></li>
+                    <li><a href="chat.html">Chat</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p><i class="fas fa-envelope"></i> contato@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Lógica específica para o chat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Botão de atualizar chat
+            const refreshButton = document.getElementById('refresh-chat');
+            if (refreshButton) {
+                refreshButton.addEventListener('click', function() {
+                    carregarMensagensChat();
+                    mostrarNotificacao('Chat atualizado!', 'success');
+                    
+                    // Animação de rotação
+                    this.style.transform = 'rotate(180deg)';
+                    setTimeout(() => {
+                        this.style.transform = 'rotate(0deg)';
+                    }, 300);
+                });
+            }
+            
+            // Simula usuários online
+            function atualizarContadores() {
+                const onlineCount = document.getElementById('online-count');
+                const mensagensHoje = document.getElementById('mensagens-hoje');
+                const usuariosTotal = document.getElementById('usuarios-total');
+                
+                if (onlineCount) {
+                    const atual = parseInt(onlineCount.textContent);
+                    const variacao = Math.floor(Math.random() * 5) - 2; // -2 a +2
+                    onlineCount.textContent = Math.max(10, atual + variacao);
+                }
+                
+                if (mensagensHoje) {
+                    const atual = parseInt(mensagensHoje.textContent);
+                    mensagensHoje.textContent = atual + Math.floor(Math.random() * 3);
+                }
+            }
+            
+            // Atualiza contadores a cada 30 segundos
+            setInterval(atualizarContadores, 30000);
+            
+            // Carrega mensagens a cada 10 segundos
+            setInterval(carregarMensagensChat, 10000);
+            
+            // Adiciona estilos para as dicas
+            const estiloDicas = document.createElement('style');
+            estiloDicas.textContent = `
+                .chat-guia {
+                    margin-top: 3rem;
+                }
+                
+                .chat-guia h3 {
+                    text-align: center;
+                    margin-bottom: 2rem;
+                    color: var(--primary-color);
+                }
+                
+                .dicas-container {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1.5rem;
+                }
+                
+                .dica {
+                    background: white;
+                    padding: 1.5rem;
+                    border-radius: var(--radius);
+                    box-shadow: var(--shadow);
+                    text-align: center;
+                    transition: var(--transition);
+                }
+                
+                .dica:hover {
+                    transform: translateY(-5px);
+                    box-shadow: var(--shadow-hover);
+                }
+                
+                .dica i {
+                    font-size: 2rem;
+                    color: var(--primary-color);
+                    margin-bottom: 1rem;
+                }
+                
+                .dica h4 {
+                    margin-bottom: 0.5rem;
+                    color: var(--primary-color);
+                }
+                
+                .input-row {
+                    display: flex;
+                    gap: 1rem;
+                }
+                
+                .input-row input {
+                    flex: 1;
+                }
+                
+                @media (max-width: 768px) {
+                    .input-row {
+                        flex-direction: column;
+                    }
+                }
+            `;
+            document.head.appendChild(estiloDicas);
+        });
+    </script>
+</body>
+</html>
