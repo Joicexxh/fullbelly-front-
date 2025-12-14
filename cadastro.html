@@ -1,1 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULLBELLY - Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>FULLBELLY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="cadastro.html" class="active"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Perfil</a></li>
+                    <li><a href="admin.html"><i class="fas fa-cog"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
+    <main>
+        <section class="form-container">
+            <h2><i class="fas fa-user-plus"></i> Cadastro na Plataforma</h2>
+            <p>Escolha seu perfil e preencha os dados para começar a usar a plataforma</p>
+            
+            <div class="perfil-selector">
+                <div class="perfil-option" data-tipo="restaurante">
+                    <i class="fas fa-store"></i>
+                    <h3>Restaurante</h3>
+                    <p>Quero doar alimentos</p>
+                </div>
+                <div class="perfil-option" data-tipo="beneficiario">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Beneficiário</h3>
+                    <p>Quero receber alimentos</p>
+                </div>
+            </div>
+            
+            <form id="cadastro-form">
+                <input type="hidden" id="tipo-usuario" name="tipo" value="">
+                
+                <div class="form-group">
+                    <label for="nome"><i class="fas fa-user"></i> Nome completo / Razão Social *</label>
+                    <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo ou razão social">
+                </div>
+                
+                <div class="form-group">
+                    <label for="documento"><i class="fas fa-id-card"></i> CPF ou CNPJ *</label>
+                    <input type="text" id="documento" name="documento" required placeholder="Digite seu CPF ou CNPJ">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> E-mail *</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefone"><i class="fas fa-phone"></i> Telefone *</label>
+                    <input type="tel" id="telefone" name="telefone" required placeholder="(11) 99999-9999">
+                </div>
+                
+                <div class="form-group">
+                    <label for="endereco"><i class="fas fa-map-marker-alt"></i> Endereço completo *</label>
+                    <input type="text" id="endereco" name="endereco" required placeholder="Rua, número, bairro, cidade">
+                </div>
+                
+                <!-- Campos específicos para Restaurante -->
+                <div id="campos-restaurante" style="display: none;">
+                    <h3>Informações do Restaurante</h3>
+                    
+                    <div class="form-group">
+                        <label for="tipo-cozinha"><i class="fas fa-utensils"></i> Tipo de Cozinha</label>
+                        <select id="tipo-cozinha" name="tipo-cozinha">
+                            <option value="">Selecione...</option>
+                            <option value="brasileira">Brasileira</option>
+                            <option value="italiana">Italiana</option>
+                            <option value="japonesa">Japonesa</option>
+                            <option value="fastfood">Fast Food</option>
+                            <option value="vegetariana">Vegetariana</option>
+                            <option value="outra">Outra</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="horario-funcionamento"><i class="fas fa-clock"></i> Horário de Funcionamento</label>
+                        <input type="text" id="horario-funcionamento" name="horario-funcionamento" placeholder="Ex: 10h às 22h">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tipos-alimento"><i class="fas fa-apple-alt"></i> Tipos de Alimento que Costuma Doar</label>
+                        <textarea id="tipos-alimento" name="tipos-alimento" rows="3" placeholder="Ex: Marmitas, pães, legumes, sobremesas..."></textarea>
+                    </div>
+                </div>
+                
+                <!-- Campos específicos para Beneficiário -->
+                <div id="campos-beneficiario" style="display: none;">
+                    <h3>Informações do Beneficiário</h3>
+                    
+                    <div class="form-group">
+                        <label for="pessoas-familia"><i class="fas fa-users"></i> Número de pessoas na família</label>
+                        <input type="number" id="pessoas-familia" name="pessoas-familia" min="1" placeholder="Ex: 4">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="renda-familiar"><i class="fas fa-money-bill-wave"></i> Renda familiar mensal aproximada</label>
+                        <select id="renda-familiar" name="renda-familiar">
+                            <option value="">Selecione...</option>
+                            <option value="ate-1">Até 1 salário mínimo</option>
+                            <option value="1-2">1 a 2 salários mínimos</option>
+                            <option value="2-3">2 a 3 salários mínimos</option>
+                            <option value="acima-3">Acima de 3 salários mínimos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="necessidades-especiais"><i class="fas fa-heart"></i> Necessidades especiais (alergias, restrições)</label>
+                        <textarea id="necessidades-especiais" name="necessidades-especiais" rows="3" placeholder="Ex: Diabético, intolerante à lactose, alergia a frutos do mar..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao"><i class="fas fa-info-circle"></i> Descrição / Sobre</label>
+                    <textarea id="descricao" name="descricao" rows="4" placeholder="Conte um pouco sobre você ou seu estabelecimento..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="senha"><i class="fas fa-lock"></i> Senha *</label>
+                    <input type="password" id="senha" name="senha" required placeholder="Crie uma senha segura">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmar-senha"><i class="fas fa-lock"></i> Confirmar Senha *</label>
+                    <input type="password" id="confirmar-senha" name="confirmar-senha" required placeholder="Digite a senha novamente">
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="termos" name="termos" required>
+                        Aceito os <a href="#" style="color: var(--primary-color);">Termos de Uso</a> e <a href="#" style="color: var(--primary-color);">Política de Privacidade</a> *
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-check-circle"></i> Finalizar Cadastro
+                </button>
+                
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p>Já tem uma conta? <a href="login.html" style="color: var(--primary-color); font-weight: 600;">Faça login aqui</a></p>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i>
+                <h3>FULLBELLY</h3>
+                <p>Conectando comida a quem precisa</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="doacoes.html">Doações</a></li>
+                    <li><a href="chat.html">Chat</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p><i class="fas fa-envelope"></i> contato@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Lógica específica para mostrar/esconder campos baseado no tipo de perfil
+        document.addEventListener('DOMContentLoaded', function() {
+            const perfilOptions = document.querySelectorAll('.perfil-option');
+            const camposRestaurante = document.getElementById('campos-restaurante');
+            const camposBeneficiario = document.getElementById('campos-beneficiario');
+            const tipoInput = document.getElementById('tipo-usuario');
+            
+            // Verifica se há tipo na URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const tipoUrl = urlParams.get('tipo');
+            
+            if (tipoUrl) {
+                const option = document.querySelector(`.perfil-option[data-tipo="${tipoUrl}"]`);
+                if (option) {
+                    option.click();
+                }
+            }
+            
+            perfilOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const tipo = this.dataset.tipo;
+                    
+                    // Mostra/esconde campos específicos
+                    if (tipo === 'restaurante') {
+                        camposRestaurante.style.display = 'block';
+                        camposBeneficiario.style.display = 'none';
+                    } else if (tipo === 'beneficiario') {
+                        camposRestaurante.style.display = 'none';
+                        camposBeneficiario.style.display = 'block';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
