@@ -869,3 +869,116 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Estilos específicos do perfil */
+.perfil-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.perfil-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: white;
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.perfil-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.perfil-stat {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.perfil-stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.perfil-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .perfil-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.info-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+}
+
+.info-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--light-color);
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.acoes-perfil {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.historico-vazio {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.historico-vazio i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--border-color);
+}
+
+/* Estilos para edição de perfil (já existentes) */
+.perfil-avatar-editavel {
+    position: relative;
+    cursor: pointer;
+    transition: var
