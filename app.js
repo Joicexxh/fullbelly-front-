@@ -537,3 +537,443 @@ estiloAnimacao.textContent = `
     }
 `;
 document.head.appendChild(estiloAnimacao);
+
+// Funções para edição de perfil
+function configurarEdicaoPerfil() {
+    const btnEditarPerfil = document.getElementById('btn-editar-perfil');
+    if (!btnEditarPerfil) return;
+    
+    btnEditarPerfil.addEventListener('click', function() {
+        abrirModalEdicaoPerfil();
+    });
+}
+
+function abrirModalEdicaoPerfil() {
+    // Cria o modal
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'modal-editar-perfil';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-edit"></i> Editar Perfil</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-editar-perfil">
+                    <div class="form-group text-center">
+                        <div class="perfil-avatar-editavel" style="width: 150px; height: 150px; margin: 0 auto 1.5rem;">
+                            <div id="avatar-preview" class="avatar-preview">
+                                <i class="fas fa-user" style="font-size: 4rem; line-height: 140px;"></i>
+                            </div>
+                            <div class="avatar-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <input type="file" id="foto-perfil" class="file-input" accept="image/*">
+                        <button type="button" class="btn btn-secondary btn-sm" id="btn-alterar-foto">
+                            <i class="fas fa-camera"></i> Alterar Foto
+                        </button>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-nome"><i class="fas fa-user"></i> Nome *</label>
+                            <input type="text" id="edit-nome" name="nome" required value="Maria Silva">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-email"><i class="fas fa-envelope"></i> E-mail *</label>
+                            <input type="email" id="edit-email" name="email" required value="maria.silva@email.com">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edit-telefone"><i class="fas fa-phone"></i> Telefone *</label>
+                            <input type="tel" id="edit-telefone" name="telefone" required value="(11) 98888-7777">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-cpf"><i class="fas fa-id-card"></i> CPF</label>
+                            <input type="text" id="edit-cpf" name="cpf" value="123.456.789-00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-endereco"><i class="fas fa-map-marker-alt"></i> Endereço *</label>
+                        <input type="text" id="edit-endereco" name="endereco" required value="Av. Principal, 456 - Zona Leste">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-descricao"><i class="fas fa-info-circle"></i> Descrição / Sobre</label>
+                        <textarea id="edit-descricao" name="descricao" rows="4" placeholder="Conte um pouco sobre você...">Mãe de 3 crianças, em situação de vulnerabilidade</textarea>
+                    </div>
+                    
+                    <!-- Campos específicos para restaurante -->
+                    <div id="campos-restaurante-edit" style="display: none;">
+                        <h3>Informações do Restaurante</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-cnpj">CNPJ</label>
+                                <input type="text" id="edit-cnpj" name="cnpj">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-tipo-cozinha">Tipo de Cozinha</label>
+                                <select id="edit-tipo-cozinha" name="tipo-cozinha">
+                                    <option value="">Selecione...</option>
+                                    <option value="brasileira">Brasileira</option>
+                                    <option value="italiana">Italiana</option>
+                                    <option value="japonesa">Japonesa</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Campos específicos para beneficiário -->
+                    <div id="campos-beneficiario-edit" style="display: none;">
+                        <h3>Informações Adicionais</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-pessoas-familia">Pessoas na família</label>
+                                <input type="number" id="edit-pessoas-familia" name="pessoas-familia" min="1" value="4">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edit-renda-familiar">Renda familiar</label>
+                                <select id="edit-renda-familiar" name="renda-familiar">
+                                    <option value="ate-1">Até 1 salário mínimo</option>
+                                    <option value="1-2">1 a 2 salários mínimos</option>
+                                    <option value="2-3">2 a 3 salários mínimos</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="edit-necessidades">Necessidades especiais</label>
+                            <textarea id="edit-necessidades" name="necessidades" rows="3" placeholder="Alergias, restrições alimentares..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions" style="margin-top: 2rem;">
+                        <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Alterações
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.style.display = 'block';
+    
+    // Configura eventos do modal
+    configurarModalEdicaoPerfil(modal);
+}
+
+function configurarModalEdicaoPerfil(modal) {
+    const closeButtons = modal.querySelectorAll('.close-modal, .modal-close');
+    const form = modal.querySelector('#form-editar-perfil');
+    const btnAlterarFoto = modal.querySelector('#btn-alterar-foto');
+    const inputFoto = modal.querySelector('#foto-perfil');
+    const avatarEditavel = modal.querySelector('.perfil-avatar-editavel');
+    
+    // Fechar modal
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            modal.remove();
+        });
+    });
+    
+    // Fechar ao clicar fora
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    // Alterar foto
+    if (btnAlterarFoto && inputFoto) {
+        btnAlterarFoto.addEventListener('click', () => {
+            inputFoto.click();
+        });
+        
+        avatarEditavel.addEventListener('click', () => {
+            inputFoto.click();
+        });
+        
+        inputFoto.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const avatarPreview = modal.querySelector('#avatar-preview');
+                    avatarPreview.innerHTML = `<img src="${event.target.result}" alt="Preview da foto" style="width: 100%; height: 100%; object-fit: cover;">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    // Enviar formulário
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Aqui iria a lógica para salvar no backend
+            const formData = new FormData(this);
+            console.log('Dados do formulário:', Object.fromEntries(formData));
+            
+            mostrarNotificacao('Perfil atualizado com sucesso!', 'success');
+            modal.remove();
+            
+            // Atualiza os dados na página de perfil
+            atualizarDadosPerfil(formData);
+        });
+    }
+}
+
+function atualizarDadosPerfil(formData) {
+    // Atualiza os dados na página de perfil (simulação)
+    const dados = Object.fromEntries(formData);
+    
+    if (dados.nome) {
+        const nomeElement = document.getElementById('perfil-nome');
+        if (nomeElement) nomeElement.textContent = dados.nome;
+    }
+    
+    if (dados.email) {
+        const emailElement = document.getElementById('info-email');
+        if (emailElement) emailElement.textContent = dados.email;
+    }
+    
+    if (dados.telefone) {
+        const telefoneElement = document.getElementById('info-telefone');
+        if (telefoneElement) telefoneElement.textContent = dados.telefone;
+    }
+    
+    if (dados.endereco) {
+        const enderecoElement = document.getElementById('info-endereco');
+        if (enderecoElement) enderecoElement.textContent = dados.endereco;
+    }
+    
+    if (dados.descricao) {
+        const descricaoElement = document.getElementById('perfil-descricao');
+        if (descricaoElement) descricaoElement.textContent = dados.descricao;
+    }
+}
+
+// Função para mostrar termos de uso
+function mostrarTermosUso() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'modal-termos';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-file-contract"></i> Termos de Uso e Política de Privacidade</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="termos-container">
+                    <div class="termos-section">
+                        <h3>1. Aceitação dos Termos</h3>
+                        <p>Ao utilizar a plataforma FULLBELLY, você concorda com estes Termos de Uso. Se não concordar, não utilize nossos serviços.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>2. Cadastro na Plataforma</h3>
+                        <p>2.1. Para usar a plataforma, você deve se cadastrar fornecendo informações verdadeiras e completas.</p>
+                        <p>2.2. Você é responsável por manter a confidencialidade de sua senha.</p>
+                        <p>2.3. O cadastro é gratuito para ambos os perfis (doadores e beneficiários).</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>3. Responsabilidades dos Restaurantes</h3>
+                        <p>3.1. Os alimentos doados devem estar em condições adequadas para consumo.</p>
+                        <p>3.2. É obrigatório informar data de validade e condições de armazenamento.</p>
+                        <p>3.3. Os restaurantes são responsáveis pela qualidade dos alimentos doados.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>4. Responsabilidades dos Beneficiários</h3>
+                        <p>4.1. Os beneficiários devem comparecer no local e horário combinados.</p>
+                        <p>4.2. É necessário confirmar o recebimento das doações.</p>
+                        <p>4.3. Os beneficiários devem utilizar os alimentos exclusivamente para consumo próprio.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>5. Política de Privacidade</h3>
+                        <p>5.1. Coletamos apenas informações necessárias para o funcionamento da plataforma.</p>
+                        <p>5.2. Não compartilhamos seus dados com terceiros sem sua autorização.</p>
+                        <p>5.3. Utilizamos medidas de segurança para proteger suas informações.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>6. Isenção de Responsabilidade</h3>
+                        <p>6.1. A plataforma FULLBELLY atua apenas como intermediária entre doadores e beneficiários.</p>
+                        <p>6.2. Não nos responsabilizamos pela qualidade dos alimentos doados.</p>
+                        <p>6.3. Não garantimos a disponibilidade constante de doações.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>7. Modificações nos Termos</h3>
+                        <p>Reservamo-nos o direito de modificar estes Termos a qualquer momento. As alterações serão comunicadas aos usuários.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>8. Contato</h3>
+                        <p>Para questões sobre estes Termos, entre em contato: contato@fullbelly.org</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="aceitar-termos-modal" required>
+                        <span>Eu li e concordo com os Termos de Uso e Política de Privacidade da plataforma FULLBELLY</span>
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary close-modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" id="btn-confirmar-termos">
+                        <i class="fas fa-check-circle"></i> Confirmar Aceitação
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.style.display = 'block';
+    
+    // Configura eventos do modal de termos
+    configurarModalTermos(modal);
+}
+
+function configurarModalTermos(modal) {
+    const closeButtons = modal.querySelectorAll('.close-modal, .modal-close');
+    const btnConfirmar = modal.querySelector('#btn-confirmar-termos');
+    const checkboxTermos = modal.querySelector('#aceitar-termos-modal');
+    
+    // Fechar modal
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            modal.remove();
+        });
+    });
+    
+    // Fechar ao clicar fora
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    // Confirmar termos
+    if (btnConfirmar) {
+        btnConfirmar.addEventListener('click', () => {
+            if (!checkboxTermos.checked) {
+                alert('Por favor, leia e aceite os Termos de Uso para continuar.');
+                return;
+            }
+            
+            mostrarNotificacao('Termos de Uso aceitos com sucesso!', 'success');
+            modal.remove();
+            
+            // Salvar aceitação no localStorage (simulação)
+            localStorage.setItem('fullbelly-termos-aceitos', 'true');
+        });
+    }
+}
+
+// Função para mostrar política de privacidade
+function mostrarPoliticaPrivacidade() {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'modal-politica';
+    
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shield-alt"></i> Política de Privacidade</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="termos-container">
+                    <div class="termos-section">
+                        <h3>Coleta de Informações</h3>
+                        <p>Coletamos informações que você nos fornece diretamente, como nome, e-mail, telefone e endereço. Essas informações são necessárias para o funcionamento da plataforma.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>Uso das Informações</h3>
+                        <p>Utilizamos suas informações para:
+                        <ul>
+                            <li>Conectar doadores e beneficiários</li>
+                            <li>Melhorar nossos serviços</li>
+                            <li>Enviar comunicações importantes</li>
+                            <li>Garantir a segurança da plataforma</li>
+                        </ul>
+                        </p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>Compartilhamento de Dados</h3>
+                        <p>Não vendemos, alugamos ou compartilhamos suas informações pessoais com terceiros, exceto quando necessário para o funcionamento do serviço ou por exigência legal.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>Segurança</h3>
+                        <p>Implementamos medidas de segurança para proteger suas informações contra acesso não autorizado, alteração, divulgação ou destruição.</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>Seus Direitos</h3>
+                        <p>Você tem o direito de:
+                        <ul>
+                            <li>Acessar suas informações pessoais</li>
+                            <li>Corrigir dados imprecisos</li>
+                            <li>Solicitar a exclusão de seus dados</li>
+                            <li>Revogar consentimentos</li>
+                        </ul>
+                        Para exercer esses direitos, entre em contato: contato@fullbelly.org</p>
+                    </div>
+                    
+                    <div class="termos-section">
+                        <h3>Alterações na Política</h3>
+                        <p>Podemos atualizar esta Política periodicamente. Notificaremos sobre mudanças significativas.</p>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-primary close-modal">
+                        <i class="fas fa-check"></i> Entendi
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    modal.style.display = 'block';
+    
+    // Configura eventos
+    const closeButtons = modal.querySelectorAll('.close-modal, .modal-close');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            modal.remove();
+        });
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
