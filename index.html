@@ -3,544 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FULLBELLY - Doe alimentos, salve vidas</title>
+    <title>FULLBELLY - Plataforma de Doação de Alimentos</title>
+    <meta name="description" content="Conectando restaurantes com excesso de comida a pessoas que precisam">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥘</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
 <body>
-    <!-- Navegação -->
-    <nav class="navbar">
+    <!-- Cabeçalho Fixo -->
+    <header class="header">
         <div class="container">
-            <div class="nav-content">
-                <a href="#home" class="logo">
+            <div class="header-content">
+                <a href="index.html" class="logo">
                     <i class="fas fa-utensils"></i>
                     <span>FULLBELLY</span>
                 </a>
                 
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Início</a></li>
+                        <li><a href="doacoes.html" class="nav-link"><i class="fas fa-donate"></i> Doações</a></li>
+                        <li><a href="cadastro.html" class="nav-link"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                        <li><a href="chat.html" class="nav-link"><i class="fas fa-comments"></i> Chat</a></li>
+                        <li><a href="perfil.html" class="nav-link"><i class="fas fa-user"></i> Perfil</a></li>
+                        <li><a href="admin/index.html" class="nav-link admin"><i class="fas fa-shield-alt"></i> Admin</a></li>
+                    </ul>
+                </nav>
+                
                 <button class="menu-toggle" id="menuToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#home" class="nav-link active">Início</a></li>
-                    <li><a href="#login" class="nav-link">Cadastro</a></li>
-                    <li><a href="#doacoes" class="nav-link">Doações</a></li>
-                    <li><a href="#chat" class="nav-link">Chat</a></li>
-                    <li><a href="#perfil" class="nav-link">Perfil</a></li>
-                    <li><a href="#admin" class="nav-link">Admin</a></li>
-                    <li>
-                        <a href="#login" class="btn btn-primary btn-small">
-                            <i class="fas fa-sign-in-alt"></i> Entrar
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
-    </nav>
+    </header>
 
     <!-- Conteúdo Principal -->
-    <main>
-        <!-- Seção Home -->
-        <section id="home" class="section active">
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
             <div class="container">
-                <div class="hero">
-                    <div class="hero-content">
+                <div class="hero-grid">
+                    <div class="hero-text">
                         <h1>Doe alimentos, <span class="highlight">salve vidas</span></h1>
-                        <p class="lead">Conectamos restaurantes com excesso de comida a pessoas e instituições que precisam. Juntos podemos reduzir o desperdício e combater a fome.</p>
+                        <p class="subtitle">Conectamos restaurantes com excesso de comida a pessoas e instituições que precisam. Juntos podemos combater o desperdício.</p>
                         
-                        <div class="hero-buttons">
-                            <a href="#login" class="btn btn-primary btn-large">
-                                <i class="fas fa-utensils"></i> Quero doar (Restaurante)
+                        <div class="hero-actions">
+                            <a href="cadastro.html?tipo=doador" class="btn btn-primary btn-large">
+                                <i class="fas fa-utensils"></i> Quero doar
                             </a>
-                            <a href="#login" class="btn btn-secondary btn-large">
-                                <i class="fas fa-hands-helping"></i> Quero receber (Beneficiário)
+                            <a href="cadastro.html?tipo=beneficiario" class="btn btn-secondary btn-large">
+                                <i class="fas fa-hands-helping"></i> Quero receber
                             </a>
                         </div>
                     </div>
                     
                     <div class="hero-image">
-                        <div class="image-placeholder">
+                        <div class="illustration">
                             <i class="fas fa-heart"></i>
                             <p>Alimentos doados = Vidas transformadas</p>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Estatísticas -->
-                <div class="stats-section">
-                    <h2 class="section-title">Nossos números</h2>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-donate"></i>
-                            </div>
-                            <div class="stat-number" id="doacoesCount">1,245</div>
-                            <div class="stat-label">Doações realizadas</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <div class="stat-number" id="restaurantesCount">89</div>
-                            <div class="stat-label">Restaurantes ativos</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stat-number" id="beneficiariosCount">324</div>
-                            <div class="stat-label">Beneficiários atendidos</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-utensil-spoon"></i>
-                            </div>
-                            <div class="stat-number" id="kgDoados">5.2T</div>
-                            <div class="stat-label">Kg de alimentos</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Últimas doações -->
-                <div class="donations-preview">
-                    <h2 class="section-title">Últimas doações</h2>
-                    <div class="donations-grid" id="latestDonations">
-                        <!-- As doações serão carregadas via JavaScript -->
-                    </div>
-                </div>
             </div>
         </section>
 
-        <!-- Seção Login/Cadastro -->
-        <section id="login" class="section">
+        <!-- Estatísticas -->
+        <section class="stats-section">
             <div class="container">
-                <h2 class="section-title">Cadastro / Login</h2>
-                <p class="section-subtitle">Escolha seu perfil e faça parte da rede FULLBELLY</p>
-                
-                <div class="profile-selector">
-                    <button class="profile-btn active" id="btnRestaurante">
-                        <i class="fas fa-store"></i>
-                        <span>Restaurante</span>
-                        <p>Quero doar alimentos</p>
-                    </button>
-                    <button class="profile-btn" id="btnBeneficiario">
-                        <i class="fas fa-hands-helping"></i>
-                        <span>Beneficiário</span>
-                        <p>Quero receber doações</p>
-                    </button>
-                </div>
-                
-                <!-- Formulário Dinâmico -->
-                <div class="form-container">
-                    <form id="registerForm">
-                        <div class="form-header">
-                            <h3 id="formTitle">Cadastro de Restaurante</h3>
-                            <p id="formDescription">Preencha os dados para se cadastrar na plataforma</p>
+                <h2 class="section-title">Nossa Impacto</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-donate"></i>
                         </div>
-                        
-                        <div class="form-grid">
-                            <!-- Campos comuns -->
-                            <div class="form-group">
-                                <label for="nome">Nome *</label>
-                                <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="email">E-mail *</label>
-                                <input type="email" id="email" name="email" required placeholder="seu@email.com">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="telefone">Telefone *</label>
-                                <input type="tel" id="telefone" name="telefone" required placeholder="(11) 99999-9999">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="endereco">Endereço *</label>
-                                <input type="text" id="endereco" name="endereco" required placeholder="Rua, número, bairro">
-                            </div>
-                            
-                            <!-- Campos específicos para Restaurante -->
-                            <div class="form-group restaurante-field">
-                                <label for="cnpj">CNPJ *</label>
-                                <input type="text" id="cnpj" name="cnpj" placeholder="00.000.000/0001-00">
-                            </div>
-                            
-                            <div class="form-group restaurante-field">
-                                <label for="tipoAlimento">Tipo de alimento *</label>
-                                <select id="tipoAlimento" name="tipoAlimento">
-                                    <option value="">Selecione</option>
-                                    <option value="pratos-prontos">Pratos prontos</option>
-                                    <option value="ingredientes">Ingredientes</option>
-                                    <option value="padaria">Padaria</option>
-                                    <option value="bebidas">Bebidas</option>
-                                    <option value="outros">Outros</option>
-                                </select>
-                            </div>
-                            
-                            <!-- Campos específicos para Beneficiário -->
-                            <div class="form-group beneficiario-field hidden">
-                                <label for="cpf">CPF *</label>
-                                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00">
-                            </div>
-                            
-                            <div class="form-group beneficiario-field hidden">
-                                <label for="descricao">Descrição da necessidade *</label>
-                                <textarea id="descricao" name="descricao" rows="3" placeholder="Descreva brevemente sua situação"></textarea>
-                            </div>
-                            
-                            <!-- Campo comum -->
-                            <div class="form-group">
-                                <label for="foto">Foto (opcional)</label>
-                                <div class="file-upload">
-                                    <input type="file" id="foto" name="foto" accept="image/*">
-                                    <label for="foto" class="file-label">
-                                        <i class="fas fa-camera"></i> Escolher imagem
-                                    </label>
-                                </div>
-                            </div>
+                        <h3 class="stat-number" data-count="1245">0</h3>
+                        <p class="stat-label">Doações realizadas</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-store"></i>
                         </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-check"></i> Cadastrar
-                            </button>
-                            <p class="form-note">Já tem uma conta? <a href="#" id="loginLink">Faça login aqui</a></p>
+                        <h3 class="stat-number" data-count="89">0</h3>
+                        <p class="stat-label">Restaurantes parceiros</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
                         </div>
-                    </form>
+                        <h3 class="stat-number" data-count="324">0</h3>
+                        <p class="stat-label">Beneficiários atendidos</p>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-weight"></i>
+                        </div>
+                        <h3 class="stat-number" data-count="5200">0</h3>
+                        <p class="stat-label">Kg de alimentos salvos</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Seção Doações -->
-        <section id="doacoes" class="section">
+        <!-- Como Funciona -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">Como funciona</h2>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>Cadastre-se</h3>
+                        <p>Restaurantes ou beneficiários criam seu perfil na plataforma</p>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                        <h3>Registre doações</h3>
+                        <p>Restaurantes registram alimentos disponíveis para doação</p>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <h3>Conecte</h3>
+                        <p>Beneficiários encontram e reservam as doações disponíveis</p>
+                    </div>
+                    
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h3>Retire</h3>
+                        <p>Retirada realizada no local e horário combinados</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Últimas Doações (Preview) -->
+        <section class="latest-donations">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Doações Disponíveis</h2>
-                    <button class="btn btn-primary" id="novaDoacaoBtn">
-                        <i class="fas fa-plus"></i> Nova Doação
-                    </button>
+                    <h2 class="section-title">Doações Recentes</h2>
+                    <a href="doacoes.html" class="btn btn-outline">
+                        Ver todas <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
                 
-                <!-- Filtros -->
-                <div class="filters">
-                    <div class="filter-group">
-                        <label for="filterTipo">Filtrar por tipo:</label>
-                        <select id="filterTipo">
-                            <option value="todos">Todos os tipos</option>
-                            <option value="pratos-prontos">Pratos prontos</option>
-                            <option value="ingredientes">Ingredientes</option>
-                            <option value="padaria">Padaria</option>
-                            <option value="bebidas">Bebidas</option>
-                            <option value="outros">Outros</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="filterLocal">Localização:</label>
-                        <select id="filterLocal">
-                            <option value="todos">Todas as regiões</option>
-                            <option value="centro">Centro</option>
-                            <option value="zona-norte">Zona Norte</option>
-                            <option value="zona-sul">Zona Sul</option>
-                            <option value="zona-leste">Zona Leste</option>
-                            <option value="zona-oeste">Zona Oeste</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <!-- Lista de Doações -->
-                <div class="donations-list" id="donationsList">
+                <div class="donations-grid" id="latestDonationsGrid">
                     <!-- As doações serão carregadas via JavaScript -->
-                </div>
-                
-                <!-- Modal Nova Doação -->
-                <div class="modal" id="novaDoacaoModal">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h3>Registrar Nova Doação</h3>
-                            <button class="close-modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="novaDoacaoForm">
-                                <div class="form-group">
-                                    <label for="doacaoItem">Item *</label>
-                                    <input type="text" id="doacaoItem" required placeholder="Ex: Marmitas de frango">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="doacaoQuantidade">Quantidade *</label>
-                                    <input type="text" id="doacaoQuantidade" required placeholder="Ex: 50 unidades">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="doacaoValidade">Validade *</label>
-                                    <input type="date" id="doacaoValidade" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="doacaoTipo">Tipo de alimento *</label>
-                                    <select id="doacaoTipo" required>
-                                        <option value="">Selecione</option>
-                                        <option value="pratos-prontos">Pratos prontos</option>
-                                        <option value="ingredientes">Ingredientes</option>
-                                        <option value="padaria">Padaria</option>
-                                        <option value="bebidas">Bebidas</option>
-                                        <option value="outros">Outros</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="doacaoLocal">Local de retirada *</label>
-                                    <input type="text" id="doacaoLocal" required placeholder="Endereço para retirada">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="doacaoHorario">Horário para retirada *</label>
-                                    <input type="text" id="doacaoHorario" required placeholder="Ex: 18h às 20h">
-                                </div>
-                                
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Registrar Doação</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção Chat -->
-        <section id="chat" class="section">
-            <div class="container">
-                <h2 class="section-title">Chat da Comunidade</h2>
-                <p class="section-subtitle">Converse com outros usuários da plataforma</p>
-                
-                <div class="chat-container">
-                    <div class="chat-header">
-                        <div class="chat-info">
-                            <i class="fas fa-comments"></i>
-                            <span>Feed em tempo real</span>
-                        </div>
-                        <button class="btn btn-small" id="refreshChat">
-                            <i class="fas fa-sync-alt"></i> Atualizar
-                        </button>
-                    </div>
-                    
-                    <div class="chat-messages" id="chatMessages">
-                        <!-- As mensagens serão carregadas via JavaScript -->
-                    </div>
-                    
-                    <div class="chat-input">
-                        <form id="chatForm">
-                            <div class="input-group">
-                                <input type="text" id="chatName" placeholder="Seu nome" required>
-                                <textarea id="chatMessage" placeholder="Digite sua mensagem..." rows="1" required></textarea>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção Perfil -->
-        <section id="perfil" class="section">
-            <div class="container">
-                <h2 class="section-title">Meu Perfil</h2>
-                
-                <div class="profile-container">
-                    <div class="profile-sidebar">
-                        <div class="profile-card">
-                            <div class="profile-avatar">
-                                <img src="https://ui-avatars.com/api/?name=Usuario+FULLBELLY&background=2E8B57&color=fff&size=150" alt="Avatar" id="profileAvatar">
-                                <button class="change-avatar-btn">
-                                    <i class="fas fa-camera"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="profile-info">
-                                <h3 id="profileName">Usuário FULLBELLY</h3>
-                                <p class="profile-type" id="profileType">Beneficiário</p>
-                                <p class="profile-email" id="profileEmail">usuario@fullbelly.com</p>
-                                <p class="profile-phone" id="profilePhone">(11) 99999-9999</p>
-                                <p class="profile-address" id="profileAddress">São Paulo, SP</p>
-                            </div>
-                            
-                            <div class="profile-stats">
-                                <div class="profile-stat">
-                                    <span class="stat-number" id="profileDoacoes">12</span>
-                                    <span class="stat-label">Doações</span>
-                                </div>
-                                <div class="profile-stat">
-                                    <span class="stat-number" id="profilePontos">156</span>
-                                    <span class="stat-label">Pontos</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-content">
-                        <div class="profile-tabs">
-                            <button class="tab-btn active" data-tab="historico">Histórico de Doações</button>
-                            <button class="tab-btn" data-tab="editar">Editar Perfil</button>
-                        </div>
-                        
-                        <div class="tab-content active" id="historicoTab">
-                            <h3>Minhas Doações Recentes</h3>
-                            <div class="profile-donations" id="profileDonations">
-                                <!-- Histórico será carregado via JavaScript -->
-                            </div>
-                        </div>
-                        
-                        <div class="tab-content" id="editarTab">
-                            <h3>Editar Informações do Perfil</h3>
-                            <form id="editProfileForm">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="editNome">Nome</label>
-                                        <input type="text" id="editNome" value="Usuário FULLBELLY">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="editEmail">E-mail</label>
-                                        <input type="email" id="editEmail" value="usuario@fullbelly.com">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="editTelefone">Telefone</label>
-                                        <input type="tel" id="editTelefone" value="(11) 99999-9999">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="editEndereco">Endereço</label>
-                                        <input type="text" id="editEndereco" value="São Paulo, SP">
-                                    </div>
-                                    
-                                    <div class="form-group full-width">
-                                        <label for="editDescricao">Descrição</label>
-                                        <textarea id="editDescricao" rows="4">Sou um beneficiário da plataforma FULLBELLY, recebendo doações para minha família.</textarea>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-actions">
-                                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seção Admin -->
-        <section id="admin" class="section">
-            <div class="container">
-                <div class="admin-header">
-                    <h2 class="section-title">Área Administrativa</h2>
-                    <div class="admin-badge">
-                        <i class="fas fa-shield-alt"></i> Administrador
-                    </div>
-                </div>
-                
-                <div class="admin-tabs">
-                    <button class="admin-tab-btn active" data-admin-tab="usuarios">Usuários</button>
-                    <button class="admin-tab-btn" data-admin-tab="doacoes-admin">Doações</button>
-                    <button class="admin-tab-btn" data-admin-tab="chat-admin">Chat</button>
-                    <button class="admin-tab-btn" data-admin-tab="estatisticas">Estatísticas</button>
-                </div>
-                
-                <div class="admin-tab-content active" id="usuariosTab">
-                    <h3>Gerenciamento de Usuários</h3>
-                    <div class="admin-search">
-                        <input type="text" placeholder="Buscar usuários..." id="adminSearch">
-                        <button class="btn btn-small">
-                            <i class="fas fa-search"></i> Buscar
-                        </button>
-                    </div>
-                    
-                    <div class="admin-table-container">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nome</th>
-                                    <th>Tipo</th>
-                                    <th>E-mail</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminUsersTable">
-                                <!-- Usuários serão carregados via JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                
-                <div class="admin-tab-content" id="doacoes-adminTab">
-                    <h3>Todas as Doações</h3>
-                    <div class="admin-cards" id="adminDonations">
-                        <!-- Doações serão carregadas via JavaScript -->
-                    </div>
-                </div>
-                
-                <div class="admin-tab-content" id="chat-adminTab">
-                    <h3>Monitoramento do Chat</h3>
-                    <div class="admin-chat-container">
-                        <div class="admin-chat-messages" id="adminChatMessages">
-                            <!-- Mensagens do chat serão carregadas via JavaScript -->
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="admin-tab-content" id="estatisticasTab">
-                    <h3>Estatísticas da Plataforma</h3>
-                    <div class="admin-stats">
-                        <div class="admin-stat-card">
-                            <h4>Total de Usuários</h4>
-                            <div class="admin-stat-number">413</div>
-                            <div class="admin-stat-detail">
-                                <span>Restaurantes: 89</span>
-                                <span>Beneficiários: 324</span>
-                            </div>
-                        </div>
-                        
-                        <div class="admin-stat-card">
-                            <h4>Doações do Mês</h4>
-                            <div class="admin-stat-number">156</div>
-                            <div class="admin-stat-detail">
-                                <span>Concluídas: 142</span>
-                                <span>Pendentes: 14</span>
-                            </div>
-                        </div>
-                        
-                        <div class="admin-stat-card">
-                            <h4>Taxa de Crescimento</h4>
-                            <div class="admin-stat-number">+24%</div>
-                            <div class="admin-stat-detail">
-                                <span>Vs. último mês</span>
-                            </div>
-                        </div>
-                        
-                        <div class="admin-stat-card">
-                            <h4>Alimentos Doados</h4>
-                            <div class="admin-stat-number">5.2T</div>
-                            <div class="admin-stat-detail">
-                                <span>Este mês: 840kg</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="admin-chart-container">
-                        <div class="chart-placeholder">
-                            <i class="fas fa-chart-line"></i>
-                            <p>Gráfico de crescimento mensal</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -551,16 +173,16 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <div class="logo">
+                    <a href="index.html" class="logo">
                         <i class="fas fa-utensils"></i>
                         <span>FULLBELLY</span>
-                    </div>
-                    <p class="footer-motto">Doe alimentos, salve vidas.</p>
+                    </a>
+                    <p class="footer-tagline">Reduzindo desperdício, alimentando esperança.</p>
                     <div class="footer-social">
                         <a href="#"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
                 
@@ -568,20 +190,20 @@
                     <div class="footer-column">
                         <h4>Plataforma</h4>
                         <ul>
-                            <li><a href="#home">Início</a></li>
-                            <li><a href="#doacoes">Doações</a></li>
-                            <li><a href="#chat">Chat</a></li>
-                            <li><a href="#perfil">Perfil</a></li>
+                            <li><a href="index.html">Início</a></li>
+                            <li><a href="doacoes.html">Doações</a></li>
+                            <li><a href="cadastro.html">Cadastro</a></li>
+                            <li><a href="chat.html">Chat</a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-column">
-                        <h4>Recursos</h4>
+                        <h4>Suporte</h4>
                         <ul>
-                            <li><a href="#login">Cadastro</a></li>
-                            <li><a href="#login">Login</a></li>
-                            <li><a href="#admin">Área Admin</a></li>
                             <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Contato</a></li>
+                            <li><a href="#">Termos de Uso</a></li>
+                            <li><a href="#">Política de Privacidade</a></li>
                         </ul>
                     </div>
                     
@@ -589,7 +211,7 @@
                         <h4>Contato</h4>
                         <ul>
                             <li><i class="fas fa-envelope"></i> contato@fullbelly.org</li>
-                            <li><i class="fas fa-phone"></i> (11) 4002-8922</li>
+                            <li><i class="fas fa-phone"></i> (11) 9999-9999</li>
                             <li><i class="fas fa-map-marker-alt"></i> São Paulo, SP</li>
                         </ul>
                     </div>
@@ -597,12 +219,13 @@
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
-                <p>Desenvolvido com <i class="fas fa-heart" style="color: #e74c3c;"></i> para combater o desperdício de alimentos</p>
+                <p>&copy; 2023 FULLBELLY. Todos os direitos reservados.</p>
+                <p>Desenvolvido com <i class="fas fa-heart"></i> para um mundo sem fome.</p>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
 </body>
 </html>
