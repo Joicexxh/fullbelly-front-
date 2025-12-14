@@ -2,513 +2,538 @@
 // CONFIG
 // ===============================
 const API_URL = "https://fullbelly-cs9f.onrender.com/// FULLBELLY - JavaScript com Animações
-class FullBellyApp {
-    constructor() {
-        this.state = {
-            perfilAtivo: 'restaurante',
-            usuarioLogado: null,
-            doacoes: this.getMockData().doacoes,
-            chatMessages: this.getMockData().chatMessages
-        };
+// app.js - Lógica do projeto FULLBELLY
+
+// Dados de exemplo para simulação
+const doacoesExemplo = [
+    {
+        id: 1,
+        item: "Pães franceses",
+        quantidade: "50 unidades",
+        validade: "2023-12-10",
+        local: "Padaria Doce Pão - Centro",
+        doador: "Padaria Doce Pão",
+        tipo: "Pães",
+        descricao: "Pães franceses frescos do dia",
+        data: "2023-12-09 18:30"
+    },
+    {
+        id: 2,
+        item: "Salmão grelhado",
+        quantidade: "15 porções",
+        validade: "2023-12-09",
+        local: "Restaurante Maré Alta - Zona Sul",
+        doador: "Restaurante Maré Alta",
+        tipo: "Peixes",
+        descricao: "Salmão grelhado com legumes",
+        data: "2023-12-09 15:45"
+    },
+    {
+        id: 3,
+        item: "Arroz e feijão",
+        quantidade: "30 marmitas",
+        validade: "2023-12-10",
+        local: "Cantina da Vovó - Zona Leste",
+        doador: "Cantina da Vovó",
+        tipo: "Marmitas",
+        descricao: "Marmitas completas com arroz, feijão, carne e salada",
+        data: "2023-12-09 12:20"
+    },
+    {
+        id: 4,
+        item: "Bolos diversos",
+        quantidade: "20 fatias",
+        validade: "2023-12-11",
+        local: "Confeitaria Doce Lar - Zona Norte",
+        doador: "Confeitaria Doce Lar",
+        tipo: "Doces",
+        descricao: "Fatias de bolo de chocolate, cenoura e laranja",
+        data: "2023-12-09 10:15"
+    },
+    {
+        id: 5,
+        item: "Legumes frescos",
+        quantidade: "10 kg",
+        validade: "2023-12-12",
+        local: "Hortifruti Natural - Centro",
+        doador: "Hortifruti Natural",
+        tipo: "Legumes",
+        descricao: "Cenouras, batatas, cebolas e tomates",
+        data: "2023-12-08 17:30"
+    },
+    {
+        id: 6,
+        item: "Frutas da estação",
+        quantidade: "8 kg",
+        validade: "2023-12-10",
+        local: "Mercado Central - Centro",
+        doador: "Mercado Central",
+        tipo: "Frutas",
+        descricao: "Bananas, maçãs e laranjas",
+        data: "2023-12-08 14:45"
     }
+];
 
-    init() {
-        this.setupAnimations();
-        this.initNavigation();
-        this.initEventListeners();
-        this.initPageSpecificFeatures();
-        this.checkBackendConnection();
+const usuariosExemplo = [
+    {
+        id: 1,
+        nome: "Restaurante Sabor Mineiro",
+        tipo: "restaurante",
+        email: "contato@sabormineiro.com",
+        telefone: "(11) 99999-8888",
+        endereco: "Rua das Flores, 123 - Centro",
+        descricao: "Restaurante tradicional mineiro",
+        doacoes: 24,
+        dataCadastro: "2023-10-15"
+    },
+    {
+        id: 2,
+        nome: "Maria Silva",
+        tipo: "beneficiario",
+        email: "maria.silva@email.com",
+        telefone: "(11) 98888-7777",
+        endereco: "Av. Principal, 456 - Zona Leste",
+        descricao: "Mãe de 3 crianças, em situação de vulnerabilidade",
+        doacoes: 8,
+        dataCadastro: "2023-11-05"
     }
+];
 
-    setupAnimations() {
-        // Observador de interseção para animações ao scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('animate');
-                }
-            });
-        }, observerOptions);
-
-        // Elementos para animar
-        document.querySelectorAll('.stat-card, .donation-card, .message-card').forEach(el => {
-            observer.observe(el);
-        });
+const mensagensExemplo = [
+    {
+        id: 1,
+        nome: "João Restaurante",
+        tipo: "restaurante",
+        texto: "Tenho 20 marmitas de frango para doar hoje às 18h.",
+        data: "2023-12-09 14:30",
+        lida: true
+    },
+    {
+        id: 2,
+        nome: "Ana Beneficiária",
+        tipo: "beneficiario",
+        texto: "Alguém tem legumes para doar? Preciso para preparar sopa.",
+        data: "2023-12-09 15:45",
+        lida: true
+    },
+    {
+        id: 3,
+        nome: "Padaria Pão Quente",
+        tipo: "restaurante",
+        texto: "Estamos com excesso de pães hoje. Interessados podem retirar até 19h.",
+        data: "2023-12-09 16:20",
+        lida: false
     }
+];
 
-    initNavigation() {
-        // Links de navegação
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = link.getAttribute('href');
-                
-                // Atualizar navegação ativa
-                document.querySelectorAll('.nav-link').forEach(l => {
-                    l.classList.remove('active');
-                });
-                link.classList.add('active');
-                
-                // Navegar para página
-                if (target.startsWith('#')) {
-                    this.navigateToSection(target.substring(1));
-                } else if (target.startsWith('/')) {
-                    window.location.href = target;
-                }
-            });
-        });
-
-        // Menu mobile
-        const menuToggle = document.querySelector('.menu-toggle');
-        if (menuToggle) {
-            menuToggle.addEventListener('click', () => {
-                document.querySelector('.nav-menu').classList.toggle('active');
-            });
-        }
-
-        // Efeito de scroll na navbar
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-    }
-
-    navigateToSection(sectionId) {
-        // Suave transição entre seções
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
-            section.classList.remove('active');
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-        });
-
-        const targetSection = document.getElementById(sectionId);
-        if (targetSection) {
-            targetSection.classList.add('active');
-            
-            // Animação de entrada
-            setTimeout(() => {
-                targetSection.style.opacity = '1';
-                targetSection.style.transform = 'translateY(0)';
-                targetSection.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            }, 50);
-
-            // Scroll suave
-            window.scrollTo({
-                top: targetSection.offsetTop - 80,
-                behavior: 'smooth'
-            });
-        }
-    }
-
-    initEventListeners() {
-        // Botões do perfil
-        const btnRestaurante = document.getElementById('btnRestaurante');
-        const btnBeneficiario = document.getElementById('btnBeneficiario');
-        
-        if (btnRestaurante && btnBeneficiario) {
-            btnRestaurante.addEventListener('click', () => this.togglePerfil('restaurante'));
-            btnBeneficiario.addEventListener('click', () => this.togglePerfil('beneficiario'));
-        }
-
-        // Formulários
-        const forms = document.querySelectorAll('form');
-        forms.forEach(form => {
-            form.addEventListener('submit', (e) => this.handleFormSubmit(e, form));
-        });
-
-        // Botões de doação
-        const novaDoacaoBtn = document.getElementById('novaDoacaoBtn');
-        if (novaDoacaoBtn) {
-            novaDoacaoBtn.addEventListener('click', () => this.openModal('novaDoacaoModal'));
-        }
-
-        // Botões de fechar modal
-        document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', () => this.closeModal(btn.closest('.modal')));
-        });
-
-        // Filtros de doações
-        const filterTipo = document.getElementById('filterTipo');
-        const filterLocal = document.getElementById('filterLocal');
-        
-        if (filterTipo) filterTipo.addEventListener('change', () => this.filterDoacoes());
-        if (filterLocal) filterLocal.addEventListener('change', () => this.filterDoacoes());
-    }
-
-    togglePerfil(perfil) {
-        this.state.perfilAtivo = perfil;
-        
-        // Animação dos botões
-        const btnRestaurante = document.getElementById('btnRestaurante');
-        const btnBeneficiario = document.getElementById('btnBeneficiario');
-        
-        if (btnRestaurante && btnBeneficiario) {
-            btnRestaurante.classList.toggle('active', perfil === 'restaurante');
-            btnBeneficiario.classList.toggle('active', perfil === 'beneficiario');
-            
-            // Efeito de animação
-            const activeBtn = perfil === 'restaurante' ? btnRestaurante : btnBeneficiario;
-            activeBtn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                activeBtn.style.transform = 'scale(1)';
-            }, 150);
-        }
-
-        // Atualizar campos do formulário
-        this.updateFormFields(perfil);
-    }
-
-    updateFormFields(perfil) {
-        const formTitle = document.getElementById('formTitle');
-        const formDescription = document.getElementById('formDescription');
-        
-        if (perfil === 'restaurante') {
-            if (formTitle) formTitle.textContent = 'Cadastro de Restaurante';
-            if (formDescription) formDescription.textContent = 'Preencha os dados para se cadastrar como doador';
-            
-            // Mostrar campos de restaurante
-            document.querySelectorAll('.restaurante-field').forEach(field => {
-                field.classList.remove('hidden');
-                field.style.animation = 'fadeIn 0.5s ease';
-            });
-            
-            // Esconder campos de beneficiário
-            document.querySelectorAll('.beneficiario-field').forEach(field => {
-                field.classList.add('hidden');
-            });
-        } else {
-            if (formTitle) formTitle.textContent = 'Cadastro de Beneficiário';
-            if (formDescription) formDescription.textContent = 'Preencha os dados para receber doações';
-            
-            // Mostrar campos de beneficiário
-            document.querySelectorAll('.beneficiario-field').forEach(field => {
-                field.classList.remove('hidden');
-                field.style.animation = 'fadeIn 0.5s ease';
-            });
-            
-            // Esconder campos de restaurante
-            document.querySelectorAll('.restaurante-field').forEach(field => {
-                field.classList.add('hidden');
-            });
-        }
-    }
-
-    filterDoacoes() {
-        const tipo = document.getElementById('filterTipo')?.value || 'todos';
-        const local = document.getElementById('filterLocal')?.value || 'todos';
-        
-        const filtered = this.state.doacoes.filter(doacao => {
-            const matchTipo = tipo === 'todos' || doacao.tipo === tipo;
-            const matchLocal = local === 'todos' || doacao.local.toLowerCase().includes(local);
-            return matchTipo && matchLocal;
-        });
-
-        this.renderDoacoes(filtered);
-    }
-
-    renderDoacoes(doacoes) {
-        const container = document.getElementById('donationsList');
-        if (!container) return;
-
-        container.innerHTML = doacoes.map(doacao => `
-            <div class="donation-card fade-in">
-                <div class="donation-header">
-                    <span class="donation-type">${this.getTipoLabel(doacao.tipo)}</span>
-                </div>
-                <div class="donation-body">
-                    <h3 class="donation-title">${doacao.item}</h3>
-                    <div class="donation-info">
-                        <span><i class="fas fa-box"></i> ${doacao.quantidade}</span>
-                        <span><i class="fas fa-calendar"></i> ${this.formatDate(doacao.validade)}</span>
+// Função para carregar as últimas doações na página inicial
+function carregarUltimasDoacoes() {
+    const container = document.getElementById('ultimas-doacoes');
+    if (!container) return;
+    
+    // Limita a 4 doações na página inicial
+    const ultimasDoacoes = doacoesExemplo.slice(0, 4);
+    
+    container.innerHTML = ultimasDoacoes.map(doacao => `
+        <div class="doacao-card">
+            <div class="doacao-imagem">
+                <i class="fas fa-${getIconePorTipo(doacao.tipo)}"></i>
+            </div>
+            <div class="doacao-conteudo">
+                <h3>${doacao.item}</h3>
+                <p>${doacao.descricao}</p>
+                <div class="doacao-info">
+                    <div>
+                        <small><i class="fas fa-balance-scale"></i> ${doacao.quantidade}</small>
                     </div>
-                    <p><i class="fas fa-map-marker-alt"></i> ${doacao.local}</p>
-                    <p><i class="fas fa-clock"></i> ${doacao.horario}</p>
-                </div>
-                <div class="donation-footer">
-                    <div class="donor-info">
-                        <div class="donor-avatar" style="background: ${this.getRandomColor()}">
-                            ${doacao.doador.charAt(0)}
-                        </div>
-                        <span>${doacao.doador}</span>
+                    <div>
+                        <small><i class="fas fa-map-marker-alt"></i> ${doacao.doador}</small>
                     </div>
-                    <button class="btn btn-small btn-primary pulse"
-                            onclick="app.reservarDoacao(${doacao.id})">
-                        <i class="fas fa-hand-holding-heart"></i> Reservar
-                    </button>
                 </div>
             </div>
-        `).join('');
-    }
+        </div>
+    `).join('');
+}
 
-    openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+// Função para carregar todas as doações na página de doações
+function carregarTodasDoacoes() {
+    const container = document.getElementById('todas-doacoes');
+    if (!container) return;
+    
+    container.innerHTML = doacoesExemplo.map(doacao => `
+        <div class="doacao-card">
+            <div class="doacao-imagem">
+                <i class="fas fa-${getIconePorTipo(doacao.tipo)}"></i>
+            </div>
+            <div class="doacao-conteudo">
+                <h3>${doacao.item}</h3>
+                <p>${doacao.descricao}</p>
+                <div class="doacao-detalhes">
+                    <p><i class="fas fa-balance-scale"></i> <strong>Quantidade:</strong> ${doacao.quantidade}</p>
+                    <p><i class="fas fa-calendar-alt"></i> <strong>Validade:</strong> ${formatarData(doacao.validade)}</p>
+                    <p><i class="fas fa-map-marker-alt"></i> <strong>Local:</strong> ${doacao.local}</p>
+                    <p><i class="fas fa-user"></i> <strong>Doador:</strong> ${doacao.doador}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Função para carregar mensagens no chat
+function carregarMensagensChat() {
+    const container = document.getElementById('chat-messages');
+    if (!container) return;
+    
+    container.innerHTML = mensagensExemplo.map(msg => `
+        <div class="message-card ${msg.tipo === 'restaurante' ? 'sent' : ''}">
+            <div class="message-header">
+                <strong>${msg.nome}</strong>
+                <span>${formatarDataHora(msg.data)}</span>
+            </div>
+            <div class="message-text">
+                ${msg.texto}
+            </div>
+        </div>
+    `).join('');
+    
+    // Rolagem automática para a última mensagem
+    container.scrollTop = container.scrollHeight;
+}
+
+// Função para carregar usuários na página de admin
+function carregarUsuariosAdmin() {
+    const container = document.getElementById('usuarios-admin');
+    if (!container) return;
+    
+    container.innerHTML = usuariosExemplo.map(usuario => `
+        <tr>
+            <td>${usuario.nome}</td>
+            <td><span class="badge ${usuario.tipo === 'restaurante' ? 'badge-restaurante' : 'badge-beneficiario'}">
+                ${usuario.tipo === 'restaurante' ? 'Restaurante' : 'Beneficiário'}
+            </span></td>
+            <td>${usuario.email}</td>
+            <td>${usuario.telefone}</td>
+            <td>${usuario.doacoes}</td>
+            <td>
+                <button class="btn btn-sm btn-primary">Editar</button>
+                <button class="btn btn-sm btn-secondary">Excluir</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Função para carregar doações na página de admin
+function carregarDoacoesAdmin() {
+    const container = document.getElementById('doacoes-admin');
+    if (!container) return;
+    
+    container.innerHTML = doacoesExemplo.map(doacao => `
+        <tr>
+            <td>${doacao.item}</td>
+            <td>${doacao.doador}</td>
+            <td>${doacao.tipo}</td>
+            <td>${doacao.quantidade}</td>
+            <td>${formatarData(doacao.validade)}</td>
+            <td>
+                <button class="btn btn-sm btn-primary">Editar</button>
+                <button class="btn btn-sm btn-secondary">Remover</button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Função para selecionar perfil no cadastro
+function configurarSelecaoPerfil() {
+    const perfilOptions = document.querySelectorAll('.perfil-option');
+    const tipoInput = document.getElementById('tipo-usuario');
+    
+    if (!perfilOptions.length || !tipoInput) return;
+    
+    perfilOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            // Remove a classe selected de todas as opções
+            perfilOptions.forEach(opt => opt.classList.remove('selected'));
             
-            // Animação de entrada
-            modal.querySelector('.modal-content').style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                modal.querySelector('.modal-content').style.transform = 'scale(1)';
-                modal.querySelector('.modal-content').style.transition = 'transform 0.3s ease';
-            }, 10);
-        }
-    }
+            // Adiciona a classe selected à opção clicada
+            this.classList.add('selected');
+            
+            // Atualiza o valor do input hidden
+            tipoInput.value = this.dataset.tipo;
+        });
+    });
+}
 
-    closeModal(modal) {
-        if (modal) {
-            modal.querySelector('.modal-content').style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }, 300);
-        }
-    }
-
-    reservarDoacao(id) {
-        const doacao = this.state.doacoes.find(d => d.id === id);
-        if (doacao) {
-            // Animação de confirmação
-            const btn = event.target.closest('button');
-            if (btn) {
-                btn.innerHTML = '<i class="fas fa-check"></i> Reservado!';
-                btn.classList.remove('btn-primary');
-                btn.classList.add('btn-secondary');
-                btn.disabled = true;
-                
-                // Notificação
-                this.showNotification('Doação reservada com sucesso!', 'success');
-            }
-        }
-    }
-
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-            <span>${message}</span>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Animação de entrada
-        setTimeout(() => notification.classList.add('show'), 10);
-        
-        // Remover após 3 segundos
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => notification.remove(), 300);
-        }, 3000);
-    }
-
-    checkBackendConnection() {
-        const backendUrl = 'https://fullbellyy.onrender.com';
-        
-        fetch(`${backendUrl}/`)
-            .then(response => {
-                if (response.ok) {
-                    console.log('✅ Back-end conectado');
-                    document.body.classList.add('backend-connected');
-                }
-            })
-            .catch(error => {
-                console.log('⚠️ Usando dados mockados');
-                document.body.classList.add('backend-offline');
-            });
-    }
-
-    // Métodos utilitários
-    getMockData() {
-        return {
-            doacoes: [
-                {
-                    id: 1,
-                    item: "Marmitas de frango",
-                    quantidade: "50 unidades",
-                    validade: "2024-12-20",
-                    tipo: "pratos-prontos",
-                    local: "Restaurante Sabor Caseiro - Centro",
-                    horario: "18h às 20h",
-                    doador: "Sabor Caseiro",
-                    status: "disponivel"
-                }
-                // ... mais dados mockados
-            ],
-            chatMessages: [
-                {
-                    id: 1,
-                    autor: "Maria Silva",
-                    mensagem: "Acabei de retirar as doações! Muito obrigada!",
-                    hora: "14:30",
-                    data: "Hoje"
-                }
-                // ... mais mensagens
-            ]
-        };
-    }
-
-    getTipoLabel(tipo) {
-        const labels = {
-            'pratos-prontos': 'Pratos Prontos',
-            'ingredientes': 'Ingredientes',
-            'padaria': 'Padaria',
-            'bebidas': 'Bebidas',
-            'outros': 'Outros'
-        };
-        return labels[tipo] || tipo;
-    }
-
-    formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('pt-BR');
-    }
-
-    getRandomColor() {
-        const colors = ['#C62828', '#FF5252', '#FF9800', '#4CAF50', '#2196F3'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    handleFormSubmit(e, form) {
+// Função para enviar mensagem no chat
+function configurarEnvioMensagem() {
+    const form = document.getElementById('chat-form');
+    if (!form) return;
+    
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Simular envio
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
+        const nomeInput = document.getElementById('message-name');
+        const textoInput = document.getElementById('message-text');
         
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processando...';
-        submitBtn.disabled = true;
-        
-        // Simular delay de rede
-        setTimeout(() => {
-            this.showNotification('Cadastro realizado com sucesso!', 'success');
-            
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-            form.reset();
-        }, 1500);
-    }
-
-    initPageSpecificFeatures() {
-        // Página inicial
-        if (document.getElementById('home')) {
-            this.initHomePage();
-        }
-        
-        // Página de doações
-        if (document.getElementById('doacoes')) {
-            this.renderDoacoes(this.state.doacoes);
-        }
-        
-        // Página de chat
-        if (document.getElementById('chat')) {
-            this.initChat();
-        }
-    }
-
-    initHomePage() {
-        // Animação de contagem
-        this.animateCounter('doacoesCount', 1245);
-        this.animateCounter('restaurantesCount', 89);
-        this.animateCounter('beneficiariosCount', 324);
-        this.animateCounter('kgDoados', 5200);
-    }
-
-    animateCounter(elementId, target) {
-        const element = document.getElementById(elementId);
-        if (!element) return;
-        
-        let current = 0;
-        const increment = target / 50;
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                current = target;
-                clearInterval(timer);
-            }
-            element.textContent = this.formatNumber(Math.floor(current));
-        }, 30);
-    }
-
-    formatNumber(num) {
-        if (num >= 1000) {
-            return (num / 1000).toFixed(1) + 'k';
-        }
-        return num.toString();
-    }
-
-    initChat() {
-        const chatForm = document.getElementById('chatForm');
-        if (chatForm) {
-            chatForm.addEventListener('submit', (e) => this.sendMessage(e));
-        }
-        
-        const refreshBtn = document.getElementById('refreshChat');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', () => this.loadChatMessages());
-        }
-        
-        this.loadChatMessages();
-    }
-
-    sendMessage(e) {
-        e.preventDefault();
-        
-        const nameInput = document.getElementById('chatName');
-        const messageInput = document.getElementById('chatMessage');
-        
-        if (!nameInput.value.trim() || !messageInput.value.trim()) {
-            this.showNotification('Preencha nome e mensagem!', 'error');
+        if (!nomeInput.value.trim() || !textoInput.value.trim()) {
+            alert('Por favor, preencha seu nome e a mensagem.');
             return;
         }
         
-        const newMessage = {
-            id: Date.now(),
-            autor: nameInput.value,
-            mensagem: messageInput.value,
-            hora: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-            data: 'Agora'
+        // Adiciona a nova mensagem
+        const novaMensagem = {
+            id: mensagensExemplo.length + 1,
+            nome: nomeInput.value,
+            tipo: 'usuario',
+            texto: textoInput.value,
+            data: new Date().toISOString(),
+            lida: false
         };
         
-        this.state.chatMessages.unshift(newMessage);
-        this.loadChatMessages();
+        mensagensExemplo.push(novaMensagem);
         
-        // Limpar formulário
-        messageInput.value = '';
-        messageInput.focus();
+        // Limpa o campo de texto
+        textoInput.value = '';
         
-        this.showNotification('Mensagem enviada!', 'success');
-    }
-
-    loadChatMessages() {
-        const container = document.getElementById('chatMessages');
-        if (!container) return;
-        
-        container.innerHTML = this.state.chatMessages.map(msg => `
-            <div class="message-card">
-                <div class="message-header">
-                    <span class="message-author">${msg.autor}</span>
-                    <span class="message-time">${msg.data}, ${msg.hora}</span>
-                </div>
-                <div class="message-text">${msg.mensagem}</div>
-            </div>
-        `).join('');
-    }
+        // Recarrega as mensagens
+        carregarMensagensChat();
+    });
 }
 
-// Inicializar aplicação
-const app = new FullBellyApp();
-document.addEventListener('DOMContentLoaded', () => app.init());
+// Função para configurar filtro de doações
+function configurarFiltroDoacoes() {
+    const filtroSelect = document.getElementById('filtro-tipo');
+    if (!filtroSelect) return;
+    
+    filtroSelect.addEventListener('change', function() {
+        const tipoSelecionado = this.value;
+        
+        if (tipoSelecionado === 'todos') {
+            carregarTodasDoacoes();
+        } else {
+            const doacoesFiltradas = doacoesExemplo.filter(doacao => 
+                doacao.tipo.toLowerCase() === tipoSelecionado.toLowerCase()
+            );
+            
+            const container = document.getElementById('todas-doacoes');
+            if (container) {
+                container.innerHTML = doacoesFiltradas.map(doacao => `
+                    <div class="doacao-card">
+                        <div class="doacao-imagem">
+                            <i class="fas fa-${getIconePorTipo(doacao.tipo)}"></i>
+                        </div>
+                        <div class="doacao-conteudo">
+                            <h3>${doacao.item}</h3>
+                            <p>${doacao.descricao}</p>
+                            <div class="doacao-detalhes">
+                                <p><i class="fas fa-balance-scale"></i> <strong>Quantidade:</strong> ${doacao.quantidade}</p>
+                                <p><i class="fas fa-calendar-alt"></i> <strong>Validade:</strong> ${formatarData(doacao.validade)}</p>
+                                <p><i class="fas fa-map-marker-alt"></i> <strong>Local:</strong> ${doacao.local}</p>
+                                <p><i class="fas fa-user"></i> <strong>Doador:</strong> ${doacao.doador}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+    });
+}
 
-// Exportar para uso global
-window.app = app;
+// Funções auxiliares
+function getIconePorTipo(tipo) {
+    const icones = {
+        'Pães': 'bread-slice',
+        'Peixes': 'fish',
+        'Marmitas': 'utensils',
+        'Doces': 'birthday-cake',
+        'Legumes': 'carrot',
+        'Frutas': 'apple-alt'
+    };
+    
+    return icones[tipo] || 'box-open';
+}
+
+function formatarData(dataString) {
+    const data = new Date(dataString);
+    return data.toLocaleDateString('pt-BR');
+}
+
+function formatarDataHora(dataString) {
+    const data = new Date(dataString);
+    return data.toLocaleString('pt-BR');
+}
+
+// Inicialização da página
+document.addEventListener('DOMContentLoaded', function() {
+    // Carrega conteúdo baseado na página atual
+    const path = window.location.pathname;
+    const page = path.split('/').pop();
+    
+    if (page === 'index.html' || page === '') {
+        carregarUltimasDoacoes();
+    } else if (page === 'doacoes.html') {
+        carregarTodasDoacoes();
+        configurarFiltroDoacoes();
+    } else if (page === 'chat.html') {
+        carregarMensagensChat();
+        configurarEnvioMensagem();
+    } else if (page === 'admin.html') {
+        carregarUsuariosAdmin();
+        carregarDoacoesAdmin();
+        configurarTabsAdmin();
+    } else if (page === 'cadastro.html') {
+        configurarSelecaoPerfil();
+    }
+    
+    // Configurações comuns
+    configurarAtualizacaoEstatisticas();
+    configurarFormularios();
+});
+
+// Função para atualizar estatísticas dinamicamente
+function configurarAtualizacaoEstatisticas() {
+    // Simula atualização de estatísticas
+    setInterval(() => {
+        const doacoesElement = document.getElementById('total-doacoes');
+        if (doacoesElement) {
+            const atual = parseInt(doacoesElement.textContent.replace(',', ''));
+            doacoesElement.textContent = (atual + Math.floor(Math.random() * 5)).toLocaleString();
+        }
+    }, 5000);
+}
+
+// Função para configurar envio de formulários
+function configurarFormularios() {
+    const forms = document.querySelectorAll('form:not(#chat-form)');
+    
+    forms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simula envio de dados
+            alert('Dados enviados com sucesso! Em uma implementação real, os dados seriam enviados para um servidor.');
+            
+            // Redireciona para a página inicial após cadastro
+            if (form.id === 'cadastro-form') {
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            }
+            
+            // Limpa o formulário
+            this.reset();
+        });
+    });
+}
+
+// Função para configurar tabs na página admin
+function configurarTabsAdmin() {
+    const tabs = document.querySelectorAll('.admin-tab');
+    const conteudos = document.querySelectorAll('.admin-conteudo');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const target = this.dataset.target;
+            
+            // Ativa tab clicada
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Mostra conteúdo correspondente
+            conteudos.forEach(conteudo => {
+                conteudo.style.display = conteudo.id === target ? 'block' : 'none';
+            });
+        });
+    });
+}
+
+// Simula notificações
+function mostrarNotificacao(mensagem, tipo = 'info') {
+    // Cria elemento de notificação
+    const notificacao = document.createElement('div');
+    notificacao.className = `notificacao notificacao-${tipo}`;
+    notificacao.innerHTML = `
+        <i class="fas fa-${tipo === 'success' ? 'check-circle' : 'info-circle'}"></i>
+        <span>${mensagem}</span>
+        <button class="notificacao-fechar">&times;</button>
+    `;
+    
+    // Estilos da notificação
+    notificacao.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${tipo === 'success' ? '#d4edda' : '#f8d7da'};
+        color: ${tipo === 'success' ? '#155724' : '#721c24'};
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    // Adiciona ao corpo
+    document.body.appendChild(notificacao);
+    
+    // Remove após 5 segundos
+    setTimeout(() => {
+        notificacao.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notificacao.remove(), 300);
+    }, 5000);
+    
+    // Configura botão de fechar
+    notificacao.querySelector('.notificacao-fechar').addEventListener('click', () => {
+        notificacao.remove();
+    });
+}
+
+// Adiciona estilos de animação
+const estiloAnimacao = document.createElement('style');
+estiloAnimacao.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+    
+    .badge {
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .badge-restaurante {
+        background-color: #d4edda;
+        color: #155724;
+    }
+    
+    .badge-beneficiario {
+        background-color: #cce5ff;
+        color: #004085;
+    }
+    
+    .btn-sm {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+`;
+document.head.appendChild(estiloAnimacao);
