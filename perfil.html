@@ -18,7 +18,9 @@
                 <ul>
                     <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
                     <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
                     <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="voluntarios.html"><i class="fas fa-hands-helping"></i> Voluntários</a></li>
                     <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
                     <li><a href="perfil.html" class="active"><i class="fas fa-user"></i> Perfil</a></li>
                     <li><a href="admin.html"><i class="fas fa-cog"></i> Admin</a></li>
@@ -47,44 +49,24 @@
             </div>
         </section>
         
-        <div class="perfil-stats">
-            <div class="perfil-stat">
-                <div class="perfil-stat-number" id="doacoes-recebidas">0</div>
-                <div class="perfil-stat-label">Doações recebidas</div>
-            </div>
-            <div class="perfil-stat">
-                <div class="perfil-stat-number" id="dias-ativo">1</div>
-                <div class="perfil-stat-label">Dias na plataforma</div>
-            </div>
-            <div class="perfil-stat">
-                <div class="perfil-stat-number" id="avaliacao">5.0</div>
-                <div class="perfil-stat-label">Avaliação média</div>
-            </div>
-            <div class="perfil-stat">
-                <div class="perfil-stat-number" id="mensagens">0</div>
-                <div class="perfil-stat-label">Mensagens no chat</div>
-            </div>
+        <div class="perfil-stats" id="perfil-stats">
+            <!-- Estatísticas carregadas via JavaScript -->
         </div>
         
         <div class="perfil-content">
             <div class="perfil-sidebar">
                 <div class="info-card">
                     <h3><i class="fas fa-info-circle"></i> Informações Pessoais</h3>
-                    <div class="info-item">
-                        <span class="info-label">E-mail:</span>
-                        <span id="info-email">carregando...</span>
+                    <div id="info-pessoais">
+                        <!-- Informações carregadas via JavaScript -->
                     </div>
-                    <div class="info-item">
-                        <span class="info-label">Telefone:</span>
-                        <span id="info-telefone">carregando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">Endereço:</span>
-                        <span id="info-endereco">carregando...</span>
-                    </div>
-                    <div class="info-item">
-                        <span class="info-label">CPF/CNPJ:</span>
-                        <span id="info-documento">carregando...</span>
+                </div>
+                
+                <!-- Seção específica para voluntários -->
+                <div class="info-card" id="info-voluntario" style="display: none;">
+                    <h3><i class="fas fa-hands-helping"></i> Informações do Voluntário</h3>
+                    <div id="detalhes-voluntario">
+                        <!-- Detalhes do voluntário carregados via JavaScript -->
                     </div>
                 </div>
                 
@@ -105,33 +87,142 @@
             </div>
             
             <div class="perfil-principal">
-                <div class="info-card">
-                    <h3><i class="fas fa-history"></i> Histórico de Doações</h3>
-                    
-                    <div id="historico-doacoes">
-                        <div class="historico-vazio">
-                            <i class="fas fa-inbox"></i>
-                            <h4>Nenhuma doação registrada</h4>
-                            <p>Quando você receber ou fizer doações, elas aparecerão aqui.</p>
+                <!-- Seção de missões para voluntários -->
+                <div class="info-card" id="missoes-voluntario" style="display: none;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-tasks"></i> Minhas Missões</h3>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-primary" id="btn-nova-missao">
+                                <i class="fas fa-plus"></i> Nova Missão
+                            </button>
                         </div>
+                    </div>
+                    
+                    <div id="lista-missoes">
+                        <!-- Lista de missões carregada via JavaScript -->
                     </div>
                 </div>
                 
                 <div class="info-card">
-                    <h3><i class="fas fa-comment"></i> Últimas Interações</h3>
-                    <div id="ultimas-interacoes">
-                        <div class="info-item">
-                            <div>
-                                <i class="fas fa-info-circle"></i>
-                                <span>Bem-vindo ao FULLBELLY! Comece a usar a plataforma.</span>
-                            </div>
-                            <small>Agora</small>
+                    <h3><i class="fas fa-history"></i> Histórico de Atividades</h3>
+                    
+                    <div id="historico-atividades">
+                        <div class="historico-vazio">
+                            <i class="fas fa-inbox"></i>
+                            <h4>Nenhuma atividade registrada</h4>
+                            <p>Suas atividades aparecerão aqui.</p>
                         </div>
+                    </div>
+                </div>
+                
+                <!-- Seção de avaliações -->
+                <div class="info-card" id="avaliacoes-card" style="display: none;">
+                    <h3><i class="fas fa-star"></i> Avaliações</h3>
+                    
+                    <div id="avaliacoes-usuario">
+                        <!-- Avaliações carregadas via JavaScript -->
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Modal para editar informações de voluntário -->
+    <div id="modal-voluntario-editar" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-edit"></i> Editar Informações do Voluntário</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-voluntario-editar">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vol-veiculo"><i class="fas fa-car"></i> Veículo</label>
+                            <select id="vol-veiculo" name="veiculo">
+                                <option value="">Selecione...</option>
+                                <option value="carro">Carro</option>
+                                <option value="moto">Moto</option>
+                                <option value="bicicleta">Bicicleta</option>
+                                <option value="pe">A pé</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="vol-disponibilidade">Disponibilidade</label>
+                            <select id="vol-disponibilidade" name="disponibilidade">
+                                <option value="diariamente">Diariamente</option>
+                                <option value="finais-semana">Finais de semana</option>
+                                <option value="dias-uteis">Dias úteis</option>
+                                <option value="sob-demanda">Sob demanda</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vol-horarios"><i class="fas fa-clock"></i> Horários Preferidos</label>
+                        <div class="horarios-checkboxes">
+                            <label><input type="checkbox" name="horarios[]" value="manha"> Manhã (6h-12h)</label>
+                            <label><input type="checkbox" name="horarios[]" value="tarde"> Tarde (12h-18h)</label>
+                            <label><input type="checkbox" name="horarios[]" value="noite"> Noite (18h-22h)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vol-raio"><i class="fas fa-map-marker-alt"></i> Raio de Atuação (km)</label>
+                        <input type="range" id="vol-raio" name="raio" min="1" max="50" value="10">
+                        <div id="raio-value">10 km</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-tools"></i> Habilidades</label>
+                        <div class="skills-checkboxes">
+                            <label><input type="checkbox" name="skills[]" value="direcao"> Direção</label>
+                            <label><input type="checkbox" name="skills[]" value="embalagem"> Embalagem</label>
+                            <label><input type="checkbox" name="skills[]" value="atendimento"> Atendimento ao público</label>
+                            <label><input type="checkbox" name="skills[]" value="primeiros-socorros"> Primeiros socorros</label>
+                            <label><input type="checkbox" name="skills[]" value="conhecimento-bairro"> Conhecimento do bairro</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="vol-observacoes"><i class="fas fa-sticky-note"></i> Observações</label>
+                        <textarea id="vol-observacoes" name="observacoes" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox-group">
+                            <input type="checkbox" id="vol-disponivel" name="disponivel">
+                            <span>Disponível para novas missões</span>
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para detalhes da missão -->
+    <div id="modal-missao-detalhes" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Detalhes da Missão</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="detalhes-missao-conteudo">
+                    <!-- Conteúdo carregado dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <footer>
         <div class="footer-container">
@@ -144,15 +235,15 @@
                 <h4>Links Rápidos</h4>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="voluntarios.html">Voluntários</a></li>
                     <li><a href="doacoes.html">Doações</a></li>
                     <li><a href="chat.html">Chat</a></li>
                 </ul>
             </div>
             <div class="footer-contact">
                 <h4>Contato</h4>
-                <p><i class="fas fa-envelope"></i> contato@fullbelly.org</p>
-                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                <p><i class="fas fa-envelope"></i> voluntarios@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 98888-7777</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -175,15 +266,14 @@
                 return;
             }
             
-            // Carrega dados do usuário
+            // Carrega dados do perfil
             carregarDadosPerfil(usuarioLogado);
             
             // Configura botões
-            configurarBotoesPerfil();
+            configurarBotoesPerfil(usuarioLogado);
             
-            // Carrega histórico e interações
-            carregarHistoricoDoacoes(usuarioLogado);
-            carregarUltimasInteracoes(usuarioLogado);
+            // Carrega conteúdo específico baseado no tipo de usuário
+            carregarConteudoEspecifico(usuarioLogado);
         });
         
         function carregarDadosPerfil(usuario) {
@@ -197,65 +287,350 @@
                 documento: usuario.documento || "Não informado",
                 descricao: usuario.descricao || "Membro ativo da comunidade FULLBELLY",
                 dataCadastro: usuario.dataCadastro || new Date().toISOString().split('T')[0],
-                doacoes: usuario.doacoes || 0,
-                mensagens: usuario.mensagens || 0,
-                avaliacao: usuario.avaliacao || 5.0
+                foto: usuario.foto || null
             };
             
             // Atualiza elementos HTML
-            document.getElementById('perfil-nome').textContent = dadosPadrao.nome;
-            document.getElementById('perfil-tipo').textContent = 
-                dadosPadrao.tipo === 'beneficiario' ? 'Beneficiário(a)' : 
-                dadosPadrao.tipo === 'restaurante' ? 'Restaurante Parceiro' : 'Administrador';
+            atualizarInfoBasica(dadosPadrao);
+            
+            // Atualiza estatísticas
+            atualizarEstatisticas(usuario);
+            
+            // Atualiza informações pessoais
+            atualizarInfoPessoais(dadosPadrao);
+            
+            // Avatar (se tiver foto)
+            if (dadosPadrao.foto) {
+                const avatarPreview = document.getElementById('avatar-preview');
+                avatarPreview.innerHTML = `<img src="${dadosPadrao.foto}" alt="Foto do perfil" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+            }
+        }
+        
+        function atualizarInfoBasica(dados) {
+            document.getElementById('perfil-nome').textContent = dados.nome;
+            
+            // Define o tipo com ícone apropriado
+            let tipoTexto = '';
+            let badgeHtml = '';
+            
+            switch(dados.tipo) {
+                case 'beneficiario':
+                    tipoTexto = 'Beneficiário(a)';
+                    badgeHtml = '<i class="fas fa-hands-helping"></i> Beneficiário';
+                    break;
+                case 'restaurante':
+                    tipoTexto = 'Restaurante Parceiro';
+                    badgeHtml = '<i class="fas fa-store"></i> Restaurante';
+                    break;
+                case 'voluntario':
+                    tipoTexto = 'Voluntário';
+                    badgeHtml = '<i class="fas fa-heart"></i> Voluntário';
+                    break;
+                case 'admin':
+                    tipoTexto = 'Administrador';
+                    badgeHtml = '<i class="fas fa-crown"></i> Administrador';
+                    break;
+                default:
+                    tipoTexto = 'Usuário';
+                    badgeHtml = '<i class="fas fa-user"></i> Membro';
+            }
+            
+            document.getElementById('perfil-tipo').textContent = tipoTexto;
+            document.getElementById('perfil-badge').innerHTML = badgeHtml;
             
             // Formata data de cadastro
-            const dataCadastro = new Date(dadosPadrao.dataCadastro);
+            const dataCadastro = new Date(dados.dataCadastro);
             const mes = dataCadastro.toLocaleDateString('pt-BR', { month: 'long' });
             const ano = dataCadastro.getFullYear();
             document.getElementById('perfil-descricao').textContent = `Membro desde ${mes} ${ano}`;
-            
-            // Informações pessoais
-            document.getElementById('info-email').textContent = dadosPadrao.email;
-            document.getElementById('info-telefone').textContent = dadosPadrao.telefone;
-            document.getElementById('info-endereco').textContent = dadosPadrao.endereco;
-            document.getElementById('info-documento').textContent = dadosPadrao.documento;
-            
-            // Estatísticas
-            document.getElementById('doacoes-recebidas').textContent = dadosPadrao.doacoes;
-            document.getElementById('mensagens').textContent = dadosPadrao.mensagens;
-            document.getElementById('avaliacao').textContent = dadosPadrao.avaliacao.toFixed(1);
-            
-            // Calcula dias ativo
-            const diasAtivo = Math.ceil((new Date() - new Date(dadosPadrao.dataCadastro)) / (1000 * 60 * 60 * 24));
-            document.getElementById('dias-ativo').textContent = Math.max(1, diasAtivo);
-            
-            // Badge
-            const badge = document.getElementById('perfil-badge');
-            const badgeText = document.getElementById('badge-text');
-            
-            if (dadosPadrao.tipo === 'restaurante') {
-                badge.innerHTML = '<i class="fas fa-store"></i> Restaurante Parceiro';
-            } else if (dadosPadrao.tipo === 'admin') {
-                badge.innerHTML = '<i class="fas fa-crown"></i> Administrador';
-                badge.style.backgroundColor = '#FFD700';
-                badge.style.color = '#8B0000';
-            }
-            
-            // Avatar (se tiver foto)
-            if (usuario.foto) {
-                const avatarPreview = document.getElementById('avatar-preview');
-                avatarPreview.innerHTML = `<img src="${usuario.foto}" alt="Foto do perfil" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-            }
-            
-            // Salva dados atualizados no localStorage
-            const dadosAtualizados = { ...usuario, ...dadosPadrao };
-            localStorage.setItem('fullbelly-usuario', JSON.stringify(dadosAtualizados));
         }
         
-        function configurarBotoesPerfil() {
+        function atualizarEstatisticas(usuario) {
+            const statsContainer = document.getElementById('perfil-stats');
+            
+            let statsHtml = '';
+            
+            if (usuario.tipo === 'voluntario') {
+                const voluntario = usuario.voluntario || {};
+                statsHtml = `
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${voluntario.missoesCompletadas || 0}</div>
+                        <div class="perfil-stat-label">Missões concluídas</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${voluntario.pontos || 0}</div>
+                        <div class="perfil-stat-label">Pontos</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${voluntario.avaliacao || '5.0'}</div>
+                        <div class="perfil-stat-label">Avaliação</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${calcularTempoVoluntario(usuario)}</div>
+                        <div class="perfil-stat-label">Dias como voluntário</div>
+                    </div>
+                `;
+            } else if (usuario.tipo === 'beneficiario') {
+                statsHtml = `
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${usuario.doacoesRecebidas || 0}</div>
+                        <div class="perfil-stat-label">Doações recebidas</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${calcularDiasAtivo(usuario)}</div>
+                        <div class="perfil-stat-label">Dias na plataforma</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${usuario.avaliacao || '5.0'}</div>
+                        <div class="perfil-stat-label">Avaliação</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${usuario.mensagens || 0}</div>
+                        <div class="perfil-stat-label">Mensagens</div>
+                    </div>
+                `;
+            } else if (usuario.tipo === 'restaurante') {
+                statsHtml = `
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${usuario.doacoesRealizadas || 0}</div>
+                        <div class="perfil-stat-label">Doações realizadas</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${calcularDiasAtivo(usuario)}</div>
+                        <div class="perfil-stat-label">Dias na plataforma</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${usuario.avaliacao || '5.0'}</div>
+                        <div class="perfil-stat-label">Avaliação</div>
+                    </div>
+                    <div class="perfil-stat">
+                        <div class="perfil-stat-number">${usuario.beneficiarios || 0}</div>
+                        <div class="perfil-stat-label">Beneficiários</div>
+                    </div>
+                `;
+            }
+            
+            statsContainer.innerHTML = statsHtml;
+        }
+        
+        function atualizarInfoPessoais(dados) {
+            const infoContainer = document.getElementById('info-pessoais');
+            
+            let infoHtml = `
+                <div class="info-item">
+                    <span class="info-label">E-mail:</span>
+                    <span>${dados.email}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Telefone:</span>
+                    <span>${dados.telefone}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Endereço:</span>
+                    <span>${dados.endereco}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">${dados.tipo === 'restaurante' ? 'CNPJ' : 'CPF'}:</span>
+                    <span>${dados.documento}</span>
+                </div>
+            `;
+            
+            infoContainer.innerHTML = infoHtml;
+        }
+        
+        function carregarConteudoEspecifico(usuario) {
+            // Mostra seções específicas baseadas no tipo
+            if (usuario.tipo === 'voluntario') {
+                // Mostra seção de voluntário
+                document.getElementById('info-voluntario').style.display = 'block';
+                document.getElementById('missoes-voluntario').style.display = 'block';
+                document.getElementById('avaliacoes-card').style.display = 'block';
+                
+                // Carrega informações do voluntário
+                carregarInfoVoluntario(usuario);
+                
+                // Carrega missões do voluntário
+                carregarMissoesVoluntario(usuario);
+                
+                // Carrega avaliações
+                carregarAvaliacoes(usuario);
+            } else if (usuario.tipo === 'beneficiario') {
+                // Carrega histórico de doações
+                carregarHistoricoDoacoes(usuario);
+            } else if (usuario.tipo === 'restaurante') {
+                // Carrega histórico de doações feitas
+                carregarHistoricoDoacoesRestaurante(usuario);
+            }
+            
+            // Carrega histórico de atividades
+            carregarHistoricoAtividades(usuario);
+        }
+        
+        function carregarInfoVoluntario(usuario) {
+            const voluntario = usuario.voluntario || {};
+            const container = document.getElementById('detalhes-voluntario');
+            
+            let infoHtml = `
+                <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span class="status-badge ${voluntario.disponivel ? 'status-disponivel' : 'status-indisponivel'}">
+                        ${voluntario.disponivel ? 'Disponível' : 'Indisponível'}
+                    </span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Veículo:</span>
+                    <span>${voluntario.veiculo || 'Não informado'}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Disponibilidade:</span>
+                    <span>${voluntario.disponibilidade || 'Sob demanda'}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Raio de atuação:</span>
+                    <span>${voluntario.raio || '10'} km</span>
+                </div>
+            `;
+            
+            if (voluntario.habilidades && voluntario.habilidades.length > 0) {
+                infoHtml += `
+                    <div class="info-item">
+                        <span class="info-label">Habilidades:</span>
+                        <div class="skills-tags">
+                            ${voluntario.habilidades.map(skill => 
+                                `<span class="skill-tag">${skill}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = infoHtml;
+            
+            // Botão para editar informações do voluntário
+            const btnEditarVol = document.createElement('button');
+            btnEditarVol.className = 'btn btn-sm btn-primary';
+            btnEditarVol.innerHTML = '<i class="fas fa-edit"></i> Editar';
+            btnEditarVol.onclick = () => abrirModalEditarVoluntario(usuario);
+            
+            container.appendChild(btnEditarVol);
+        }
+        
+        function carregarMissoesVoluntario(usuario) {
+            const container = document.getElementById('lista-missoes');
+            const missoes = usuario.missoes || [];
+            
+            if (missoes.length === 0) {
+                container.innerHTML = `
+                    <div class="historico-vazio">
+                        <i class="fas fa-tasks"></i>
+                        <h4>Nenhuma missão encontrada</h4>
+                        <p>Visite a página de voluntários para encontrar missões disponíveis.</p>
+                        <a href="voluntarios.html" class="btn btn-primary mt-2">Ver Missões</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            const missoesHtml = missoes.map(missao => `
+                <div class="missao-item">
+                    <div class="missao-header">
+                        <h4>${missao.titulo || 'Missão sem título'}</h4>
+                        <span class="status-badge ${missao.status === 'completa' ? 'status-disponivel' : 
+                                                   missao.status === 'em-andamento' ? 'status-em-missao' : 
+                                                   'status-indisponivel'}">
+                            ${missao.status === 'completa' ? 'Concluída' : 
+                             missao.status === 'em-andamento' ? 'Em andamento' : 'Pendente'}
+                        </span>
+                    </div>
+                    <div class="missao-info">
+                        <div><i class="fas fa-calendar"></i> ${formatarData(missao.data)}</div>
+                        <div><i class="fas fa-route"></i> ${missao.distancia || 'N/A'}</div>
+                        <div><i class="fas fa-clock"></i> ${missao.tempo || 'N/A'}</div>
+                    </div>
+                    <div class="missao-acoes">
+                        <button class="btn btn-sm btn-primary ver-detalhes-missao" data-id="${missao.id}">
+                            <i class="fas fa-eye"></i> Detalhes
+                        </button>
+                        ${missao.status === 'em-andamento' ? `
+                        <button class="btn btn-sm btn-success completar-missao" data-id="${missao.id}">
+                            <i class="fas fa-check"></i> Completar
+                        </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = missoesHtml;
+            
+            // Configura eventos dos botões
+            configurarEventosMissoes(missoes);
+        }
+        
+        function carregarAvaliacoes(usuario) {
+            const container = document.getElementById('avaliacoes-usuario');
+            const avaliacoes = usuario.avaliacoes || [];
+            
+            if (avaliacoes.length === 0) {
+                container.innerHTML = `
+                    <div class="historico-vazio">
+                        <i class="fas fa-star"></i>
+                        <h4>Nenhuma avaliação ainda</h4>
+                        <p>Suas avaliações aparecerão aqui.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const avaliacoesHtml = avaliacoes.map(avaliacao => `
+                <div class="avaliacao-item">
+                    <div class="avaliacao-header">
+                        <div class="avaliacao-nota">
+                            ${'★'.repeat(avaliacao.nota)}${'☆'.repeat(5 - avaliacao.nota)}
+                        </div>
+                        <div class="avaliacao-data">${formatarData(avaliacao.data)}</div>
+                    </div>
+                    <div class="avaliacao-comentario">
+                        <strong>${avaliacao.autor}:</strong> ${avaliacao.comentario}
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = avaliacoesHtml;
+        }
+        
+        function carregarHistoricoAtividades(usuario) {
+            const container = document.getElementById('historico-atividades');
+            const atividades = usuario.atividades || [];
+            
+            if (atividades.length === 0) {
+                // Cria atividades padrão baseadas no tipo
+                const atividadesPadrao = criarAtividadesPadrao(usuario);
+                container.innerHTML = atividadesPadrao.map(atividade => `
+                    <div class="info-item">
+                        <div>
+                            <i class="fas fa-${atividade.icone}"></i>
+                            <span>${atividade.descricao}</span>
+                        </div>
+                        <small>${atividade.data}</small>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = atividades.map(atividade => `
+                    <div class="info-item">
+                        <div>
+                            <i class="fas fa-${atividade.icone}"></i>
+                            <span>${atividade.descricao}</span>
+                        </div>
+                        <small>${formatarData(atividade.data)}</small>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function configurarBotoesPerfil(usuario) {
             // Botão de editar perfil
             document.getElementById('btn-editar-perfil').addEventListener('click', function() {
-                abrirModalEdicaoPerfil();
+                abrirModalEdicaoPerfil(usuario);
             });
             
             // Botão de alterar senha
@@ -274,86 +649,54 @@
             document.getElementById('avatar-container').addEventListener('click', function() {
                 document.getElementById('btn-editar-perfil').click();
             });
-        }
-        
-        function carregarHistoricoDoacoes(usuario) {
-            const container = document.getElementById('historico-doacoes');
-            if (!container) return;
             
-            // Dados de exemplo (em produção viriam do backend)
-            const historicoExemplo = usuario.historicoDoacoes || [
-                {
-                    data: "2023-12-10",
-                    item: "Marmitas completas",
-                    quantidade: "2 porções",
-                    status: "Recebido",
-                    tipo: usuario.tipo === 'restaurante' ? "Doado" : "Recebido"
-                },
-                {
-                    data: "2023-12-05",
-                    item: "Pães diversos",
-                    quantidade: "10 unidades",
-                    status: "Recebido",
-                    tipo: usuario.tipo === 'restaurante' ? "Doado" : "Recebido"
-                }
-            ];
-            
-            if (historicoExemplo.length === 0) {
-                container.innerHTML = `
-                    <div class="historico-vazio">
-                        <i class="fas fa-inbox"></i>
-                        <h4>Nenhuma doação registrada</h4>
-                        <p>Quando você receber ou fizer doações, elas aparecerão aqui.</p>
-                    </div>
-                `;
-            } else {
-                container.innerHTML = historicoExemplo.map(item => `
-                    <div class="info-item">
-                        <div>
-                            <strong>${item.item}</strong><br>
-                            <small>${item.quantidade} • ${formatarData(item.data)}</small>
-                        </div>
-                        <span class="badge ${item.status === 'Recebido' || item.tipo === 'Recebido' ? 'badge-success' : 'badge-warning'}">
-                            ${usuario.tipo === 'restaurante' ? 'Doado' : 'Recebido'}
-                        </span>
-                    </div>
-                `).join('');
+            // Botão de nova missão (para voluntários)
+            const btnNovaMissao = document.getElementById('btn-nova-missao');
+            if (btnNovaMissao) {
+                btnNovaMissao.addEventListener('click', function() {
+                    window.location.href = 'voluntarios.html';
+                });
             }
         }
         
-        function carregarUltimasInteracoes(usuario) {
-            const container = document.getElementById('ultimas-interacoes');
-            if (!container) return;
+        function configurarEventosMissoes(missoes) {
+            // Botões de ver detalhes da missão
+            document.querySelectorAll('.ver-detalhes-missao').forEach(button => {
+                button.addEventListener('click', function() {
+                    const missaoId = this.dataset.id;
+                    const missao = missoes.find(m => m.id == missaoId);
+                    
+                    if (missao) {
+                        abrirModalDetalhesMissao(missao);
+                    }
+                });
+            });
             
-            // Dados de exemplo
-            const interacoesExemplo = usuario.interacoes || [
-                {
-                    tipo: "bemvindo",
-                    texto: "Bem-vindo(a) à plataforma FULLBELLY!",
-                    data: "Hoje"
-                }
-            ];
-            
-            container.innerHTML = interacoesExemplo.map(item => `
-                <div class="info-item">
-                    <div>
-                        <i class="fas fa-${getIconeInteracao(item.tipo)}"></i>
-                        <span>${item.texto}</span>
-                    </div>
-                    <small>${item.data}</small>
-                </div>
-            `).join('');
+            // Botões de completar missão
+            document.querySelectorAll('.completar-missao').forEach(button => {
+                button.addEventListener('click', function() {
+                    const missaoId = this.dataset.id;
+                    if (confirm('Tem certeza que deseja marcar esta missão como concluída?')) {
+                        completarMissao(missaoId);
+                    }
+                });
+            });
         }
         
-        function getIconeInteracao(tipo) {
-            const icones = {
-                'chat': 'comment',
-                'doacao': 'gift',
-                'avaliacao': 'star',
-                'bemvindo': 'info-circle',
-                'alerta': 'exclamation-circle'
-            };
-            return icones[tipo] || 'info-circle';
+        // Funções auxiliares
+        function calcularDiasAtivo(usuario) {
+            const dataCadastro = new Date(usuario.dataCadastro || new Date());
+            const hoje = new Date();
+            const diferenca = hoje - dataCadastro;
+            return Math.ceil(diferenca / (1000 * 60 * 60 * 24));
+        }
+        
+        function calcularTempoVoluntario(usuario) {
+            const voluntario = usuario.voluntario || {};
+            const dataInicio = new Date(voluntario.dataCadastro || usuario.dataCadastro || new Date());
+            const hoje = new Date();
+            const diferenca = hoje - dataInicio;
+            return Math.ceil(diferenca / (1000 * 60 * 60 * 24));
         }
         
         function formatarData(dataString) {
@@ -365,374 +708,146 @@
             }
         }
         
-        // Funções de modais (importadas do app.js)
-        function abrirModalEdicaoPerfil() {
-            // Obtém dados do usuário
-            const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
+        function criarAtividadesPadrao(usuario) {
+            const atividades = [
+                {
+                    icone: 'user-plus',
+                    descricao: 'Cadastro realizado na plataforma',
+                    data: 'Hoje'
+                }
+            ];
             
-            // Cria o modal
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.id = 'modal-editar-perfil';
+            if (usuario.tipo === 'voluntario') {
+                atividades.push({
+                    icone: 'hands-helping',
+                    descricao: 'Cadastrado como voluntário',
+                    data: 'Hoje'
+                });
+            } else if (usuario.tipo === 'beneficiario') {
+                atividades.push({
+                    icone: 'heart',
+                    descricao: 'Perfil de beneficiário criado',
+                    data: 'Hoje'
+                });
+            } else if (usuario.tipo === 'restaurante') {
+                atividades.push({
+                    icone: 'store',
+                    descricao: 'Restaurante cadastrado como doador',
+                    data: 'Hoje'
+                });
+            }
             
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2><i class="fas fa-user-edit"></i> Editar Perfil</h2>
-                        <button class="modal-close">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="form-editar-perfil">
-                            <div class="form-group text-center">
-                                <div class="perfil-avatar-editavel" style="width: 150px; height: 150px; margin: 0 auto 1.5rem;">
-                                    <div id="modal-avatar-preview" class="avatar-preview" style="width: 100%; height: 100%;">
-                                        ${usuario.foto ? 
-                                            `<img src="${usuario.foto}" alt="Foto atual" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">` : 
-                                            `<i class="fas fa-user" style="font-size: 4rem; line-height: 140px;"></i>`
-                                        }
-                                    </div>
-                                    <div class="avatar-overlay">
-                                        <i class="fas fa-camera"></i>
-                                    </div>
-                                </div>
-                                <input type="file" id="foto-perfil" class="file-input" accept="image/*">
-                                <button type="button" class="btn btn-secondary btn-sm" id="btn-alterar-foto">
-                                    <i class="fas fa-camera"></i> Alterar Foto
-                                </button>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="edit-nome"><i class="fas fa-user"></i> Nome *</label>
-                                    <input type="text" id="edit-nome" name="nome" required value="${usuario.nome || ''}">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="edit-email"><i class="fas fa-envelope"></i> E-mail *</label>
-                                    <input type="email" id="edit-email" name="email" required value="${usuario.email || ''}">
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="edit-telefone"><i class="fas fa-phone"></i> Telefone *</label>
-                                    <input type="tel" id="edit-telefone" name="telefone" required value="${usuario.telefone || ''}">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="edit-documento"><i class="fas fa-id-card"></i> ${usuario.tipo === 'restaurante' ? 'CNPJ' : 'CPF'}</label>
-                                    <input type="text" id="edit-documento" name="documento" value="${usuario.documento || ''}">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit-endereco"><i class="fas fa-map-marker-alt"></i> Endereço *</label>
-                                <input type="text" id="edit-endereco" name="endereco" required value="${usuario.endereco || ''}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit-descricao"><i class="fas fa-info-circle"></i> Descrição / Sobre</label>
-                                <textarea id="edit-descricao" name="descricao" rows="4" placeholder="Conte um pouco sobre você...">${usuario.descricao || ''}</textarea>
-                            </div>
-                            
-                            ${usuario.tipo === 'restaurante' ? `
-                            <div id="campos-restaurante-edit">
-                                <h3>Informações do Restaurante</h3>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="edit-tipo-cozinha">Tipo de Cozinha</label>
-                                        <select id="edit-tipo-cozinha" name="tipo-cozinha">
-                                            <option value="">Selecione...</option>
-                                            <option value="brasileira" ${usuario.tipoCozinha === 'brasileira' ? 'selected' : ''}>Brasileira</option>
-                                            <option value="italiana" ${usuario.tipoCozinha === 'italiana' ? 'selected' : ''}>Italiana</option>
-                                            <option value="japonesa" ${usuario.tipoCozinha === 'japonesa' ? 'selected' : ''}>Japonesa</option>
-                                        </select>
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="edit-horario-funcionamento">Horário de Funcionamento</label>
-                                        <input type="text" id="edit-horario-funcionamento" name="horario-funcionamento" 
-                                               value="${usuario.horarioFuncionamento || ''}" placeholder="Ex: 10h às 22h">
-                                    </div>
-                                </div>
-                            </div>
-                            ` : ''}
-                            
-                            ${usuario.tipo === 'beneficiario' ? `
-                            <div id="campos-beneficiario-edit">
-                                <h3>Informações Adicionais</h3>
-                                <div class="form-row">
-                                    <div class="form-group">
-                                        <label for="edit-pessoas-familia">Pessoas na família</label>
-                                        <input type="number" id="edit-pessoas-familia" name="pessoas-familia" min="1" 
-                                               value="${usuario.pessoasFamilia || 1}">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label for="edit-renda-familiar">Renda familiar</label>
-                                        <select id="edit-renda-familiar" name="renda-familiar">
-                                            <option value="ate-1" ${usuario.rendaFamiliar === 'ate-1' ? 'selected' : ''}>Até 1 salário mínimo</option>
-                                            <option value="1-2" ${usuario.rendaFamiliar === '1-2' ? 'selected' : ''}>1 a 2 salários mínimos</option>
-                                            <option value="2-3" ${usuario.rendaFamiliar === '2-3' ? 'selected' : ''}>2 a 3 salários mínimos</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="edit-necessidades">Necessidades especiais</label>
-                                    <textarea id="edit-necessidades" name="necessidades" rows="3" 
-                                              placeholder="Alergias, restrições alimentares...">${usuario.necessidadesEspeciais || ''}</textarea>
-                                </div>
-                            </div>
-                            ` : ''}
-                            
-                            <div class="form-actions" style="margin-top: 2rem;">
-                                <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Salvar Alterações
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            modal.style.display = 'block';
-            
-            // Configura eventos do modal
-            configurarModalEdicaoPerfil(modal, usuario);
+            return atividades;
         }
         
-        function configurarModalEdicaoPerfil(modal, usuario) {
-            const closeButtons = modal.querySelectorAll('.close-modal, .modal-close');
-            const form = modal.querySelector('#form-editar-perfil');
-            const btnAlterarFoto = modal.querySelector('#btn-alterar-foto');
-            const inputFoto = modal.querySelector('#foto-perfil');
-            const avatarEditavel = modal.querySelector('.perfil-avatar-editavel');
-            
-            // Fechar modal
-            closeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    modal.remove();
-                });
-            });
-            
-            // Fechar ao clicar fora
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.remove();
-                }
-            });
-            
-            // Alterar foto
-            if (btnAlterarFoto && inputFoto) {
-                btnAlterarFoto.addEventListener('click', () => {
-                    inputFoto.click();
-                });
-                
-                avatarEditavel.addEventListener('click', () => {
-                    inputFoto.click();
-                });
-                
-                inputFoto.addEventListener('change', function(e) {
-                    const file = e.target.files[0];
-                    if (file) {
-                        if (!file.type.startsWith('image/')) {
-                            alert('Por favor, selecione apenas imagens.');
-                            return;
-                        }
-                        
-                        if (file.size > 5 * 1024 * 1024) { // 5MB
-                            alert('A imagem deve ter menos de 5MB.');
-                            return;
-                        }
-                        
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            const avatarPreview = modal.querySelector('#modal-avatar-preview');
-                            avatarPreview.innerHTML = `<img src="${event.target.result}" alt="Preview da foto" 
-                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-                            
-                            // Atualiza também o avatar principal na página
-                            const mainAvatar = document.getElementById('avatar-preview');
-                            mainAvatar.innerHTML = `<img src="${event.target.result}" alt="Foto do perfil" 
-                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
-            
-            // Enviar formulário
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    // Coleta dados do formulário
-                    const formData = new FormData(this);
-                    const dadosAtualizados = {
-                        ...usuario,
-                        nome: formData.get('nome'),
-                        email: formData.get('email'),
-                        telefone: formData.get('telefone'),
-                        documento: formData.get('documento'),
-                        endereco: formData.get('endereco'),
-                        descricao: formData.get('descricao')
-                    };
-                    
-                    // Adiciona campos específicos
-                    if (usuario.tipo === 'restaurante') {
-                        dadosAtualizados.tipoCozinha = formData.get('tipo-cozinha');
-                        dadosAtualizados.horarioFuncionamento = formData.get('horario-funcionamento');
-                    } else if (usuario.tipo === 'beneficiario') {
-                        dadosAtualizados.pessoasFamilia = formData.get('pessoas-familia');
-                        dadosAtualizados.rendaFamiliar = formData.get('renda-familiar');
-                        dadosAtualizados.necessidadesEspeciais = formData.get('necessidades');
-                    }
-                    
-                    // Salva foto se foi alterada
-                    if (inputFoto.files[0]) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            dadosAtualizados.foto = e.target.result;
-                            finalizarEdicao(dadosAtualizados, modal);
-                        };
-                        reader.readAsDataURL(inputFoto.files[0]);
-                    } else {
-                        finalizarEdicao(dadosAtualizados, modal);
-                    }
-                });
-            }
-            
-            function finalizarEdicao(dados, modal) {
-                // Salva no localStorage
-                localStorage.setItem('fullbelly-usuario', JSON.stringify(dados));
-                
-                // Atualiza a página
-                carregarDadosPerfil(dados);
-                
-                // Mostra notificação
-                alert('Perfil atualizado com sucesso!');
-                
-                // Fecha o modal
-                modal.remove();
-            }
+        // Funções de modais (simplificadas)
+        function abrirModalEdicaoPerfil(usuario) {
+            alert('Funcionalidade de edição de perfil em desenvolvimento.');
+            // Em uma implementação real, isso abriria o modal completo
         }
         
         function abrirModalAlterarSenha() {
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.id = 'modal-alterar-senha';
-            
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2><i class="fas fa-key"></i> Alterar Senha</h2>
-                        <button class="modal-close">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="form-alterar-senha">
-                            <div class="alert alert-info">
-                                <i class="fas fa-info-circle"></i>
-                                Sua senha deve ter pelo menos 8 caracteres, incluindo letras e números.
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="senha-atual"><i class="fas fa-lock"></i> Senha Atual *</label>
-                                <input type="password" id="senha-atual" name="senha-atual" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="nova-senha"><i class="fas fa-lock"></i> Nova Senha *</label>
-                                <input type="password" id="nova-senha" name="nova-senha" required minlength="8">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="confirmar-nova-senha"><i class="fas fa-lock"></i> Confirmar Nova Senha *</label>
-                                <input type="password" id="confirmar-nova-senha" name="confirmar-nova-senha" required minlength="8">
-                            </div>
-                            
-                            <div class="form-actions">
-                                <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Alterar Senha
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            modal.style.display = 'block';
-            
-            configurarModalAlterarSenha(modal);
+            alert('Funcionalidade de alteração de senha em desenvolvimento.');
         }
         
-        function configurarModalAlterarSenha(modal) {
-            const closeButtons = modal.querySelectorAll('.close-modal, .modal-close');
-            const form = modal.querySelector('#form-alterar-senha');
+        function abrirModalEditarVoluntario(usuario) {
+            alert('Funcionalidade de edição de informações do voluntário em desenvolvimento.');
+        }
+        
+        function abrirModalDetalhesMissao(missao) {
+            const modal = document.getElementById('modal-missao-detalhes');
+            const conteudo = document.getElementById('detalhes-missao-conteudo');
             
-            // Fechar modal
-            closeButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    modal.remove();
-                });
-            });
+            conteudo.innerHTML = `
+                <h3>${missao.titulo || 'Missão'}</h3>
+                <p><strong>Status:</strong> ${missao.status || 'Pendente'}</p>
+                <p><strong>Descrição:</strong> ${missao.descricao || 'Sem descrição'}</p>
+                <p><strong>Origem:</strong> ${missao.origem || 'Não informado'}</p>
+                <p><strong>Destino:</strong> ${missao.destino || 'Não informado'}</p>
+                <p><strong>Distância:</strong> ${missao.distancia || 'N/A'}</p>
+                <p><strong>Tempo estimado:</strong> ${missao.tempo || 'N/A'}</p>
+                <p><strong>Data:</strong> ${formatarData(missao.data)}</p>
+            `;
             
-            // Fechar ao clicar fora
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.remove();
-                }
-            });
+            modal.style.display = 'block';
             
-            // Validar senha
-            if (form) {
-                const novaSenha = form.querySelector('#nova-senha');
-                const confirmarSenha = form.querySelector('#confirmar-nova-senha');
-                
-                function validarSenhas() {
-                    if (novaSenha.value !== confirmarSenha.value) {
-                        confirmarSenha.setCustomValidity('As senhas não coincidem');
-                        return false;
-                    } else {
-                        confirmarSenha.setCustomValidity('');
-                        return true;
-                    }
-                }
-                
-                novaSenha.addEventListener('input', validarSenhas);
-                confirmarSenha.addEventListener('input', validarSenhas);
-                
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    if (!validarSenhas()) {
-                        alert('As senhas não coincidem. Por favor, verifique.');
-                        return;
-                    }
-                    
-                    // Em produção, aqui seria uma requisição ao backend
-                    alert('Senha alterada com sucesso!');
-                    
-                    // Limpa o formulário e fecha o modal
-                    this.reset();
-                    modal.remove();
-                });
-            }
+            // Configura botão de fechar
+            modal.querySelector('.modal-close').onclick = () => modal.style.display = 'none';
+            window.onclick = (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+            };
+        }
+        
+        function completarMissao(missaoId) {
+            // Em uma implementação real, isso atualizaria o backend
+            alert(`Missão ${missaoId} marcada como concluída!`);
+            window.location.reload();
         }
         
         function fazerLogout() {
-            // Remove dados do localStorage
             localStorage.removeItem('fullbelly-logado');
             localStorage.removeItem('fullbelly-usuario');
-            
-            // Redireciona para a página inicial
             alert('Logout realizado com sucesso!');
             window.location.href = 'index.html';
         }
+        
+        // Adiciona estilos CSS dinâmicos
+        const estilosDinamicos = `
+            .mt-2 { margin-top: 0.5rem; }
+            .missao-item { 
+                border: 1px solid var(--border-color); 
+                border-radius: var(--radius); 
+                padding: 1rem; 
+                margin-bottom: 1rem; 
+            }
+            .missao-header { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                margin-bottom: 0.5rem; 
+            }
+            .missao-info { 
+                display: grid; 
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+                gap: 0.5rem; 
+                margin-bottom: 1rem; 
+            }
+            .missao-acoes { 
+                display: flex; 
+                gap: 0.5rem; 
+            }
+            .skills-tags { 
+                display: flex; 
+                flex-wrap: wrap; 
+                gap: 0.25rem; 
+            }
+            .avaliacao-item { 
+                border-bottom: 1px solid var(--border-color); 
+                padding: 1rem 0; 
+            }
+            .avaliacao-header { 
+                display: flex; 
+                justify-content: space-between; 
+                margin-bottom: 0.5rem; 
+            }
+            .avaliacao-nota { 
+                color: #FFD700; 
+            }
+            .card-header { 
+                display: flex; 
+                justify-content: space-between; 
+                align-items: center; 
+                margin-bottom: 1rem; 
+            }
+            .card-actions { 
+                display: flex; 
+                gap: 0.5rem; 
+            }
+        `;
+        
+        const styleSheet = document.createElement("style");
+        styleSheet.textContent = estilosDinamicos;
+        document.head.appendChild(styleSheet);
     </script>
 </body>
 </html>
