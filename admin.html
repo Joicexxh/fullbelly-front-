@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULLBELLY - Administração</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, var(--primary-color), #600000);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .admin-stat {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .admin-stat-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-stat-trend {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .trend-up {
+            color: #28a745;
+        }
+        
+        .trend-down {
+            color: #dc3545;
+        }
+        
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .admin-search {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .admin-search input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+        }
+        
+        .admin-table-container {
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .quick-action {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .quick-action i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-color);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        .admin-alert {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: var(--radius);
+        }
+        
+        .admin-alert i {
+            color: #856404;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>FULLBELLY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="doacoes.html"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Perfil</a></li>
+                    <li><a href="admin.html" class="active"><i class="fas fa-cog"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="admin-header">
+            <h1><i class="fas fa-cog"></i> Painel Administrativo</h1>
+            <p>Gerencie usuários, doações e todo o sistema FULLBELLY</p>
+            <div class="admin-actions">
+                <div class="admin-search">
+                    <input type="text" id="admin-search" placeholder="Buscar usuários, doações...">
+                </div>
+                <button class="btn btn-primary" id="btn-exportar">
+                    <i class="fas fa-download"></i> Exportar Dados
+                </button>
+                <button class="btn btn-secondary" id="btn-backup">
+                    <i class="fas fa-database"></i> Backup
+                </button>
+            </div>
+        </section>
+        
+        <div class="admin-alert">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Atenção:</strong> Você tem 3 doações pendentes de aprovação e 2 usuários aguardando verificação.
+        </div>
+        
+        <div class="admin-stats">
+            <div class="admin-stat">
+                <div class="admin-stat-number">568</div>
+                <div>Usuários Ativos</div>
+                <div class="admin-stat-trend trend-up">+12 esta semana</div>
+            </div>
+            <div class="admin-stat">
+                <div class="admin-stat-number">1,245</div>
+                <div>Doações Realizadas</div>
+                <div class="admin-stat-trend trend-up">+48 esta semana</div>
+            </div>
+            <div class="admin-stat">
+                <div class="admin-stat-number">86</div>
+                <div>Restaurantes Parceiros</div>
+                <div class="admin-stat-trend trend-up">+5 esta semana</div>
+            </div>
+            <div class="admin-stat">
+                <div class="admin-stat-number">94%</div>
+                <div>Taxa de Sucesso</div>
+                <div class="admin-stat-trend trend-up">+2% este mês</div>
+            </div>
+        </div>
+        
+        <div class="admin-quick-actions">
+            <div class="quick-action" id="action-aprovar">
+                <i class="fas fa-check-circle"></i>
+                <h4>Aprovar Pendências</h4>
+                <small>3 itens aguardando</small>
+            </div>
+            <div class="quick-action" id="action-moderar">
+                <i class="fas fa-comment-slash"></i>
+                <h4>Moderar Chat</h4>
+                <small>2 mensagens reportadas</small>
+            </div>
+            <div class="quick-action" id="action-relatorio">
+                <i class="fas fa-chart-bar"></i>
+                <h4>Gerar Relatórios</h4>
+                <small>Relatórios mensais</small>
+            </div>
+            <div class="quick-action" id="action-config">
+                <i class="fas fa-sliders-h"></i>
+                <h4>Configurações</h4>
+                <small>Configurações do sistema</small>
+            </div>
+        </div>
+        
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-target="usuarios">Usuários</button>
+            <button class="admin-tab" data-target="doacoes">Doações</button>
+            <button class="admin-tab" data-target="chat-admin">Chat</button>
+            <button class="admin-tab" data-target="relatorios">Relatórios</button>
+        </div>
+        
+        <div class="admin-conteudo" id="usuarios" style="display: block;">
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>E-mail</th>
+                            <th>Telefone</th>
+                            <th>Doações</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usuarios-admin">
+                        <!-- Usuários carregados via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="admin-conteudo" id="doacoes" style="display: none;">
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Doador</th>
+                            <th>Tipo</th>
+                            <th>Quantidade</th>
+                            <th>Validade</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="doacoes-admin">
+                        <!-- Doações carregadas via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="admin-conteudo" id="chat-admin" style="display: none;">
+            <div class="chat-container" style="height: 500px;">
+                <div class="chat-messages" id="admin-chat-messages">
+                    <!-- Mensagens do chat administrativo -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="admin-conteudo" id="relatorios" style="display: none;">
+            <div class="info-card">
+                <h3><i class="fas fa-chart-line"></i> Relatórios e Estatísticas</h3>
+                <div class="relatorios-grid">
+                    <div class="relatorio-item">
+                        <h4>Doações por Mês</h4>
+                        <div class="grafico-simulado">
+                            <div class="barra" style="height: 80%; background-color: var(--primary-color);"></div>
+                            <div class="barra" style="height: 65%; background-color: var(--secondary-color);"></div>
+                            <div class="barra" style="height: 90%; background-color: var(--primary-color);"></div>
+                            <div class="barra" style="height: 75%; background-color: var(--secondary-color);"></div>
+                        </div>
+                    </div>
+                    <div class="relatorio-item">
+                        <h4>Tipos de Alimento</h4>
+                        <div class="grafico-pizza">
+                            <div class="fatia" style="background-color: var(--primary-color); width: 40%;">Marmitas</div>
+                            <div class="fatia" style="background-color: var(--secondary-color); width: 25%;">Pães</div>
+                            <div class="fatia" style="background-color: #DC143C; width: 20%;">Legumes</div>
+                            <div class="fatia" style="background-color: #FF6B6B; width: 15%;">Outros</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i>
+                <h3>FULLBELLY</h3>
+                <p>Conectando comida a quem precisa</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="doacoes.html">Doações</a></li>
+                    <li><a href="chat.html">Chat</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p><i class="fas fa-envelope"></i> contato@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Lógica específica para página de administração
+        document.addEventListener('DOMContentLoaded', function() {
+            // Quick actions
+            document.getElementById('action-aprovar').addEventListener('click', function() {
+                mostrarModalAprovar();
+            });
+            
+            document.getElementById('action-moderar').addEventListener('click', function() {
+                mostrarModalModerar();
+            });
+            
+            document.getElementById('action-relatorio').addEventListener('click', function() {
+                mostrarModalRelatorio();
+            });
+            
+            document.getElementById('action-config').addEventListener('click', function() {
+                mostrarModalConfig();
+            });
+            
+            // Botões de exportação
+            document.getElementById('btn-exportar').addEventListener('click', function() {
+                mostrarNotificacao('Exportação de dados iniciada. Você receberá um e-mail com o arquivo.', 'success');
+            });
+            
+            document.getElementById('btn-backup').addEventListener('click', function() {
+                mostrarNotificacao('Backup do sistema realizado com sucesso.', 'success');
+            });
+            
+            // Busca
+            const searchInput = document.getElementById('admin-search');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    const termo = this.value.toLowerCase();
+                    // Lógica de busca seria implementada aqui
+                    console.log('Buscando por:', termo);
+                });
+            }
+            
+            // Modal de aprovação
+            function mostrarModalAprovar() {
+                const modal = criarModal('Aprovar Pendências');
+                modal.innerHTML = `
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-check-circle"></i> Aprovar Pendências</h2>
+                            <button class="modal-close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Itens pendentes de aprovação:</p>
+                            <ul id="lista-pendencias">
+                                <li>Nova doação: "50 marmitas" - Restaurante Sabor do Campo</li>
+                                <li>Novo usuário: "João Silva" - Aguardando verificação</li>
+                                <li>Doação alterada: "Pães diversos" - Padaria Pão Quente</li>
+                            </ul>
+                            <div class="modal-actions">
+                                <button class="btn btn-primary" id="aprovar-todos">Aprovar Todos</button>
+                                <button class="btn btn-secondary fechar-modal">Revisar Individualmente</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                configurarModal(modal);
+            }
+            
+            function criarModal(titulo) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.style.display = 'block';
+                return modal;
+            }
+            
+            function configurarModal(modal) {
+                const closeBtn = modal.querySelector('.modal-close, .fechar-modal');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => modal.remove());
+                }
+                
+                // Fechar ao clicar fora
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            }
+            
+            // Adiciona estilos para os gráficos
+            const estiloGraficos = document.createElement('style');
+            estiloGraficos.textContent = `
+                .relatorios-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 2rem;
+                    margin-top: 1rem;
+                }
+                
+                .relatorio-item {
+                    background: white;
+                    padding: 1.5rem;
+                    border-radius: var(--radius);
+                    box-shadow: var(--shadow);
+                }
+                
+                .grafico-simulado {
+                    display: flex;
+                    height: 200px;
+                    align-items: flex-end;
+                    gap: 10px;
+                    margin-top: 1rem;
+                }
+                
+                .grafico-simulado .barra {
+                    flex: 1;
+                    border-radius: 5px 5px 0 0;
+                    transition: height 0.3s ease;
+                }
+                
+                .grafico-pizza {
+                    display: flex;
+                    height: 200px;
+                    width: 200px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin: 1rem auto;
+                    transform: rotate(-90deg);
+                }
+                
+                .grafico-pizza .fatia {
+                    height: 100%;
+                    transform-origin: center;
+                }
+                
+                .modal-body {
+                    padding: 1rem 0;
+                }
+                
+                .modal-body ul {
+                    padding-left: 1.5rem;
+                    margin: 1rem 0;
+                }
+                
+                .modal-body li {
+                    margin-bottom: 0.5rem;
+                    padding: 0.5rem;
+                    background-color: var(--light-color);
+                    border-radius: var(--radius);
+                }
+                
+                .modal-actions {
+                    display: flex;
+                    gap: 1rem;
+                    margin-top: 1.5rem;
+                }
+            `;
+            document.head.appendChild(estiloGraficos);
+        });
+    </script>
+</body>
+</html>
