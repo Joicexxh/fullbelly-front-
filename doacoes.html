@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FULLBELLY - Doações</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-utensils"></i>
+                <h1>FULLBELLY</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="cadastro.html"><i class="fas fa-user-plus"></i> Cadastro</a></li>
+                    <li><a href="doacoes.html" class="active"><i class="fas fa-donate"></i> Doações</a></li>
+                    <li><a href="chat.html"><i class="fas fa-comments"></i> Chat</a></li>
+                    <li><a href="perfil.html"><i class="fas fa-user"></i> Perfil</a></li>
+                    <li><a href="admin.html"><i class="fas fa-cog"></i> Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="doacoes-header">
+            <h1><i class="fas fa-donate"></i> Doações Disponíveis</h1>
+            <p>Alimentos disponíveis para retirada. Contribua ou solicite uma doação.</p>
+            
+            <div class="filtros-container">
+                <div class="filtro-group">
+                    <label for="filtro-tipo"><i class="fas fa-filter"></i> Filtrar por tipo:</label>
+                    <select id="filtro-tipo">
+                        <option value="todos">Todos os tipos</option>
+                        <option value="marmitas">Marmitas</option>
+                        <option value="pães">Pães</option>
+                        <option value="legumes">Legumes</option>
+                        <option value="frutas">Frutas</option>
+                        <option value="doces">Doces</option>
+                        <option value="laticínios">Laticínios</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+                
+                <div class="filtro-group">
+                    <label for="filtro-local"><i class="fas fa-map-marker-alt"></i> Filtrar por região:</label>
+                    <select id="filtro-local">
+                        <option value="todos">Todas as regiões</option>
+                        <option value="centro">Centro</option>
+                        <option value="zona-norte">Zona Norte</option>
+                        <option value="zona-sul">Zona Sul</option>
+                        <option value="zona-leste">Zona Leste</option>
+                        <option value="zona-oeste">Zona Oeste</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" id="btn-nova-doacao">
+                    <i class="fas fa-plus-circle"></i> Nova Doação
+                </button>
+            </div>
+        </section>
+        
+        <section class="doacoes-lista">
+            <div class="doacoes-container" id="todas-doacoes">
+                <!-- Doações carregadas via JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Modal para nova doação -->
+        <div id="modal-doacao" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <h2><i class="fas fa-gift"></i> Registrar Nova Doação</h2>
+                
+                <form id="form-nova-doacao">
+                    <div class="form-group">
+                        <label for="item-doacao"><i class="fas fa-utensils"></i> Item/Descrição da Doação *</label>
+                        <input type="text" id="item-doacao" name="item-doacao" required placeholder="Ex: Marmitas de frango, pães franceses, legumes variados...">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantidade"><i class="fas fa-balance-scale"></i> Quantidade *</label>
+                            <input type="text" id="quantidade" name="quantidade" required placeholder="Ex: 20 porções, 5kg, 30 unidades">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tipo-alimento"><i class="fas fa-tag"></i> Tipo de Alimento *</label>
+                            <select id="tipo-alimento" name="tipo-alimento" required>
+                                <option value="">Selecione...</option>
+                                <option value="marmitas">Marmitas prontas</option>
+                                <option value="pães">Pães e massas</option>
+                                <option value="legumes">Legumes e verduras</option>
+                                <option value="frutas">Frutas</option>
+                                <option value="carnes">Carnes</option>
+                                <option value="laticínios">Laticínios</option>
+                                <option value="doces">Doces e sobremesas</option>
+                                <option value="bebidas">Bebidas</option>
+                                <option value="outros">Outros</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="validade"><i class="fas fa-calendar-alt"></i> Data de Validade *</label>
+                            <input type="date" id="validade" name="validade" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="retirada-ate"><i class="fas fa-clock"></i> Retirar até *</label>
+                            <input type="datetime-local" id="retirada-ate" name="retirada-ate" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="local-retirada"><i class="fas fa-map-marker-alt"></i> Local de Retirada *</label>
+                        <input type="text" id="local-retirada" name="local-retirada" required placeholder="Endereço completo para retirada">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="instrucoes"><i class="fas fa-info-circle"></i> Instruções para retirada</label>
+                        <textarea id="instrucoes" name="instrucoes" rows="3" placeholder="Ex: Pedir pelo balcão, horário de retirada, embalagem própria..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="condicoes"><i class="fas fa-exclamation-triangle"></i> Condições especiais</label>
+                        <textarea id="condicoes" name="condicoes" rows="2" placeholder="Ex: Alimento congelado, necessidade de refrigeração..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Publicar Doação
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fas fa-utensils"></i>
+                <h3>FULLBELLY</h3>
+                <p>Conectando comida a quem precisa</p>
+            </div>
+            <div class="footer-links">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="doacoes.html">Doações</a></li>
+                    <li><a href="chat.html">Chat</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contato</h4>
+                <p><i class="fas fa-envelope"></i> contato@fullbelly.org</p>
+                <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 FULLBELLY - Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // Lógica específica para página de doações
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal de nova doação
+            const modal = document.getElementById('modal-doacao');
+            const btnNovaDoacao = document.getElementById('btn-nova-doacao');
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            if (btnNovaDoacao) {
+                btnNovaDoacao.addEventListener('click', function() {
+                    modal.style.display = 'block';
+                });
+            }
+            
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+            });
+            
+            // Fechar modal ao clicar fora
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Formulário de nova doação
+            const formNovaDoacao = document.getElementById('form-nova-doacao');
+            if (formNovaDoacao) {
+                formNovaDoacao.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Aqui iria a lógica para enviar a doação para o backend
+                    alert('Doação registrada com sucesso! Em uma implementação real, os dados seriam enviados para um servidor.');
+                    
+                    // Fecha o modal e limpa o formulário
+                    modal.style.display = 'none';
+                    this.reset();
+                    
+                    // Recarrega as doações
+                    carregarTodasDoacoes();
+                });
+            }
+            
+            // Filtros
+            const filtroTipo = document.getElementById('filtro-tipo');
+            const filtroLocal = document.getElementById('filtro-local');
+            
+            if (filtroTipo && filtroLocal) {
+                function aplicarFiltros() {
+                    const tipo = filtroTipo.value;
+                    const local = filtroLocal.value;
+                    
+                    console.log('Aplicando filtros:', tipo, local);
+                    // A lógica de filtro está no app.js
+                }
+                
+                filtroTipo.addEventListener('change', aplicarFiltros);
+                filtroLocal.addEventListener('change', aplicarFiltros);
+            }
+        });
+    </script>
+</body>
+</html>
