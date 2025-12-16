@@ -11,7 +11,9 @@ const doacoesExemplo = [
         tipo: "Pães",
         descricao: "Pães franceses frescos do dia",
         data: "2023-12-09 18:30"
-    },
+    }
+];
+
     {
         id: 2,
         item: "Salmão grelhado",
@@ -1055,6 +1057,7 @@ function completarMissaoVoluntario(missaoId) {
 
     mostrarNotificacao('Missão concluída com sucesso!', 'success');
 }
+
 
 
 
