@@ -118,26 +118,28 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             
             function inicializarNavegacao() {
-                // Botões de próximo
-                document.getElementById('next-step1').addEventListener('click', () => irParaPasso(2));
-                document.getElementById('next-step2').addEventListener('click', () => irParaPasso(3));
-                document.getElementById('next-step3').addEventListener('click', () => irParaPasso(4));
-                
-                // Botões de voltar
-                document.getElementById('prev-step2').addEventListener('click', () => irParaPasso(1));
-                document.getElementById('prev-step3').addEventListener('click', () => irParaPasso(2));
-                document.getElementById('prev-step4').addEventListener('click', () => irParaPasso(3));
-                
-                // Botão de submit
-                document.getElementById('submit-cadastro').addEventListener('click', finalizarCadastro);
-            }
-            
-            function irParaPasso(passo) {
-                // Validações específicas antes de mudar de passo
-                if (!validarPassoAtual(currentStep)) {
-                    return;
-                }
-                
+    // Botões de próximo
+    const next1 = document.getElementById('next-step1');
+    const next2 = document.getElementById('next-step2');
+    const next3 = document.getElementById('next-step3');
+
+    if (next1) next1.addEventListener('click', () => irParaPasso(2));
+    if (next2) next2.addEventListener('click', () => irParaPasso(3));
+    if (next3) next3.addEventListener('click', () => irParaPasso(4));
+
+    // Botões de voltar
+    const prev2 = document.getElementById('prev-step2');
+    const prev3 = document.getElementById('prev-step3');
+    const prev4 = document.getElementById('prev-step4');
+
+    if (prev2) prev2.addEventListener('click', () => irParaPasso(1));
+    if (prev3) prev3.addEventListener('click', () => irParaPasso(2));
+    if (prev4) prev4.addEventListener('click', () => irParaPasso(3));
+
+    // Botão de submit
+    const submit = document.getElementById('submit-cadastro');
+    if (submit) submit.addEventListener('click', finalizarCadastro);
+}
                 // Salva dados do passo atual
                 salvarDadosPasso(currentStep);
                 
