@@ -1024,8 +1024,40 @@ function adicionarMissaoVoluntario(missao) {
     return usuario.missoes;
 }
 
+// Finalizar missão do voluntário
 function completarMissaoVoluntario(missaoId) {
-    const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
-    
+    const usuario = JSON.parse(
+        localStorage.getItem('fullbelly-usuario') || '{}'
+    );
 
+    if (!usuario.missoes || !Array.isArray(usuario.missoes)) {
+        console.warn('Usuário não possui missões');
+        return;
+    }
 
+    const missaoIndex = usuario.missoes.findIndex(
+        missao => missao.id === missaoId
+    );
+
+    if (missaoIndex === -1) {
+        console.warn('Missão não encontrada');
+        return;
+    }
+
+    // Atualiza status da missão
+    usuario.missoes[missaoIndex].status = 'concluida';
+    usuario.missoes[missaoIndex].dataConclusao = new Date().toISOString();
+
+    // Atualiza status do voluntário
+    if (usuario.voluntario) {
+        usuario.voluntario.missaoAtual = null;
+        usuario.voluntario.status = 'disponivel';
+    }
+
+    localStorage.setItem(
+        'fullbelly-usuario',
+        JSON.stringify(usuario)
+    );
+
+    mostrarNotificacao('Missão concluída com sucesso!', 'success');
+}
