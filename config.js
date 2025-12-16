@@ -1,9 +1,19 @@
 // config.js
 const API_URL = "https://fullbellyy.onrender.com/api/";
+const dados = {
+    nome: "João",
+    email: "joao@example.com",
+    senha: "123456"
+};
+
 fetch("/api/cadastro", {
     method: "POST",
-    body: JSON.stringify(dados),
+    body: JSON.stringify(dados), // ✅ agora 'dados' está definido
     headers: {
         "Content-Type": "application/json",
     },
-});
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error("Erro:", error));
+
