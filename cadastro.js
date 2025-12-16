@@ -11,8 +11,6 @@ fetch(API_URL + "api/foods/")
     console.error("Erro ao buscar API:", err);
   });
 
-}
-
 document.addEventListener('DOMContentLoaded', function() {
     //
             let currentStep = 1;
