@@ -1,19 +1,31 @@
+document.addEventListener('DOMContentLoaded', function () {
+    console.log('cadastro.js carregado 🚀');
 
+    let currentStep = 1;
+    let selectedProfile = '';
+    let formData = {};
 
-document.addEventListener('DOMContentLoaded', function() {
-    //
-            let currentStep = 1;
-            let selectedProfile = '';
-            let formData = {};
-            
-            // Inicializa os componentes
-            inicializarSelecaoPerfil();
-            inicializarNavegacao();
-            inicializarValidacoes();
-            inicializarModais();
-            
-            // Atualiza o progresso
-            atualizarProgresso();
+    // Inicializa apenas se as funções existirem
+    if (typeof inicializarSelecaoPerfil === 'function') {
+        inicializarSelecaoPerfil();
+    }
+
+    if (typeof inicializarNavegacao === 'function') {
+        inicializarNavegacao();
+    }
+
+    if (typeof inicializarValidacoes === 'function') {
+        inicializarValidacoes();
+    }
+
+    if (typeof inicializarModais === 'function') {
+        inicializarModais();
+    }
+
+    if (typeof atualizarProgresso === 'function') {
+        atualizarProgresso();
+    }
+});;
             
             // Funções de inicialização
             function inicializarSelecaoPerfil() {
