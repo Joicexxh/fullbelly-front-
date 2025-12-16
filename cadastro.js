@@ -1,64 +1,84 @@
-// cadastro.js
+// cadastro.js - Versão corrigida para seu HTML
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 cadastro.js carregado');
 
     // ============================================
-    // VARIÁVEIS GLOBAIS (escopo da função principal)
+    // VARIÁVEIS GLOBAIS
     // ============================================
     let currentStep = 1;
     let selectedProfile = '';
     let formData = {};
 
     // ============================================
-    // FUNÇÕES DE INICIALIZAÇÃO
+    // DEBUG: VERIFICAR ELEMENTOS
+    // ============================================
+    console.log('=== VERIFICANDO ELEMENTOS ===');
+    console.log('1. .perfil-option:', document.querySelectorAll('.perfil-option').length);
+    console.log('2. #tipo-usuario:', document.getElementById('tipo-usuario'));
+    console.log('3. #nome:', document.getElementById('nome'));
+    console.log('4. #email:', document.getElementById('email'));
+    console.log('5. #documento:', document.getElementById('documento'));
+    console.log('6. #telefone:', document.getElementById('telefone'));
+    console.log('7. #endereco:', document.getElementById('endereco'));
+    console.log('8. #senha:', document.getElementById('senha'));
+    console.log('9. #confirmar-senha:', document.getElementById('confirmar-senha'));
+    console.log('10. .perfil-selector:', document.querySelector('.perfil-selector'));
+    console.log('=== FIM VERIFICAÇÃO ===');
+
+    // ============================================
+    // INICIALIZAÇÃO
     // ============================================
     function inicializarTudo() {
         console.log('Inicializando sistema de cadastro...');
         
-        // 1. Buscar elementos do DOM
-        buscarElementos();
-        
-        // 2. Inicializar componentes
+        // 1. Inicializar componentes
         inicializarSelecaoPerfil();
         inicializarNavegacao();
         inicializarValidacoes();
         inicializarModais();
         
-        // 3. Atualizar UI
+        // 2. Atualizar UI
         atualizarProgresso();
         
-        console.log('Sistema de cadastro inicializado ✅');
-    }
-
-    // ============================================
-    // FUNÇÕES AUXILIARES
-    // ============================================
-    function buscarElementos() {
-        console.log('Buscando elementos do DOM...');
-        // Esta função ajuda a verificar se os elementos existem
+        console.log('✅ Sistema de cadastro inicializado');
     }
 
     // ============================================
     // 1. SELEÇÃO DE PERFIL
     // ============================================
     function inicializarSelecaoPerfil() {
-        const perfilOptions = document.querySelectorAll('.perfil-option');
-        const tipoInput = document.getElementById('tipo-usuario');
-        
-        if (!perfilOptions.length) {
-            console.warn('Nenhuma opção de perfil encontrada');
+        // IMPORTANTE: Seus elementos têm classe .perfil-option mas estão dentro de .perfil-selector
+        const perfilSelector = document.querySelector('.perfil-selector');
+        if (!perfilSelector) {
+            console.error('❌ Seletor de perfil (.perfil-selector) não encontrado!');
             return;
         }
         
-        console.log(`Encontradas ${perfilOptions.length} opções de perfil`);
-
+        const perfilOptions = perfilSelector.querySelectorAll('.perfil-option');
+        const tipoInput = document.getElementById('tipo-usuario');
+        
+        if (!perfilOptions.length) {
+            console.error('❌ Nenhuma opção de perfil encontrada dentro do seletor');
+            return;
+        }
+        
+        console.log(`✅ Encontradas ${perfilOptions.length} opções de perfil`);
+        
         perfilOptions.forEach(option => {
             option.addEventListener('click', function() {
+                console.log('Opção clicada:', this.dataset.tipo);
+                
                 // Remove seleção de todas as opções
-                perfilOptions.forEach(opt => opt.classList.remove('selected'));
+                perfilOptions.forEach(opt => {
+                    opt.classList.remove('selected');
+                    opt.style.borderColor = '';
+                    opt.style.backgroundColor = '';
+                });
                 
                 // Adiciona seleção à opção clicada
                 this.classList.add('selected');
+                this.style.borderColor = '#4CAF50';
+                this.style.backgroundColor = '#f0f9f0';
                 
                 // Atualiza o tipo selecionado
                 selectedProfile = this.dataset.tipo;
@@ -66,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     tipoInput.value = selectedProfile;
                 }
                 
-                console.log('Perfil selecionado:', selectedProfile);
+                console.log('✅ Perfil selecionado:', selectedProfile);
                 atualizarDescricaoPasso3();
             });
         });
@@ -76,11 +96,32 @@ document.addEventListener('DOMContentLoaded', function () {
         const tipoUrl = urlParams.get('tipo');
         
         if (tipoUrl) {
-            const option = document.querySelector(`.perfil-option[data-tipo="${tipoUrl}"]`);
+            const option = perfilSelector.querySelector(`.perfil-option[data-tipo="${tipoUrl}"]`);
             if (option) {
                 option.click();
             }
         }
+        
+        // Adicionar estilos CSS para visualização
+        const style = document.createElement('style');
+        style.textContent = `
+            .perfil-option {
+                cursor: pointer;
+                transition: all 0.3s ease;
+                border: 2px solid #ddd;
+                border-radius: 10px;
+                padding: 20px;
+            }
+            .perfil-option:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+            .perfil-option.selected {
+                border-color: #4CAF50 !important;
+                background-color: #f0f9f0 !important;
+            }
+        `;
+        document.head.appendChild(style);
     }
 
     function atualizarDescricaoPasso3() {
@@ -88,9 +129,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const secoes = document.querySelectorAll('.perfil-secao');
         
         if (!descricao) {
-            console.warn('Elemento step3-description não encontrado');
+            console.error('Elemento #step3-description não encontrado');
             return;
         }
+        
+        console.log('Atualizando descrição para perfil:', selectedProfile);
         
         // Esconde todas as seções
         secoes.forEach(secao => {
@@ -102,18 +145,27 @@ document.addEventListener('DOMContentLoaded', function () {
             case 'restaurante':
                 descricao.textContent = 'Preencha as informações do seu restaurante:';
                 const secaoRest = document.getElementById('secao-restaurante');
-                if (secaoRest) secaoRest.style.display = 'block';
+                if (secaoRest) {
+                    secaoRest.style.display = 'block';
+                    console.log('✅ Mostrando seção restaurante');
+                }
                 break;
             case 'beneficiario':
                 descricao.textContent = 'Preencha as informações do beneficiário:';
                 const secaoBen = document.getElementById('secao-beneficiario');
-                if (secaoBen) secaoBen.style.display = 'block';
+                if (secaoBen) {
+                    secaoBen.style.display = 'block';
+                    console.log('✅ Mostrando seção beneficiário');
+                }
                 break;
             case 'voluntario':
                 descricao.textContent = 'Preencha as informações do voluntário:';
                 const secaoVol = document.getElementById('secao-voluntario');
-                if (secaoVol) secaoVol.style.display = 'block';
-                inicializarOpcoesVoluntario();
+                if (secaoVol) {
+                    secaoVol.style.display = 'block';
+                    console.log('✅ Mostrando seção voluntário');
+                    inicializarOpcoesVoluntario();
+                }
                 break;
         }
     }
@@ -128,11 +180,21 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         
+        console.log('✅ Inicializando opções de veículo');
+        
         veiculoOptions.forEach(option => {
             option.addEventListener('click', function() {
-                veiculoOptions.forEach(opt => opt.classList.remove('selected'));
+                veiculoOptions.forEach(opt => {
+                    opt.classList.remove('selected');
+                    opt.style.borderColor = '';
+                    opt.style.backgroundColor = '';
+                });
+                
                 this.classList.add('selected');
+                this.style.borderColor = '#4CAF50';
+                this.style.backgroundColor = '#f0f9f0';
                 veiculoInput.value = this.dataset.veiculo;
+                console.log('Veículo selecionado:', this.dataset.veiculo);
             });
         });
         
@@ -144,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
             raioSlider.addEventListener('input', function() {
                 raioValue.textContent = this.value + ' km';
             });
+            console.log('✅ Slider de raio configurado');
         }
     }
 
@@ -160,15 +223,19 @@ document.addEventListener('DOMContentLoaded', function () {
         
         if (nextStep1) {
             nextStep1.addEventListener('click', () => irParaPasso(2));
-            console.log('Botão next-step1 encontrado');
+            console.log('✅ Botão next-step1 configurado');
+        } else {
+            console.error('❌ Botão next-step1 não encontrado');
         }
+        
         if (nextStep2) {
             nextStep2.addEventListener('click', () => irParaPasso(3));
-            console.log('Botão next-step2 encontrado');
+            console.log('✅ Botão next-step2 configurado');
         }
+        
         if (nextStep3) {
             nextStep3.addEventListener('click', () => irParaPasso(4));
-            console.log('Botão next-step3 encontrado');
+            console.log('✅ Botão next-step3 configurado');
         }
         
         // Botões de voltar
@@ -183,8 +250,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // Botão de submit
         const submitBtn = document.getElementById('submit-cadastro');
         if (submitBtn) {
-            submitBtn.addEventListener('click', finalizarCadastro);
-            console.log('Botão submit-cadastro encontrado');
+            submitBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                finalizarCadastro();
+            });
+            console.log('✅ Botão submit-cadastro configurado');
         }
     }
 
@@ -193,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Validações específicas antes de mudar de passo
         if (!validarPassoAtual(currentStep)) {
-            console.log(`Validação do passo ${currentStep} falhou`);
+            console.log(`❌ Validação do passo ${currentStep} falhou`);
             return;
         }
         
@@ -214,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (nextStep) {
             nextStep.classList.add('active');
         } else {
-            console.error(`Passo ${passo} não encontrado no DOM`);
+            console.error(`❌ Passo ${passo} não encontrado no DOM`);
             return;
         }
         
@@ -231,7 +301,10 @@ document.addEventListener('DOMContentLoaded', function () {
             gerarResumo();
         }
         
-        console.log(`Agora no passo ${currentStep}`);
+        // Rolar para o topo do passo
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        console.log(`✅ Agora no passo ${currentStep}`);
     }
 
     // ============================================
@@ -257,7 +330,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 feedback.style.color = forca.cor;
                 feedback.style.display = 'block';
             });
-            console.log('Validação de senha configurada');
+            console.log('✅ Validação de senha configurada');
+        } else {
+            console.warn('⚠️ Elementos de validação de senha não encontrados');
         }
         
         // Validação de confirmação de senha
@@ -280,23 +355,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     matchDiv.className = 'password-match invalid';
                 }
             });
-            console.log('Validação de confirmação de senha configurada');
+            console.log('✅ Validação de confirmação de senha configurada');
         }
         
         // Formatação automática de campos
         formatarCampoTelefone();
         formatarCampoDocumento();
         
-        console.log('Validações inicializadas ✅');
+        console.log('✅ Validações inicializadas');
     }
 
     function formatarCampoTelefone() {
         const telefoneInput = document.getElementById('telefone');
         
         if (!telefoneInput) {
-            console.warn('Campo telefone não encontrado');
+            console.warn('⚠️ Campo telefone não encontrado');
             return;
         }
+        
+        console.log('✅ Configurando formatação de telefone');
         
         telefoneInput.addEventListener('input', function(e) {
             let value = this.value.replace(/\D/g, '');
@@ -306,12 +383,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             
             if (value.length > 10) {
+                // Formato: (11) 99999-9999
                 value = value.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
             } else if (value.length > 6) {
+                // Formato: (11) 9999-9999
                 value = value.replace(/^(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
             } else if (value.length > 2) {
+                // Formato: (11) 999
                 value = value.replace(/^(\d{2})(\d+)/, '($1) $2');
             } else if (value.length > 0) {
+                // Formato: (11
                 value = value.replace(/^(\d+)/, '($1');
             }
             
@@ -323,9 +404,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const documentoInput = document.getElementById('documento');
         
         if (!documentoInput) {
-            console.warn('Campo documento não encontrado');
+            console.warn('⚠️ Campo documento não encontrado');
             return;
         }
+        
+        console.log('✅ Configurando formatação de documento');
         
         documentoInput.addEventListener('input', function(e) {
             let value = this.value.replace(/\D/g, '');
@@ -371,6 +454,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert('Por favor, selecione um tipo de perfil.');
                     return false;
                 }
+                console.log('✅ Passo 1 validado');
                 break;
                 
             case 2:
@@ -411,6 +495,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                 }
+                console.log('✅ Passo 2 validado');
                 break;
                 
             case 3:
@@ -447,10 +532,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                         break;
                 }
+                console.log('✅ Passo 3 validado');
                 break;
         }
         
-        console.log(`Validação do passo ${passo} passou ✅`);
         return true;
     }
 
@@ -518,7 +603,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
         }
         
-        console.log('Dados salvos:', formData);
+        console.log('📦 Dados salvos:', formData);
     }
 
     // ============================================
@@ -528,12 +613,11 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let i = 1; i <= 4; i++) {
             const circle = document.getElementById(`step${i}-circle`);
             if (circle) {
+                circle.classList.remove('active', 'completed');
                 if (i < passo) {
-                    circle.className = 'step-circle completed';
+                    circle.classList.add('completed');
                 } else if (i === passo) {
-                    circle.className = 'step-circle active';
-                } else {
-                    circle.className = 'step-circle';
+                    circle.classList.add('active');
                 }
             }
         }
@@ -543,12 +627,11 @@ document.addEventListener('DOMContentLoaded', function () {
         for (let i = 1; i <= 4; i++) {
             const text = document.querySelector(`.progress-step:nth-child(${i}) .step-text`);
             if (text) {
+                text.classList.remove('active', 'completed');
                 if (i === currentStep) {
-                    text.className = 'step-text active';
+                    text.classList.add('active');
                 } else if (i < currentStep) {
-                    text.className = 'step-text completed';
-                } else {
-                    text.className = 'step-text';
+                    text.classList.add('completed');
                 }
             }
         }
@@ -565,25 +648,25 @@ document.addEventListener('DOMContentLoaded', function () {
     function gerarResumo() {
         const resumoDiv = document.getElementById('resumo-cadastro');
         if (!resumoDiv) {
-            console.warn('Elemento resumo-cadastro não encontrado');
+            console.error('❌ Elemento #resumo-cadastro não encontrado');
             return;
         }
         
         let html = `
             <div class="resumo-item">
-                <strong>Tipo de Perfil:</strong> ${obterNomePerfil(formData.tipo)}
+                <strong>📋 Tipo de Perfil:</strong> ${obterNomePerfil(formData.tipo)}
             </div>
             <div class="resumo-item">
-                <strong>Nome:</strong> ${formData.dadosPessoais?.nome || 'Não informado'}
+                <strong>👤 Nome:</strong> ${formData.dadosPessoais?.nome || 'Não informado'}
             </div>
             <div class="resumo-item">
-                <strong>E-mail:</strong> ${formData.dadosPessoais?.email || 'Não informado'}
+                <strong>📧 E-mail:</strong> ${formData.dadosPessoais?.email || 'Não informado'}
             </div>
             <div class="resumo-item">
-                <strong>Documento:</strong> ${formData.dadosPessoais?.documento || 'Não informado'}
+                <strong>📄 Documento:</strong> ${formData.dadosPessoais?.documento || 'Não informado'}
             </div>
             <div class="resumo-item">
-                <strong>Endereço:</strong> ${formData.dadosPessoais?.endereco || 'Não informado'}
+                <strong>📍 Endereço:</strong> ${formData.dadosPessoais?.endereco || 'Não informado'}
             </div>
         `;
         
@@ -592,10 +675,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 case 'restaurante':
                     html += `
                         <div class="resumo-item">
-                            <strong>Tipo de Estabelecimento:</strong> ${formData.infoEspecificas.tipoEstabelecimento || 'Não informado'}
+                            <strong>🏪 Tipo de Estabelecimento:</strong> ${formData.infoEspecificas.tipoEstabelecimento || 'Não informado'}
                         </div>
                         <div class="resumo-item">
-                            <strong>Especialidade:</strong> ${formData.infoEspecificas.especialidade || 'Não informada'}
+                            <strong>⭐ Especialidade:</strong> ${formData.infoEspecificas.especialidade || 'Não informada'}
                         </div>
                     `;
                     break;
@@ -603,10 +686,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 case 'beneficiario':
                     html += `
                         <div class="resumo-item">
-                            <strong>Pessoas na Família:</strong> ${formData.infoEspecificas.pessoasFamilia || 'Não informado'}
+                            <strong>👨‍👩‍👧‍👦 Pessoas na Família:</strong> ${formData.infoEspecificas.pessoasFamilia || 'Não informado'}
                         </div>
                         <div class="resumo-item">
-                            <strong>Renda Familiar:</strong> ${obterNomeRenda(formData.infoEspecificas.rendaFamiliar)}
+                            <strong>💰 Renda Familiar:</strong> ${obterNomeRenda(formData.infoEspecificas.rendaFamiliar)}
                         </div>
                     `;
                     break;
@@ -614,10 +697,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 case 'voluntario':
                     html += `
                         <div class="resumo-item">
-                            <strong>Veículo:</strong> ${obterNomeVeiculo(formData.infoEspecificas.veiculo)}
+                            <strong>🚗 Veículo:</strong> ${obterNomeVeiculo(formData.infoEspecificas.veiculo)}
                         </div>
                         <div class="resumo-item">
-                            <strong>Dias Disponíveis:</strong> ${formData.infoEspecificas.dias ? formData.infoEspecificas.dias.length + ' dias' : 'Não informado'}
+                            <strong>📅 Dias Disponíveis:</strong> ${formData.infoEspecificas.dias ? formData.infoEspecificas.dias.length + ' dias' : 'Não informado'}
                         </div>
                     `;
                     break;
@@ -625,14 +708,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         
         resumoDiv.innerHTML = html;
-        console.log('Resumo gerado ✅');
+        console.log('✅ Resumo gerado');
     }
 
     function obterNomePerfil(tipo) {
         const perfis = {
-            'restaurante': 'Restaurante/Estabelecimento',
-            'beneficiario': 'Beneficiário/Família',
-            'voluntario': 'Voluntário'
+            'restaurante': '🍽️ Restaurante/Estabelecimento',
+            'beneficiario': '👨‍👩‍👧‍👦 Beneficiário/Família',
+            'voluntario': '🚗 Voluntário'
         };
         return perfis[tipo] || tipo;
     }
@@ -650,10 +733,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function obterNomeVeiculo(veiculo) {
         const veiculos = {
-            'carro': 'Carro',
-            'moto': 'Moto',
-            'bicicleta': 'Bicicleta',
-            'pe': 'A pé'
+            'carro': '🚗 Carro',
+            'moto': '🏍️ Moto',
+            'bicicleta': '🚲 Bicicleta',
+            'pe': '🚶 A pé'
         };
         return veiculos[veiculo] || veiculo;
     }
@@ -682,15 +765,21 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
         
-        console.log('Modais inicializados ✅');
+        console.log('✅ Modais inicializados');
+    }
+
+    function mostrarTermosUso() {
+        alert('Termos de Uso - Em breve uma janela completa será implementada.');
+    }
+
+    function mostrarPoliticaPrivacidade() {
+        alert('Política de Privacidade - Em breve uma janela completa será implementada.');
     }
 
     // ============================================
     // 7. FINALIZAÇÃO DO CADASTRO
     // ============================================
-    function finalizarCadastro(e) {
-        if (e) e.preventDefault();
-        
+    function finalizarCadastro() {
         console.log('Finalizando cadastro...');
         
         // Validações finais
@@ -797,7 +886,7 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('fullbelly-usuario', JSON.stringify(usuario));
         localStorage.setItem('fullbelly-logado', 'true');
         
-        console.log('Usuário salvo no localStorage:', usuario);
+        console.log('💾 Usuário salvo no localStorage:', usuario);
         return usuario;
     }
 
@@ -805,8 +894,15 @@ document.addEventListener('DOMContentLoaded', function () {
         const cadastroForm = document.getElementById('cadastro-form');
         const successMessage = document.getElementById('success-message');
         
-        if (cadastroForm) cadastroForm.style.display = 'none';
-        if (successMessage) successMessage.style.display = 'block';
+        if (cadastroForm) {
+            cadastroForm.style.display = 'none';
+            console.log('✅ Formulário escondido');
+        }
+        
+        if (successMessage) {
+            successMessage.style.display = 'block';
+            console.log('✅ Mensagem de sucesso exibida');
+        }
         
         atualizarCirculosProgresso(5);
         
@@ -814,7 +910,7 @@ document.addEventListener('DOMContentLoaded', function () {
             window.location.href = 'perfil.html';
         }, 5000);
         
-        console.log('Cadastro finalizado com sucesso!');
+        console.log('✅ Cadastro finalizado com sucesso!');
     }
 
     // ============================================
@@ -861,7 +957,7 @@ document.addEventListener('DOMContentLoaded', function () {
         cpf = cpf.replace(/\D/g, '');
         if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
         
-        // Validação dos dígitos verificadores
+        // Cálculo dos dígitos verificadores
         let soma = 0;
         for (let i = 1; i <= 9; i++) {
             soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
@@ -883,7 +979,7 @@ document.addEventListener('DOMContentLoaded', function () {
         cnpj = cnpj.replace(/\D/g, '');
         if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
         
-        // Validação dos dígitos verificadores
+        // Cálculo dos dígitos verificadores
         let tamanho = cnpj.length - 2;
         let numeros = cnpj.substring(0, tamanho);
         let digitos = cnpj.substring(tamanho);
