@@ -1,9 +1,10 @@
 // ===============================
 // CONFIG
 // ===============================
-const API_URL = "https://fullbelly-cs9f.onrender.com/// FULLBELLY - JavaScript com Animações
-// app.js - Lógica do projeto FULLBELLY
+const API_URL = "https://fullbellyy.onrender.com/";
 
+// FULLBELLY - JavaScript com Animações
+// app.js - Lógica do projeto FULLBELLY
 // Dados de exemplo para simulação
 const doacoesExemplo = [
     {
@@ -1026,4 +1027,5 @@ function adicionarMissaoVoluntario(missao) {
 function completarMissaoVoluntario(missaoId) {
     const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
     
+
 
