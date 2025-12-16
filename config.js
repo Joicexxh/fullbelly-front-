@@ -1,5 +1,4 @@
-// config.js
-const API_URL = "https://fullbellyy.onrender.com/";
+const API_URL = "https://fullbellyy.onrender.com/api/";
 
 fetch(API_URL + "api/foods/")
   .then(res => res.json())
