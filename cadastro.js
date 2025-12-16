@@ -1057,3 +1057,38 @@ console.log('10. .perfil-selector:', document.querySelectorAll('.perfil-selector
     // ============================================
     inicializarTudo();
 });
+document.getElementById('submit-cadastro')?.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const senha = document.getElementById('senha').value;
+    const confirmarSenha = document.getElementById('confirmar-senha').value;
+    
+    if (senha !== confirmarSenha) {
+        alert('As senhas não coincidem!');
+        return;
+    }
+
+    // Aqui você pode adicionar validações de CPF, CNPJ, email, etc.
+    
+    // Se a validação passar, envie o formulário
+    enviarFormulario();
+});
+
+function enviarFormulario() {
+    const form = document.getElementById('cadastro-form');
+    const formData = new FormData(form);
+
+    fetch('https://fullbellyy.onrender.com/api/cadastro', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Exibir a mensagem de sucesso
+        document.getElementById('cadastro-form').style.display = 'none';
+        document.getElementById('success-message').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+    });
+}
