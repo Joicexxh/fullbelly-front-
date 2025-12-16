@@ -1,15 +1,4 @@
 
-  const API_URL = "https://fullbellyy.onrender.com/";
-
-// Teste simples de conexão com o backend
-fetch(API_URL + "api/foods/")
-  .then(res => res.json())
-  .then(data => {
-    console.log("Dados da API:", data);
-  })
-  .catch(err => {
-    console.error("Erro ao buscar API:", err);
-  });
 
 document.addEventListener('DOMContentLoaded', function() {
     //
