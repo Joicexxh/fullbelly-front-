@@ -167,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (passo === 4) {
                     gerarResumo();
                 }
-            }
             
             function validarPassoAtual(passo) {
                 switch(passo) {
