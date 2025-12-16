@@ -538,18 +538,36 @@ estiloAnimacao.textContent = `
 `;
 document.head.appendChild(estiloAnimacao);
 
-// Funções para edição de perfil
-function configurarEdicaoPerfil() {
+// Função para editar o perfil
+async function configurarEdicaoPerfil() {
     const btnEditarPerfil = document.getElementById('btn-editar-perfil');
     if (!btnEditarPerfil) return;
     
-    btnEditarPerfil.addEventListener('click', function() {
-        abrirModalEdicaoPerfil();
+    btnEditarPerfil.addEventListener('click', async function() {
+        const dadosPerfil = await obterDadosPerfil();
+        abrirModalEdicaoPerfil(dadosPerfil);
     });
 }
 
-function abrirModalEdicaoPerfil() {
-    // Cria o modal
+async function obterDadosPerfil() {
+    // Faz a requisição ao backend para obter os dados do perfil
+    try {
+        const response = await fetch('https://api.exemplo.com/usuarios/perfil', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || 'Erro ao carregar dados');
+        return data;
+    } catch (error) {
+        console.error('Erro ao obter dados do perfil:', error);
+        return {}; // Retorna um objeto vazio em caso de erro
+    }
+}
+
+async function abrirModalEdicaoPerfil(dadosPerfil) {
     const modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'modal-editar-perfil';
@@ -565,96 +583,47 @@ function abrirModalEdicaoPerfil() {
                     <div class="form-group text-center">
                         <div class="perfil-avatar-editavel" style="width: 150px; height: 150px; margin: 0 auto 1.5rem;">
                             <div id="avatar-preview" class="avatar-preview">
-                                <i class="fas fa-user" style="font-size: 4rem; line-height: 140px;"></i>
+                                <img src="${dadosPerfil.foto || 'default-avatar.png'}" alt="Foto de perfil" style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="avatar-overlay">
                                 <i class="fas fa-camera"></i>
                             </div>
                         </div>
                         <input type="file" id="foto-perfil" class="file-input" accept="image/*">
-                        <button type="button" class="btn btn-secondary btn-sm" id="btn-alterar-foto">
-                            <i class="fas fa-camera"></i> Alterar Foto
-                        </button>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="edit-nome"><i class="fas fa-user"></i> Nome *</label>
-                            <input type="text" id="edit-nome" name="nome" required value="Maria Silva">
+                            <input type="text" id="edit-nome" name="nome" required value="${dadosPerfil.nome || ''}">
                         </div>
                         
                         <div class="form-group">
                             <label for="edit-email"><i class="fas fa-envelope"></i> E-mail *</label>
-                            <input type="email" id="edit-email" name="email" required value="maria.silva@email.com">
+                            <input type="email" id="edit-email" name="email" required value="${dadosPerfil.email || ''}">
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="edit-telefone"><i class="fas fa-phone"></i> Telefone *</label>
-                            <input type="tel" id="edit-telefone" name="telefone" required value="(11) 98888-7777">
+                            <input type="tel" id="edit-telefone" name="telefone" required value="${dadosPerfil.telefone || ''}">
                         </div>
                         
                         <div class="form-group">
                             <label for="edit-cpf"><i class="fas fa-id-card"></i> CPF</label>
-                            <input type="text" id="edit-cpf" name="cpf" value="123.456.789-00">
+                            <input type="text" id="edit-cpf" name="cpf" value="${dadosPerfil.cpf || ''}">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="edit-endereco"><i class="fas fa-map-marker-alt"></i> Endereço *</label>
-                        <input type="text" id="edit-endereco" name="endereco" required value="Av. Principal, 456 - Zona Leste">
+                        <input type="text" id="edit-endereco" name="endereco" required value="${dadosPerfil.endereco || ''}">
                     </div>
                     
                     <div class="form-group">
                         <label for="edit-descricao"><i class="fas fa-info-circle"></i> Descrição / Sobre</label>
-                        <textarea id="edit-descricao" name="descricao" rows="4" placeholder="Conte um pouco sobre você...">Mãe de 3 crianças, em situação de vulnerabilidade</textarea>
-                    </div>
-                    
-                    <!-- Campos específicos para restaurante -->
-                    <div id="campos-restaurante-edit" style="display: none;">
-                        <h3>Informações do Restaurante</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="edit-cnpj">CNPJ</label>
-                                <input type="text" id="edit-cnpj" name="cnpj">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit-tipo-cozinha">Tipo de Cozinha</label>
-                                <select id="edit-tipo-cozinha" name="tipo-cozinha">
-                                    <option value="">Selecione...</option>
-                                    <option value="brasileira">Brasileira</option>
-                                    <option value="italiana">Italiana</option>
-                                    <option value="japonesa">Japonesa</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Campos específicos para beneficiário -->
-                    <div id="campos-beneficiario-edit" style="display: none;">
-                        <h3>Informações Adicionais</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="edit-pessoas-familia">Pessoas na família</label>
-                                <input type="number" id="edit-pessoas-familia" name="pessoas-familia" min="1" value="4">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit-renda-familiar">Renda familiar</label>
-                                <select id="edit-renda-familiar" name="renda-familiar">
-                                    <option value="ate-1">Até 1 salário mínimo</option>
-                                    <option value="1-2">1 a 2 salários mínimos</option>
-                                    <option value="2-3">2 a 3 salários mínimos</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="edit-necessidades">Necessidades especiais</label>
-                            <textarea id="edit-necessidades" name="necessidades" rows="3" placeholder="Alergias, restrições alimentares..."></textarea>
-                        </div>
+                        <textarea id="edit-descricao" name="descricao" rows="4" placeholder="Conte um pouco sobre você...">${dadosPerfil.descricao || ''}</textarea>
                     </div>
                     
                     <div class="form-actions" style="margin-top: 2rem;">
@@ -675,12 +644,10 @@ function abrirModalEdicaoPerfil() {
     configurarModalEdicaoPerfil(modal);
 }
 
-function configurarModalEdicaoPerfil(modal) {
+async function configurarModalEdicaoPerfil(modal) {
     const closeButtons = modal.querySelectorAll('.close-modal, .modal-close');
     const form = modal.querySelector('#form-editar-perfil');
-    const btnAlterarFoto = modal.querySelector('#btn-alterar-foto');
     const inputFoto = modal.querySelector('#foto-perfil');
-    const avatarEditavel = modal.querySelector('.perfil-avatar-editavel');
     
     // Fechar modal
     closeButtons.forEach(button => {
@@ -696,45 +663,88 @@ function configurarModalEdicaoPerfil(modal) {
         }
     });
     
-    // Alterar foto
-    if (btnAlterarFoto && inputFoto) {
-        btnAlterarFoto.addEventListener('click', () => {
-            inputFoto.click();
-        });
-        
-        avatarEditavel.addEventListener('click', () => {
-            inputFoto.click();
-        });
-        
-        inputFoto.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const avatarPreview = modal.querySelector('#avatar-preview');
-                    avatarPreview.innerHTML = `<img src="${event.target.result}" alt="Preview da foto" style="width: 100%; height: 100%; object-fit: cover;">`;
-                };
-                reader.readAsDataURL(file);
+    // Enviar formulário com API
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const foto = inputFoto.files[0];
+            if (foto) {
+                formData.append('foto', foto);
+            }
+
+            try {
+                const response = await atualizarPerfilAPI(formData);
+                if (response.success) {
+                    mostrarNotificacao('Perfil atualizado com sucesso!', 'success');
+                    modal.remove();
+                    atualizarDadosPerfil(formData);
+                } else {
+                    mostrarNotificacao('Erro ao atualizar perfil. Tente novamente.', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar perfil:', error);
+                mostrarNotificacao('Erro ao atualizar perfil. Tente novamente.', 'error');
             }
         });
     }
+}
+
+async function atualizarPerfilAPI(formData) {
+    const apiUrl = 'https://api.exemplo.com/usuarios/perfil';
     
-    // Enviar formulário
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Aqui iria a lógica para salvar no backend
-            const formData = new FormData(this);
-            console.log('Dados do formulário:', Object.fromEntries(formData));
-            
-            mostrarNotificacao('Perfil atualizado com sucesso!', 'success');
-            modal.remove();
-            
-            // Atualiza os dados na página de perfil
-            atualizarDadosPerfil(formData);
-        });
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: formData
+    };
+
+    const response = await fetch(apiUrl, requestOptions);
+    return await response.json();
+}
+
+function atualizarDadosPerfil(formData) {
+    const dados = Object.fromEntries(formData);
+
+    if (dados.nome) {
+        const nomeElement = document.getElementById('perfil-nome');
+        if (nomeElement) nomeElement.textContent = dados.nome;
     }
+
+    if (dados.email) {
+        const emailElement = document.getElementById('info-email');
+        if (emailElement) emailElement.textContent = dados.email;
+    }
+
+    if (dados.telefone) {
+        const telefoneElement = document.getElementById('info-telefone');
+        if (telefoneElement) telefoneElement.textContent = dados.telefone;
+    }
+
+    if (dados.endereco) {
+        const enderecoElement = document.getElementById('info-endereco');
+        if (enderecoElement) enderecoElement.textContent = dados.endereco;
+    }
+
+    if (dados.descricao) {
+        const descricaoElement = document.getElementById('perfil-descricao');
+        if (descricaoElement) descricaoElement.textContent = dados.descricao;
+    }
+}
+
+// Função para mostrar notificações (simples)
+function mostrarNotificacao(mensagem, tipo) {
+    const notificacao = document.createElement('div');
+    notificacao.className = `notificacao ${tipo}`;
+    notificacao.textContent = mensagem;
+    document.body.appendChild(notificacao);
+    
+    setTimeout(() => {
+        notificacao.remove();
+    }, 3000);
 }
 
 function atualizarDadosPerfil(formData) {
@@ -1016,3 +1026,4 @@ function adicionarMissaoVoluntario(missao) {
 function completarMissaoVoluntario(missaoId) {
     const usuario = JSON.parse(localStorage.getItem('fullbelly-usuario') || '{}');
     
+
