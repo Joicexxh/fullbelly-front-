@@ -1061,3 +1061,5 @@ function completarMissaoVoluntario(missaoId) {
 
     mostrarNotificacao('Missão concluída com sucesso!', 'success');
 }
+
+console.log("JS carregado com sucesso 🚀");
