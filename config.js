@@ -1,5 +1,5 @@
 // config.js
-window.API_URL = "https://fullbellyy.onrender.com/api";
+const API_URL = "https://fullbellyy.onrender.com/api/";
 fetch("/api/cadastro", {
     method: "POST",
     body: JSON.stringify(dados),
