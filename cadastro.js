@@ -1,19 +1,20 @@
 
   const API_URL = "https://fullbellyy.onrender.com/";
 
-  // Teste simples de conexão com o backend
-  fetch(API_URL + "api/foods/")
-    .then(res => res.json())
-    .then(data => {
-      console.log("Dados da API:", data);
-    })
-    .catch(err => {
-      console.error("Erro ao buscar API:", err);
-    });
+// Teste simples de conexão com o backend
+fetch(API_URL + "api/foods/")
+  .then(res => res.json())
+  .then(data => {
+    console.log("Dados da API:", data);
+  })
+  .catch(err => {
+    console.error("Erro ao buscar API:", err);
+  });
 
-  // ===============================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Variáveis de controle
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    //
             let currentStep = 1;
             let selectedProfile = '';
             let formData = {};
