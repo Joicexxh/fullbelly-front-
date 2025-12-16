@@ -306,57 +306,102 @@ document.addEventListener('DOMContentLoaded', function () {
         
         console.log(`✅ Agora no passo ${currentStep}`);
     }
-
-    // ============================================
-    // 3. VALIDAÇÕES
-    // ============================================
-    function inicializarValidacoes() {
-        console.log('Inicializando validações...');
+// 3. VALIDAÇÕES
+// ============================================
+function inicializarValidacoes() {
+    console.log('Inicializando validações...');
+    
+    // Validação de força da senha
+    const senhaInput = document.getElementById('senha');
+    const strengthBar = document.getElementById('strength-bar');
+    const feedback = document.getElementById('password-feedback');
+    
+    if (senhaInput && strengthBar && feedback) {
+        senhaInput.addEventListener('input', function() {
+            const senha = this.value;
+            const forca = calcularForcaSenha(senha);
+            
+            strengthBar.className = `strength-bar strength-${forca.nivel}`;
+            strengthBar.style.width = forca.porcentagem + '%';
+            
+            feedback.textContent = forca.mensagem;
+            feedback.style.color = forca.cor;
+            feedback.style.display = 'block';
+        });
+        console.log('✅ Validação de senha configurada');
+    } else {
+        console.warn('⚠️ Elementos de validação de senha não encontrados');
+    }
+    
+    // Validação de confirmação de senha
+    const confirmarSenha = document.getElementById('confirmar-senha');
+    const matchDiv = document.getElementById('password-match');
+    
+    if (confirmarSenha && matchDiv) {
+        confirmarSenha.addEventListener('input', function() {
+            const senha = document.getElementById('senha')?.value || '';
+            const confirmacao = this.value;
+            
+            if (!confirmacao) {
+                matchDiv.textContent = '';
+                matchDiv.className = 'password-match';
+            } else if (senha === confirmacao) {
+                matchDiv.textContent = '✓ Senhas coincidem';
+                matchDiv.className = 'password-match valid';
+            } else {
+                matchDiv.textContent = '✗ Senhas não coincidem';
+                matchDiv.className = 'password-match invalid';
+            }
+        });
+        console.log('✅ Validação de confirmação de senha configurada');
+    }
+    
+    // ============================
+    // Submissão do Formulário
+    // ============================
+    const submitBtn = document.getElementById('submit-cadastro');
+    submitBtn.addEventListener('click', function(e) {
+        e.preventDefault(); // Não envia o form por padrão
         
-        // Validação de força da senha
-        const senhaInput = document.getElementById('senha');
-        const strengthBar = document.getElementById('strength-bar');
-        const feedback = document.getElementById('password-feedback');
+        // Verificando se todas as validações foram feitas corretamente
+        const senhaValida = feedback.style.color !== 'red';
+        const senhasCoincidem = matchDiv.classList.contains('valid');
         
-        if (senhaInput && strengthBar && feedback) {
-            senhaInput.addEventListener('input', function() {
-                const senha = this.value;
-                const forca = calcularForcaSenha(senha);
-                
-                strengthBar.className = `strength-bar strength-${forca.nivel}`;
-                strengthBar.style.width = forca.porcentagem + '%';
-                
-                feedback.textContent = forca.mensagem;
-                feedback.style.color = forca.cor;
-                feedback.style.display = 'block';
+        if (senhaValida && senhasCoincidem) {
+            // Se tudo estiver certo, envia os dados
+            const dados = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                documento: document.getElementById('documento').value,
+                telefone: document.getElementById('telefone').value,
+                endereco: document.getElementById('endereco').value,
+                senha: document.getElementById('senha').value,
+                tipo: document.getElementById('tipo-usuario').value, // perfil escolhido
+            };
+            
+            fetch(`${window.API_URL}/cadastro`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dados)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("✅ Cadastro realizado com sucesso:", data);
+                alert("Cadastro realizado com sucesso!");
+                // Redirecionar ou limpar o formulário após sucesso
+            })
+            .catch(error => {
+                console.error("❌ Erro ao cadastrar:", error);
+                alert("Erro ao realizar cadastro");
             });
-            console.log('✅ Validação de senha configurada');
         } else {
-            console.warn('⚠️ Elementos de validação de senha não encontrados');
+            // Se houver erros nas validações, mostre um alerta
+            alert("Por favor, corrija os erros antes de submeter.");
         }
-        
-        // Validação de confirmação de senha
-        const confirmarSenha = document.getElementById('confirmar-senha');
-        const matchDiv = document.getElementById('password-match');
-        
-        if (confirmarSenha && matchDiv) {
-            confirmarSenha.addEventListener('input', function() {
-                const senha = document.getElementById('senha')?.value || '';
-                const confirmacao = this.value;
-                
-                if (!confirmacao) {
-                    matchDiv.textContent = '';
-                    matchDiv.className = 'password-match';
-                } else if (senha === confirmacao) {
-                    matchDiv.textContent = '✓ Senhas coincidem';
-                    matchDiv.className = 'password-match valid';
-                } else {
-                    matchDiv.textContent = '✗ Senhas não coincidem';
-                    matchDiv.className = 'password-match invalid';
-                }
-            });
-            console.log('✅ Validação de confirmação de senha configurada');
-        }
+    });
+}
         
         // Formatação automática de campos
         formatarCampoTelefone();
