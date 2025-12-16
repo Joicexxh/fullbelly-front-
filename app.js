@@ -1,10 +1,4 @@
-// ===============================
-// CONFIG
-// ===============================
-const API_URL = "https://fullbellyy.onrender.com/";
 
-// FULLBELLY - JavaScript com Animações
-// app.js - Lógica do projeto FULLBELLY
 // Dados de exemplo para simulação
 const doacoesExemplo = [
     {
@@ -1063,3 +1057,4 @@ function completarMissaoVoluntario(missaoId) {
 }
 
 console.log("JS carregado com sucesso 🚀");
+
