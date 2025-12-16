@@ -6,13 +6,13 @@ const dados = {
     senha: "123456"
 };
 
-fetch("/api/cadastro", {
+fetch("https://fullbellyy.onrender.com/api/cadastro", {
     method: "POST",
-    body: JSON.stringify(dados), // ✅ agora 'dados' está definido
+    body: JSON.stringify(dados),
     headers: {
         "Content-Type": "application/json",
     },
-})
+});
 .then(response => response.json())
 .then(data => console.log(data))
 .catch(error => console.error("Erro:", error));
