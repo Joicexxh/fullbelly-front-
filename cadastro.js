@@ -407,8 +407,7 @@ function inicializarValidacoes() {
         formatarCampoTelefone();
         formatarCampoDocumento();
         
-        console.log('✅ Validações inicializadas');
-    }
+console.log('10. .perfil-selector:', document.querySelectorAll('.perfil-selector').length);
 
     function formatarCampoTelefone() {
         const telefoneInput = document.getElementById('telefone');
